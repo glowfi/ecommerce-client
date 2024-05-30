@@ -1,19 +1,27 @@
 import { create } from 'zustand';
-import { getClient } from '@/lib/graphqlserver';
-import { GetallprodDocument } from '@/gql/graphql';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 type ProductsStore = any;
 
-const getInitialState = async () => {
-    const { data } = await getClient().query(GetallprodDocument, {});
-    return data;
-};
-
 export const useProductsStore = create<ProductsStore>(
     persist(
-        (set: any) => ({
-            allProducts: null
+        (set: any, get: any) => ({
+            allProducts: [],
+            pageIdx: 0,
+            loading: false,
+            hasMore: true,
+            paginate: (data: any) => {
+                const { allProducts } = get();
+                // console.log(allProducts);
+                if (allProducts.length > 0) {
+                    console.log('Triggred!', allProducts);
+                    set((state: any) => ({
+                        allProducts: [...allProducts, ...data]
+                    }));
+                } else {
+                    set({ allProducts: data });
+                }
+            }
         }),
         {
             name: 'product-storage',
@@ -21,9 +29,3 @@ export const useProductsStore = create<ProductsStore>(
         }
     )
 );
-
-getInitialState().then((data) => {
-    useProductsStore.setState({
-        allProducts: data?.getAllProducts?.data
-    });
-});

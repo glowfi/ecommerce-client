@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -13,17 +12,19 @@ import {
 import { CircleUser, Store } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import { Input } from '../ui/input';
+import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
-import Cart from '../cart/cart';
+import { usesearchStore } from './store';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
+    const reset = usesearchStore((state: any) => state.reset);
 
     return (
         <>
@@ -52,6 +53,7 @@ const Navbar = () => {
                         placeholder="Click to start searching for products ..."
                         className="text-center"
                         onClick={() => {
+                            reset();
                             setOpen(!open);
                         }}
                     />
@@ -66,7 +68,9 @@ const Navbar = () => {
                             </Button>
                         )}
                         <ModeToggle />
-                        <Cart />
+                        <div className="flex">
+                            <CartIcon />
+                        </div>
                         {currUser.email && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>

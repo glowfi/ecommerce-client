@@ -7,10 +7,10 @@ import {
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog';
-import { useRef } from 'react';
-import { userefStore } from './store';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { userefStore } from './store';
 
 export function ImagePreview() {
     const bref = useRef(null);
@@ -34,6 +34,9 @@ export function ImagePreview() {
                         width={500}
                         height={500}
                         alt="Not Found"
+                        layout="fixed"
+                        objectFit="cover"
+                        priority
                     />
                     <Link
                         href={currImage}

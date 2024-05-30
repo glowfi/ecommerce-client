@@ -1,8 +1,8 @@
 'use client';
-import React from 'react';
 import Image from 'next/image';
+import React from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
     Card,
     CardContent,
@@ -11,37 +11,37 @@ import {
     CardHeader,
     CardTitle
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
+import AddtoCart from '../product/addtocart';
 
-const ProductCard = ({ imageLink, name, title, category, price, id }: any) => {
+const ProductCard = ({ currProduct }: any) => {
     const router = useRouter();
     return (
         <Card className="w-[350px] cursor-pointer">
             <CardHeader>
                 <div className="flex gap-3">
-                    <CardTitle>{name}</CardTitle>
-                    <Badge variant={'default'}>{category}</Badge>
+                    <CardTitle>{currProduct?.brand}</CardTitle>
+                    <Badge variant={'default'}>{currProduct?.category}</Badge>
                 </div>
-                <CardDescription>{title}</CardDescription>
+                <CardDescription>{currProduct?.title}</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center items-center">
                 <Image
-                    src={imageLink}
+                    src={currProduct?.coverImage?.[0]}
                     width={250}
                     height={250}
                     alt={'Not Found'}
                     className="hover:opacity-75 transition-all"
                     onClick={() => {
-                        router.push(`/product/${id}`);
+                        router.push(`/product/${currProduct?.id}`);
                     }}
                 />
             </CardContent>
             <CardFooter className="flex justify-around items-center">
                 <h1 className="text-lg md:text-xl font-semibold">
-                    ${parseFloat(price).toFixed(2)}
+                    ${parseFloat(currProduct?.price).toFixed(2)}
                 </h1>
-                <Button variant={'secondary'}>Add to Cart</Button>
+                <AddtoCart currProduct={currProduct} />
             </CardFooter>
         </Card>
     );

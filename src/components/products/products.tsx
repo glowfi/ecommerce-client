@@ -1,28 +1,72 @@
 'use client';
 
+import { PaginateProdDocument } from '@/gql/graphql';
+import { getClient } from '@/lib/graphqlserver';
+import { Loader2 } from 'lucide-react';
 import React from 'react';
 import ProductCard from './ProductCard';
 import { useProductsStore } from './store';
+import InfiniteScroll from '../ui/InfinteScroll';
+import { TOTAL_ITEMS } from './constants';
 
 const Products = () => {
     const allProds = useProductsStore((state: any) => state.allProducts);
+    const paginate = useProductsStore((state: any) => state.paginate);
+    const page = useProductsStore((state: any) => state.pageIdx);
+    const loading = useProductsStore((state: any) => state.loading);
+    const hasMore = useProductsStore((state: any) => state.hasMore);
 
+    const next = async () => {
+        useProductsStore.setState({ loading: true });
+        setTimeout(async () => {
+            const { data } = await getClient().query(PaginateProdDocument, {
+                skipping: TOTAL_ITEMS * page,
+                limit: TOTAL_ITEMS
+            });
+
+            paginate(data?.getAllProductsPaginate?.data);
+            useProductsStore.setState({ pageIdx: page + 1 });
+            // setPage((prev) => prev + 1);
+
+            // Usually your response will tell you if there is no more data.
+            if (data?.getAllProductsPaginate?.data?.length < TOTAL_ITEMS) {
+                useProductsStore.setState({ hasMore: false });
+            }
+            useProductsStore.setState({ loading: false });
+        }, 300);
+    };
     return (
-        <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-            {allProds?.map((p: any, idx: any) => {
-                return (
-                    <ProductCard
-                        imageLink={p?.coverImage?.[0]}
-                        name={p?.brand}
-                        title={p?.title}
-                        category={p?.category?.name}
-                        price={p?.price}
-                        id={p?.id}
-                        key={idx}
-                    />
-                );
-            })}
-        </div>
+        <>
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-6">
+                Shop by Products
+            </h2>
+
+            <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                {allProds?.map((p: any, idx: any) => {
+                    return (
+                        <ProductCard
+                            key={idx}
+                            currProduct={{
+                                ...p,
+                                category: p?.category?.name
+                            }}
+                        />
+                    );
+                })}
+                <InfiniteScroll
+                    hasMore={hasMore}
+                    isLoading={loading}
+                    next={next}
+                    threshold={1}
+                >
+                    {hasMore && (
+                        <div className="m-auto flex justify-center items-center justify-items-center">
+                            <Loader2 className="my-4 h-8 w-8 animate-spin" />
+                        </div>
+                    )}
+                </InfiniteScroll>
+            </div>
+        </>
     );
 };
 

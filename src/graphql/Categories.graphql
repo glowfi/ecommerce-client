@@ -1,0 +1,9 @@
+query categories{
+  getAllCategories {
+    data {
+      id
+      name
+      categoryImage
+    }
+  }
+}

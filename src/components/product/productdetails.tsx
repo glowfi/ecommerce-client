@@ -1,8 +1,6 @@
 'use client';
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import { BaggageClaim, Minus, Plus } from 'lucide-react';
-import React, { useState } from 'react';
-import { Button } from '../ui/button';
+import React from 'react';
 import {
     Card,
     CardContent,
@@ -11,10 +9,9 @@ import {
     CardHeader,
     CardTitle
 } from '../ui/card';
+import AddtoCart from './addtocart';
 
 const ProductDetails = ({ currProduct }: any) => {
-    const [qty, setQty] = useState(0);
-
     return (
         <Card className="overflow-hidden">
             <CardHeader className="flex flex-row items-start bg-muted/50">
@@ -25,35 +22,7 @@ const ProductDetails = ({ currProduct }: any) => {
                     <CardDescription>{currProduct?.title}</CardDescription>
                 </div>
                 <div className="ml-auto flex items-center gap-1">
-                    {qty ? (
-                        <div className="flex justify-evenly items-center gap-3">
-                            <Button
-                                size={'sm'}
-                                onClick={() => setQty((curr) => curr + 1)}
-                            >
-                                <Plus />
-                            </Button>
-                            <span>{qty}</span>
-                            <Button
-                                size={'sm'}
-                                onClick={() => setQty((curr) => curr - 1)}
-                            >
-                                <Minus />
-                            </Button>
-                        </div>
-                    ) : (
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            className="h-8 gap-1"
-                            onClick={() => setQty((curr) => curr + 1)}
-                        >
-                            <BaggageClaim className="h-3.5 w-3.5" />
-                            <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                                Add to Cart
-                            </span>
-                        </Button>
-                    )}
+                    <AddtoCart currProduct={currProduct} />
                 </div>
             </CardHeader>
             <CardContent className="p-6 text-sm">

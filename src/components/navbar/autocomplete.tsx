@@ -1,64 +1,102 @@
 'use client';
 
-import * as React from 'react';
-import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Settings,
-    Smile,
-    User
-} from 'lucide-react';
-
+import { Badge } from '@/components/ui/badge';
 import {
     CommandDialog,
     CommandEmpty,
     CommandGroup,
-    CommandInput,
     CommandItem,
     CommandList,
-    CommandSeparator,
-    CommandShortcut
+    CommandSeparator
 } from '@/components/ui/command';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Input } from '../ui/input';
+import { usesearchStore } from './store';
+import { useDebounce } from './hooks/useDebounce';
 
 export function CommandDialogDemo({ open, setOpen }: any) {
+    const router = useRouter();
+    const [searchTerm, setSearchTerm] = useState('');
+    const searchedProducts = usesearchStore(
+        (state: any) => state.searchProducts
+    );
+    const fetchProducts = usesearchStore((state: any) => state.fetchProducts);
+    const debouncedTxt = useDebounce(searchTerm);
+
+    useEffect(() => {
+        fetchProducts(debouncedTxt);
+    }, [debouncedTxt]);
+
     return (
         <>
             <CommandDialog open={open} onOpenChange={setOpen}>
-                <CommandInput placeholder="Type a command or search..." />
+                <Input
+                    placeholder="Type a command or search..."
+                    value={searchTerm}
+                    onChange={(e: any) => {
+                        setSearchTerm((curr) => e.target.value);
+                    }}
+                    className="focus-visible:ring-0"
+                    onKeyDown={(event) => {
+                        if (event.key == 'Enter') {
+                            router.push(`/product/search/?q=${searchTerm}`);
+                        }
+                    }}
+                />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Suggestions">
-                        <CommandItem>
-                            <Calendar className="mr-2 h-4 w-4" />
-                            <span>Calendar</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <Smile className="mr-2 h-4 w-4" />
-                            <span>Search Emoji</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <Calculator className="mr-2 h-4 w-4" />
-                            <span>Calculator</span>
-                        </CommandItem>
-                    </CommandGroup>
-                    <CommandSeparator />
-                    <CommandGroup heading="Settings">
-                        <CommandItem>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
-                            <CommandShortcut>⌘P</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            <span>Billing</span>
-                            <CommandShortcut>⌘B</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
-                            <CommandShortcut>⌘S</CommandShortcut>
-                        </CommandItem>
+                        {searchedProducts.map((p: any, idx: any) => {
+                            return (
+                                <div
+                                    key={idx}
+                                    className="hover:opacity-75 transition-all"
+                                    onClick={() => {
+                                        router.push(`/product/${p?.id}`);
+                                        setOpen(false);
+                                        setSearchTerm('');
+                                    }}
+                                >
+                                    <CommandItem className="flex justify-between gap-6 m-6">
+                                        <Image
+                                            src={p?.coverImage?.[1]}
+                                            width={100}
+                                            height={100}
+                                            alt="Not Found"
+                                        />
+                                        <div className="flex flex-col">
+                                            <p className="text-lg font-semibold gap-6">
+                                                <Badge>Brand</Badge>
+                                                <span className="ml-3">
+                                                    {p?.brand}
+                                                </span>
+                                            </p>
+                                            <p className="text-lg font-semibold">
+                                                <Badge>Title</Badge>
+                                                <span className="ml-3">
+                                                    {p?.title}
+                                                </span>
+                                            </p>
+                                            <p className="text-lg font-semibold">
+                                                <Badge>Category</Badge>
+                                                <span className="ml-3">
+                                                    {p?.category?.name}
+                                                </span>
+                                            </p>
+                                            <p className="text-lg font-semibold">
+                                                <Badge>Price</Badge>
+                                                <span className="ml-3">
+                                                    ${p?.price}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </CommandItem>
+                                    <CommandSeparator />
+                                </div>
+                            );
+                        })}
                     </CommandGroup>
                 </CommandList>
             </CommandDialog>

@@ -1,5 +1,5 @@
-query getallprod{
- getAllProducts {
+query sbyterm($term: String!){
+  getProductsBySearchTerm(term: $term) {
    data {
      id
      title
@@ -33,6 +33,6 @@ query getallprod{
      }
      }
    }
-   err
- } 
+    err
+  }
 }

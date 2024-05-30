@@ -34,7 +34,7 @@ const Itemcarousel = ({ currProduct }: any) => {
                                         onClick={() => {
                                             currButtonRef.current.click();
                                             userefStore.setState({
-                                                currImage: p?.[0]
+                                                currImage: p?.[1]
                                             });
                                         }}
                                         className="hover:opacity-75 transition-all"
