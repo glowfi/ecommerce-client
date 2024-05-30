@@ -1,0 +1,18 @@
+input InputLogin {
+email:String!
+password:String!
+userType:String!
+}
+
+mutation login($data: InputLogin!){
+  login(data: $data) {
+    data{
+      userID
+      email
+      userType
+      accToken
+    }
+    err
+    
+  }
+}

@@ -1,0 +1,37 @@
+query getallprod{
+ getAllProducts {
+   data {
+     id
+     title
+     price
+     rating
+     description
+     brand
+     category {
+         name
+     }
+     images
+     dateCreated
+     dateCreatedHuman
+     wishedBy {
+       productWished {
+         brand
+       }
+     }
+     coverImage
+     seller{
+     email 
+     sellerName
+     companyName
+     phoneNumber
+     companyAddress{
+         streetAddress
+         state 
+         city
+         zipCode
+     }
+     }
+   }
+   err
+ } 
+}
