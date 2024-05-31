@@ -1,6 +1,6 @@
 'use client';
 import { BaggageClaim, Minus, Plus } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { usecartStore } from '../cart/store';
 import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
@@ -13,10 +13,12 @@ const AddtoCart = ({ currProduct }: any) => {
     const decreaseCart = usecartStore((state: any) => state.decreaseCart);
     const { toast } = useToast();
 
-    const isPresent = cart.filter((p: any) => p.id == currProduct.id)[0];
+    const isPresent = useCallback(() => {
+        return cart.filter((p: any) => p.id == currProduct.id)[0];
+    }, [cart, currProduct.id]);
 
     useEffect(() => {
-        if (isPresent) {
+        if (isPresent()) {
             for (let index = 0; index < cart.length; index++) {
                 console.log('Ran');
                 if (cart[index]['id'] == currProduct.id) {
@@ -25,11 +27,11 @@ const AddtoCart = ({ currProduct }: any) => {
                 }
             }
         }
-    }, [cart, qty]);
+    }, [cart, qty, isPresent, currProduct.id]);
 
     return (
         <>
-            {isPresent ? (
+            {isPresent() ? (
                 <div className="flex justify-evenly items-center gap-3">
                     <Button
                         size={'sm'}

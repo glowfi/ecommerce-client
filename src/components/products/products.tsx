@@ -29,6 +29,7 @@ const Products = () => {
             // setPage((prev) => prev + 1);
 
             // Usually your response will tell you if there is no more data.
+            // @ts-ignore
             if (data?.getAllProductsPaginate?.data?.length < TOTAL_ITEMS) {
                 useProductsStore.setState({ hasMore: false });
             }

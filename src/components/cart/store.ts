@@ -50,20 +50,16 @@ export const usecartStore = create<cartStore>(
 
                     if (currProduct['id'] == id) {
                         //Check if equal to zero
-                        if (currProduct['quantity'] - 1 <= 0) {
-                            let newCart = cart.filter(
-                                (p: any) => p.id != currProduct['id']
-                            );
-                            set({
-                                cart: newCart
-                            });
+                        if (currProduct['quantity'] - 1 === 0) {
+                            const { removeCart } = get();
+                            removeCart(currProduct['id']);
                         } else {
                             currProduct['quantity'] -= 1;
+                            set({ cart: [...cart] });
                         }
                         set((state: any) => ({
                             amount: state.amount - currProduct['price']
                         }));
-                        set({ cart: [...cart] });
                     }
                 }
             },
@@ -71,7 +67,7 @@ export const usecartStore = create<cartStore>(
                 const { cart } = get();
                 let newCart = cart.filter((p: any) => p.id != id);
                 set({
-                    cart: newCart
+                    cart: [...newCart]
                 });
             },
             updateCart: () => {

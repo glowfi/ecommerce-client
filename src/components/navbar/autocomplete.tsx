@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/command';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { useDebounce } from './hooks/useDebounce';
 import { usesearchStore } from './store';
@@ -23,8 +23,10 @@ export function CommandDialogDemo({ open, setOpen }: any) {
         (state: any) => state.searchProducts
     );
     const fetchProducts = usesearchStore((state: any) => state.fetchProducts);
+
     const debouncedTxt = useDebounce(searchTerm);
 
+    // @ts-ignore
     useEffect(() => {
         fetchProducts(debouncedTxt);
     }, [debouncedTxt]);

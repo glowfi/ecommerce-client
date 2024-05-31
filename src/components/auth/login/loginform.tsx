@@ -74,13 +74,14 @@ export function LoginForm() {
                                 data: {
                                     email,
                                     password,
-                                    userType: 'seller'
+                                    userType: 'user'
                                 }
                             });
                             addUser({
-                                email: res.data?.login?.data?.email
+                                email: res.data?.login?.data?.email,
+                                profile_pic: res.data?.login?.data?.profilePic,
+                                name: res.data?.login?.data?.name
                             });
-                            console.log(currUser);
                             router.push('/');
                         }}
                     >

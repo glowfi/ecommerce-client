@@ -1,18 +1,34 @@
 'use client';
+import { GetProductByIdDocument } from '@/gql/graphql';
+import { useQuery } from '@urql/next';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { useProductsStore } from '../products/store';
 import CommentSection from './commentsection';
 import { ImagePreview } from './imagepreview';
 import Itemcarousel from './itemcarousel';
 import ItemPrev from './itempreview';
+import { useusecurrProdStore } from './product-store';
 import ProductDetails from './productdetails';
 
 const Product = () => {
     const pathname = usePathname();
     let ID = pathname.split('/').pop();
-    const allProds = useProductsStore((state: any) => state.allProducts);
-    const currProduct = allProds?.filter((p: any) => p?.id == ID)[0];
+    const currProd = useusecurrProdStore((state: any) => state.currProd);
+    const prodID = useusecurrProdStore((state: any) => state.prodID);
+
+    useusecurrProdStore.setState({
+        prodID: ID
+    });
+
+    const [result, reexecuteQuery] = useQuery({
+        query: GetProductByIdDocument,
+        variables: { productId: prodID }
+    });
+    const { data, fetching, error } = result;
+
+    useusecurrProdStore.setState({
+        currProd: data?.getProductById?.data
+    });
 
     return (
         <>
@@ -21,14 +37,14 @@ const Product = () => {
                     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
                         <div className="grid auto-rows-max gap-4 md:gap-8 lg:col-span-2 justify-center items-center">
                             <div className="col-span-6">
-                                <ItemPrev currProduct={currProduct} />
+                                <ItemPrev currProduct={currProd} />
                                 <div className="flex justfy-center items-center gap-6 mt-6">
-                                    <Itemcarousel currProduct={currProduct} />
+                                    <Itemcarousel currProduct={currProd} />
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <ProductDetails currProduct={currProduct} />
+                            <ProductDetails currProduct={currProd} />
                         </div>
                     </main>
                 </div>

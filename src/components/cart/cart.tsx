@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetFooter,
     SheetHeader,
@@ -13,9 +14,11 @@ import {
 import { ShoppingCart } from 'lucide-react';
 import CartItems from './cartItems';
 import { usecartStore } from './store';
+import { useRouter } from 'next/navigation';
 
 const Cart = () => {
     const cart = usecartStore((state: any) => state.cart);
+    const router = useRouter();
 
     return (
         <Sheet>
@@ -36,7 +39,15 @@ const Cart = () => {
                     <>
                         <CartItems />
                         <SheetFooter>
-                            <Button type="submit">Checkout</Button>
+                            <Button
+                                type="button"
+                                onClick={() => {
+                                    router.push('/cart');
+                                }}
+                            >
+                                Go to Checkout Page
+                            </Button>
+                            <SheetClose />
                         </SheetFooter>
                     </>
                 )}

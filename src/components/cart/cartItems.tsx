@@ -48,25 +48,6 @@ const CartItems = () => {
                                     </Button>
                                     <AddtoCart currProduct={p} />
                                 </div>
-
-                                {/* <div className="flex"> */}
-                                {/*     <Button variant={'ghost'} size={'sm'}> */}
-                                {/*         <Minus */}
-                                {/*             onClick={() => { */}
-                                {/*                 decreaseCart(p?.id, ''); */}
-                                {/*             }} */}
-                                {/*         /> */}
-                                {/*     </Button> */}
-                                {/*     <Button */}
-                                {/*         variant={'ghost'} */}
-                                {/*         size={'sm'} */}
-                                {/*         onClick={() => { */}
-                                {/*             increaseCart(p?.id); */}
-                                {/*         }} */}
-                                {/*     > */}
-                                {/*         <Plus /> */}
-                                {/*     </Button> */}
-                                {/* </div> */}
                             </div>
                             <div className="ml-auto font-medium">
                                 ${p?.price}

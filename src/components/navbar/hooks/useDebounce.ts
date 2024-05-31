@@ -8,7 +8,7 @@ export const useDebounce = (value: string, delay = 500) => {
         }, delay);
 
         return () => clearTimeout(timeout);
-    }, [value]);
+    }, [value, delay]);
 
     return debouncedText;
 };

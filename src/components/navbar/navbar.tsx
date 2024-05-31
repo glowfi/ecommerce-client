@@ -9,7 +9,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { CircleUser, Store } from 'lucide-react';
+import { Store } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
@@ -19,6 +20,7 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
+import { AvatarFallback } from '@radix-ui/react-avatar';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -71,15 +73,21 @@ const Navbar = () => {
                         <div className="flex">
                             <CartIcon />
                         </div>
-                        {currUser.email && (
+                        {currUser?.email && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="secondary"
-                                        size="icon"
-                                        className="rounded-full"
-                                    >
-                                        <CircleUser className="h-5 w-5" />
+                                    <Button variant="ghost" size="icon">
+                                        {currUser?.profile_pic ? (
+                                            <Image
+                                                src={currUser.profile_pic}
+                                                alt="Not Found"
+                                                width={100}
+                                                height={100}
+                                                className="hover:opacity-75 transition-all"
+                                            />
+                                        ) : (
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        )}
                                         <span className="sr-only">
                                             Toggle user menu
                                         </span>
@@ -87,7 +95,7 @@ const Navbar = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>
-                                        {currUser.email}
+                                        {currUser.name}
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -95,7 +103,11 @@ const Navbar = () => {
                                     <DropdownMenuItem
                                         onClick={() => {
                                             useuserStore.setState({
-                                                user: { email: null }
+                                                user: {
+                                                    email: null,
+                                                    profile_pic: null,
+                                                    name: null
+                                                }
                                             });
                                         }}
                                     >

@@ -58,6 +58,7 @@ const SearchedResults = () => {
 
             // Usually your response will tell you if there is no more data.
             if (
+                // @ts-ignore
                 data?.getProductsBySearchTermPaginate?.data?.length <
                 TOTAL_ITEMS
             ) {

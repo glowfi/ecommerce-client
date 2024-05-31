@@ -23,7 +23,7 @@ const Categories = () => {
                 Shop by Categories
             </h2>
 
-            <div className="grid justify-center items-center justify-items-center gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 container">
+            <div className="grid justify-center items-center justify-items-center gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
                 <Categorycard allCat={allCat} />
             </div>
         </div>

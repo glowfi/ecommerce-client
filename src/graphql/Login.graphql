@@ -11,6 +11,8 @@ mutation login($data: InputLogin!){
       email
       userType
       accToken
+      profilePic
+      name
     }
     err
     
