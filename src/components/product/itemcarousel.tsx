@@ -31,6 +31,7 @@ const Itemcarousel = ({ currProduct }: any) => {
                                         alt="Not Found"
                                         width={150}
                                         height={150}
+                                        layout="responsive"
                                         onClick={() => {
                                             currButtonRef.current.click();
                                             userefStore.setState({

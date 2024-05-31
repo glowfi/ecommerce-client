@@ -13,8 +13,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
-import { usesearchStore } from './store';
 import { useDebounce } from './hooks/useDebounce';
+import { usesearchStore } from './store';
 
 export function CommandDialogDemo({ open, setOpen }: any) {
     const router = useRouter();
@@ -64,6 +64,7 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                                             src={p?.coverImage?.[1]}
                                             width={100}
                                             height={100}
+                                            layout="responsive"
                                             alt="Not Found"
                                         />
                                         <div className="flex flex-col">

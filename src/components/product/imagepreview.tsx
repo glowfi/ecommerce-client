@@ -34,9 +34,7 @@ export function ImagePreview() {
                         width={500}
                         height={500}
                         alt="Not Found"
-                        layout="fixed"
-                        objectFit="cover"
-                        priority
+                        layout="responsive"
                     />
                     <Link
                         href={currImage}

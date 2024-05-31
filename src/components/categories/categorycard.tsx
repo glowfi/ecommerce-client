@@ -1,8 +1,8 @@
 'use client';
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 const CategoryCard = ({ allCat }: any) => {
     const router = useRouter();
@@ -23,7 +23,7 @@ const CategoryCard = ({ allCat }: any) => {
                                 alt="Not Found"
                                 width={200}
                                 height={200}
-                                objectFit="contain"
+                                layout="responsive"
                                 className="hover:opacity-75 transition-all"
                                 onClick={() => {
                                     router.push(`/product/search?q=${p?.name}`);

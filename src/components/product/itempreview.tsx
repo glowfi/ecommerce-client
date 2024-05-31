@@ -9,9 +9,7 @@ const ItemPrev = ({ currProduct }: any) => {
             width={500}
             height={700}
             className="gap-6"
-            layout="fixed"
-            objectFit="cover"
-            priority
+            layout="responsive"
         />
     );
 };

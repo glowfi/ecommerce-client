@@ -1,17 +1,14 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
-import { CardContent } from '../ui/card';
-import { usecartStore } from './store';
 import Link from 'next/link';
 import AddtoCart from '../product/addtocart';
+import { CardContent } from '../ui/card';
+import { usecartStore } from './store';
 
 const CartItems = () => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
-    const increaseCart = usecartStore((state: any) => state.increaseCart);
-    const decreaseCart = usecartStore((state: any) => state.decreaseCart);
     const removeCart = usecartStore((state: any) => state.removeCart);
     console.log(cart);
 
@@ -26,6 +23,7 @@ const CartItems = () => {
                                 alt="Not Found"
                                 width={100}
                                 height={100}
+                                layout="responsive"
                             />
                             <div className="grid gap-1">
                                 <p className="text-sm font-medium leading-none">
