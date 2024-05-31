@@ -48,7 +48,7 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup heading="Suggestions">
-                        {searchedProducts.map((p: any, idx: any) => {
+                        {searchedProducts?.map((p: any, idx: any) => {
                             return (
                                 <div
                                     key={idx}
@@ -64,7 +64,6 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                                             src={p?.coverImage?.[1]}
                                             width={100}
                                             height={100}
-                                            layout="responsive"
                                             alt="Not Found"
                                         />
                                         <div className="flex flex-col">

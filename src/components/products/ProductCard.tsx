@@ -32,7 +32,6 @@ const ProductCard = ({ currProduct }: any) => {
                     height={250}
                     alt={'Not Found'}
                     className="hover:opacity-75 transition-all"
-                    layout="responsive"
                     onClick={() => {
                         router.push(`/product/${currProduct?.id}`);
                     }}

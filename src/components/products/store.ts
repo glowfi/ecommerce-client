@@ -12,9 +12,7 @@ export const useProductsStore = create<ProductsStore>(
             hasMore: true,
             paginate: (data: any) => {
                 const { allProducts } = get();
-                // console.log(allProducts);
                 if (allProducts.length > 0) {
-                    console.log('Triggred!', allProducts);
                     set((state: any) => ({
                         allProducts: [...allProducts, ...data]
                     }));

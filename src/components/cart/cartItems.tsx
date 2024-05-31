@@ -23,7 +23,6 @@ const CartItems = () => {
                                 alt="Not Found"
                                 width={100}
                                 height={100}
-                                layout="responsive"
                             />
                             <div className="grid gap-1">
                                 <p className="text-sm font-medium leading-none">

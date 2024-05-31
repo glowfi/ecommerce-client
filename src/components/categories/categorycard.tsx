@@ -23,7 +23,6 @@ const CategoryCard = ({ allCat }: any) => {
                                 alt="Not Found"
                                 width={200}
                                 height={200}
-                                layout="responsive"
                                 className="hover:opacity-75 transition-all"
                                 onClick={() => {
                                     router.push(`/product/search?q=${p?.name}`);

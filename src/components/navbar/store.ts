@@ -7,8 +7,23 @@ type searchStore = any;
 
 export const usesearchStore = create<searchStore>(
     persist(
-        (set: any) => ({
+        (set: any, get: any) => ({
             searchProducts: [],
+            pageIdx: 0,
+            loading: false,
+            hasMore: true,
+            query: '',
+            oldquery: '',
+            paginate: (data: any) => {
+                const { searchProducts } = get();
+                if (searchProducts.length > 0) {
+                    set((state: any) => ({
+                        searchProducts: [...searchProducts, ...data]
+                    }));
+                } else {
+                    set({ searchProducts: data });
+                }
+            },
             reset: () => {
                 set({ searchProducts: [] });
             },
