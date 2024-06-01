@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        GRAPHQL_API_ENDPOINT: process.env.GRAPHQL_API_ENDPOINT // pulls from .env file
+        GRAPHQL_API_ENDPOINT: process.env.GRAPHQL_API_ENDPOINT,
+        STORE_NAME: process.env.STORE_NAME
     },
     images: {
         remotePatterns: [

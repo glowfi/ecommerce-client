@@ -21,6 +21,7 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
+import Logo from '@/app/icon.png';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -36,16 +37,22 @@ const Navbar = () => {
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
                         href="/"
-                        className="flex items-center gap-2 text-lg font-semibold md:text-base"
+                        className="flex items-center text-lg font-semibold md:text-base"
                     >
-                        <Store className="h-6 w-6" />
-                        <span className="sr-only">Nimbus Inc</span>
-                    </Link>
-                    <Link
-                        href="/"
-                        className="text-foreground transition-colors hover:text-foreground"
-                    >
-                        <span>NimbusStore</span>
+                        {/* <Store className="h-6 w-6" /> */}
+                        <Image
+                            src={Logo}
+                            width={100}
+                            height={100}
+                            alt="Not Found"
+                            className="h-10 w-14 hover:opacity-75 transition-all"
+                        />
+                        <Link
+                            className="hover:opacity-75 transition-all"
+                            href="/"
+                        >
+                            {process.env.STORE_NAME}
+                        </Link>
                     </Link>
                 </nav>
                 <div className="flex justify-center items-center w-full gap-1.5">
