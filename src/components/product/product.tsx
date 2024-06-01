@@ -22,13 +22,19 @@ const Product = () => {
 
     const [result, reexecuteQuery] = useQuery({
         query: GetProductByIdDocument,
-        variables: { productId: prodID }
+        variables: { productId: ID as string }
     });
     const { data, fetching, error } = result;
 
-    useusecurrProdStore.setState({
-        currProd: data?.getProductById?.data
-    });
+    if (fetching) {
+        return <h1>Loading ....</h1>;
+    }
+
+    if (data?.getProductById?.data) {
+        useusecurrProdStore.setState({
+            currProd: data?.getProductById?.data
+        });
+    }
 
     return (
         <>

@@ -16,6 +16,7 @@ import { useMutation } from '@urql/next';
 import { useState } from 'react';
 import { useuserStore } from '../store';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 export function LoginForm() {
     const [, execLogin] = useMutation(LoginDocument);
@@ -24,6 +25,7 @@ export function LoginForm() {
     const addUser = useuserStore((state: any) => state.addUser);
     const currUser = useuserStore((state: any) => state.user);
     const router = useRouter();
+    const { toast } = useToast();
 
     return (
         <Card className="mx-auto max-w-sm">
@@ -52,7 +54,7 @@ export function LoginForm() {
                         <div className="flex items-center">
                             <Label htmlFor="password">Password</Label>
                             <Link
-                                href="#"
+                                href="/auth/forgetpassword"
                                 className="ml-auto inline-block text-sm underline"
                             >
                                 Forgot your password?
@@ -70,19 +72,38 @@ export function LoginForm() {
                         type="button"
                         className="w-full"
                         onClick={async () => {
-                            let res = await execLogin({
-                                data: {
-                                    email,
-                                    password,
-                                    userType: 'user'
-                                }
-                            });
-                            addUser({
-                                email: res.data?.login?.data?.email,
-                                profile_pic: res.data?.login?.data?.profilePic,
-                                name: res.data?.login?.data?.name
-                            });
-                            router.push('/');
+                            let res = await execLogin(
+                                {
+                                    data: {
+                                        email,
+                                        password,
+                                        userType: 'user'
+                                    }
+                                },
+                                { requestPolicy: 'network-only' }
+                            );
+                            if (res?.data?.login?.err) {
+                                console.log('Entered!');
+                                toast({
+                                    variant: 'destructive',
+                                    title: 'Authentication Error!',
+                                    description: res?.data?.login?.err
+                                });
+                            } else {
+                                addUser({
+                                    email: res.data?.login?.data?.email,
+                                    profile_pic:
+                                        res.data?.login?.data?.profilePic,
+                                    name: res.data?.login?.data?.name
+                                });
+                                toast({
+                                    variant: 'default',
+                                    title: 'Login Successful!',
+                                    description: `Logged in as ${res?.data?.login?.data?.name}!`
+                                });
+
+                                router.push('/');
+                            }
                         }}
                     >
                         Login

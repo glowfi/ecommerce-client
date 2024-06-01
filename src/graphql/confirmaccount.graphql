@@ -1,0 +1,6 @@
+query confirmacc($token: String!){
+  confirmAccount(token: $token) {
+    data
+    err
+  }
+}

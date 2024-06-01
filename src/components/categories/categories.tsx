@@ -13,9 +13,15 @@ const Categories = () => {
     });
     const { data, fetching, error } = result;
 
-    usecategoryStore.setState({
-        allCategories: data?.getAllCategories?.data
-    });
+    if (fetching) {
+        return <h1>Loading ...</h1>;
+    }
+
+    if (data?.getAllCategories?.data) {
+        usecategoryStore.setState({
+            allCategories: data?.getAllCategories?.data
+        });
+    }
 
     return (
         <div className="flex justify-center items-center flex-col">

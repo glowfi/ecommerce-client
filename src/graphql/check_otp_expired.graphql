@@ -1,0 +1,8 @@
+query otpexpired($data: OTPInput!){
+  checkOtpExpired(data: $data) {
+  data {
+    hasExpired
+  }
+  err
+}
+}

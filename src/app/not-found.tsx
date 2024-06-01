@@ -21,9 +21,9 @@ const NotFound = () => {
                 </svg>
             </div>
             <p className="mt-4">
-                Let&apos;s get you back
+                Let&apos;s get you back <br />
                 <Link href="/" className="text-blue-500">
-                    home
+                    Home
                 </Link>
             </p>
         </div>

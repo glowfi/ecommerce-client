@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { AvatarFallback } from '@radix-ui/react-avatar';
 import { Store } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,7 +21,6 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
-import { AvatarFallback } from '@radix-ui/react-avatar';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -35,17 +35,17 @@ const Navbar = () => {
             >
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
-                        href="#"
+                        href="/"
                         className="flex items-center gap-2 text-lg font-semibold md:text-base"
                     >
                         <Store className="h-6 w-6" />
-                        <span className="sr-only">Acme Inc</span>
+                        <span className="sr-only">Nimbus Inc</span>
                     </Link>
                     <Link
                         href="/"
                         className="text-foreground transition-colors hover:text-foreground"
                     >
-                        <span>Estore</span>
+                        <span>NimbusStore</span>
                     </Link>
                 </nav>
                 <div className="flex justify-center items-center w-full gap-1.5">

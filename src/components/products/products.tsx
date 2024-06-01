@@ -26,7 +26,6 @@ const Products = () => {
 
             paginate(data?.getAllProductsPaginate?.data);
             useProductsStore.setState({ pageIdx: page + 1 });
-            // setPage((prev) => prev + 1);
 
             // Usually your response will tell you if there is no more data.
             // @ts-ignore
@@ -34,7 +33,7 @@ const Products = () => {
                 useProductsStore.setState({ hasMore: false });
             }
             useProductsStore.setState({ loading: false });
-        }, 300);
+        }, 0);
     };
     return (
         <>

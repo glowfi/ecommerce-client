@@ -65,7 +65,7 @@ const SearchedResults = () => {
                 usesearchStore.setState({ hasMore: false });
             }
             usesearchStore.setState({ loading: false });
-        }, 300);
+        }, 0);
     };
 
     return (
