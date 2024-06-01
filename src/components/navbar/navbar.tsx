@@ -1,5 +1,6 @@
 'use client';
 
+import Logo from '@/app/icon.png';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -10,10 +11,9 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { AvatarFallback } from '@radix-ui/react-avatar';
-import { Store } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
@@ -21,13 +21,13 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
-import Logo from '@/app/icon.png';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
     const reset = usesearchStore((state: any) => state.reset);
+    const router = useRouter();
 
     return (
         <>
@@ -47,12 +47,14 @@ const Navbar = () => {
                             alt="Not Found"
                             className="h-10 w-14 hover:opacity-75 transition-all"
                         />
-                        <Link
+                        <p
                             className="hover:opacity-75 transition-all"
-                            href="/"
+                            onClick={() => {
+                                router.push('/');
+                            }}
                         >
                             {process.env.STORE_NAME}
-                        </Link>
+                        </p>
                     </Link>
                 </nav>
                 <div className="flex justify-center items-center w-full gap-1.5">

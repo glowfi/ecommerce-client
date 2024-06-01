@@ -40,6 +40,7 @@ function CountrySelect({
 }: CountrySelectProps) {
     const [countries, setCountries] = useState<CountryRegion[]>([]);
 
+    //@ts-ignore
     useEffect(() => {
         setCountries(
             filterCountries(

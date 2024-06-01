@@ -30,6 +30,7 @@ var BrowserType: any;
 
 export const detectBrowser = () => {
     return Object.values(BrowserType).find(
+        //@ts-ignore
         (browser) => navigator.userAgent.indexOf(browser) != -1
     );
 };
