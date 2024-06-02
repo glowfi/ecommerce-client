@@ -93,16 +93,27 @@ const FinalCart = () => {
                                                 <TableCell className="hidden sm:table-cell">
                                                     <Badge
                                                         className="text-xs"
-                                                        variant="outline"
+                                                        variant="default"
                                                     >
                                                         x{p?.quantity}
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="hidden md:table-cell">
-                                                    ${p?.price}
+                                                    <Badge
+                                                        className="text-xs"
+                                                        variant="default"
+                                                    >
+                                                        ${p?.price}
+                                                    </Badge>
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    ${p?.price * p?.quantity}
+                                                    <Badge
+                                                        className="text-xs"
+                                                        variant="default"
+                                                    >
+                                                        $
+                                                        {p?.price * p?.quantity}
+                                                    </Badge>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -112,7 +123,12 @@ const FinalCart = () => {
                             <div className="flex justify-center items-center gap-4 m-4">
                                 <span>Amount to be paid :</span>
                                 <div className="ml-auto font-semibold">
-                                    ${amount}
+                                    <Badge
+                                        className="text-xs"
+                                        variant="default"
+                                    >
+                                        ${amount}
+                                    </Badge>
                                 </div>
                             </div>
                             <div className="flex justify-center items-center">
