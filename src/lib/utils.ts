@@ -1,3 +1,5 @@
+import { useuserStore } from '@/components/auth/store';
+import { usecartStore } from '@/components/cart/store';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -33,4 +35,16 @@ export const detectBrowser = () => {
         //@ts-ignore
         (browser) => navigator.userAgent.indexOf(browser) != -1
     );
+};
+
+export const checkIsAuth = () => {
+    let user = useuserStore.getState().user;
+    let cart = usecartStore.getState().cart;
+    console.log(cart);
+
+    if (!user.id) {
+        return 'auth';
+    } else if (cart.length === 0) {
+        return 'cart';
+    }
 };

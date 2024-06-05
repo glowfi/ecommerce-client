@@ -30,6 +30,7 @@ interface RegionSelectProps {
     onChange?: (value: string) => void;
     className?: string;
     placeholder?: string;
+    defaultValue?: string;
 }
 
 function RegionSelect({
@@ -39,7 +40,8 @@ function RegionSelect({
     blacklist = [],
     onChange = () => {},
     className,
-    placeholder = 'State'
+    placeholder = 'State',
+    defaultValue
 }: RegionSelectProps) {
     const [regions, setRegions] = useState<Region[]>([]);
 
@@ -62,6 +64,7 @@ function RegionSelect({
 
     return (
         <Select
+            value={defaultValue}
             onValueChange={(value: string) => {
                 onChange(value);
             }}

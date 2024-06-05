@@ -28,6 +28,7 @@ interface CountrySelectProps {
     onChange?: (value: string) => void;
     className?: string;
     placeholder?: string;
+    defaultValue?: string;
 }
 
 function CountrySelect({
@@ -36,11 +37,11 @@ function CountrySelect({
     blacklist = [],
     onChange = () => {},
     className,
-    placeholder = 'Country'
+    placeholder = 'Country',
+    defaultValue
 }: CountrySelectProps) {
     const [countries, setCountries] = useState<CountryRegion[]>([]);
 
-    //@ts-ignore
     useEffect(() => {
         setCountries(
             filterCountries(
@@ -54,6 +55,7 @@ function CountrySelect({
 
     return (
         <Select
+            value={defaultValue}
             onValueChange={(value: string) => {
                 onChange(value);
             }}

@@ -79,6 +79,7 @@ const FinalCart = () => {
                                                             width={100}
                                                             height={100}
                                                             alt="Not Found"
+                                                            className="rounded-md"
                                                         />
                                                         <Addtocart
                                                             currProduct={{
@@ -134,9 +135,10 @@ const FinalCart = () => {
                             <div className="flex justify-center items-center">
                                 <Button
                                     type="button"
-                                    variant={'destructive'}
+                                    className="underline"
+                                    variant={'link'}
                                     onClick={() => {
-                                        router.push('/cart');
+                                        router.push('/checkout');
                                     }}
                                 >
                                     {`Proceed to Buy (${cart.length} items)`}

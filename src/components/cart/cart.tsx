@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,9 +19,10 @@ import { useRouter } from 'next/navigation';
 const Cart = () => {
     const cart = usecartStore((state: any) => state.cart);
     const router = useRouter();
+    const [sheetOpen, setSheetOpen] = useState(false);
 
     return (
-        <Sheet>
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
                 <Button variant="outline">
                     <ShoppingCart />
@@ -42,10 +43,20 @@ const Cart = () => {
                             <Button
                                 type="button"
                                 onClick={() => {
+                                    setSheetOpen(false);
                                     router.push('/cart');
                                 }}
                             >
-                                Go to Checkout Page
+                                Buy
+                            </Button>
+                            <Button
+                                type="button"
+                                onClick={() => {
+                                    setSheetOpen(false);
+                                    router.push('/checkout');
+                                }}
+                            >
+                                Buy Now
                             </Button>
                             <SheetClose />
                         </SheetFooter>

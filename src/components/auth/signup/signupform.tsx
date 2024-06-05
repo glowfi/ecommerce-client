@@ -19,16 +19,19 @@ import { useMutation } from '@urql/next';
 import lookup from 'country-code-lookup';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export function SignUpForm() {
     const [countryCode, setCountryCode] = useState('');
     const [region, setRegion] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [phonenumber, setPhonenumber] = useState('');
-    const [dob, setDob] = useState('');
+
+    const city = useRef<any>();
+    const name = useRef<any>();
+    const email = useRef<any>();
+    const password = useRef<any>();
+    const zipCode = useRef<any>('');
+    const dob = useRef<any>();
     const [, execSignup] = useMutation(SignupDocument);
     const { toast } = useToast();
     const router = useRouter();
@@ -51,8 +54,7 @@ export function SignUpForm() {
                             type="text"
                             required
                             placeholder="Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            ref={name}
                         />
                     </div>
 
@@ -63,8 +65,7 @@ export function SignUpForm() {
                             type="email"
                             placeholder="m@example.com"
                             required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            ref={email}
                         />
                     </div>
                     <div className="grid gap-2">
@@ -74,21 +75,44 @@ export function SignUpForm() {
                             type="password"
                             required
                             placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            ref={password}
                         />
                     </div>
-                    <div className="grid gap-2">
-                        <Label>Country (Optional)</Label>
-                        <CountrySelect onChange={setCountryCode} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                            <Label>Country (Optional)</Label>
+                            <CountrySelect onChange={setCountryCode} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label>State (Optional)</Label>
+                            <RegionSelect
+                                countryCode={countryCode}
+                                onChange={setRegion}
+                            />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="city">City (Optional)</Label>
+                            <Input
+                                id="city"
+                                type="text"
+                                placeholder="City"
+                                required
+                                ref={city}
+                            />
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="zipcode">ZipCode (Optional)</Label>
+                            <Input
+                                id="zipcode"
+                                type="text"
+                                placeholder="Zipcode"
+                                required
+                                ref={zipCode}
+                            />
+                        </div>
                     </div>
-                    <div className="grid gap-2">
-                        <Label>State (Optional)</Label>
-                        <RegionSelect
-                            countryCode={countryCode}
-                            onChange={setRegion}
-                        />
-                    </div>
+
                     <div className="grid gap-2">
                         <Label>Phone Number (Optional)</Label>
                         <PhoneInput
@@ -98,11 +122,7 @@ export function SignUpForm() {
                     </div>
                     <div className="grid gap-2">
                         <Label>Date of Birth (Optional)</Label>
-                        <input
-                            type="date"
-                            value={dob}
-                            onChange={(e) => setDob(e.target.value)}
-                        />
+                        <input type="date" ref={dob} />
                     </div>
                     <Button
                         type="submit"
@@ -110,17 +130,19 @@ export function SignUpForm() {
                         onClick={async () => {
                             let data = await execSignup({
                                 data: {
-                                    name,
-                                    email,
-                                    password,
+                                    name: name.current.value,
+                                    email: email.current.value,
+                                    password: password.current.value,
                                     address: {
                                         country: countryCode
                                             ? lookup.byIso(countryCode)?.country
                                             : '',
-                                        state: region
+                                        state: region,
+                                        zipCode: zipCode.current.value,
+                                        city: city.current.value
                                     },
-                                    phoneNumber: phonenumber,
-                                    dob
+                                    phone_number: phonenumber,
+                                    dob: dob.current.value
                                 }
                             });
                             toast({

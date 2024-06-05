@@ -30,6 +30,7 @@ getProductById(productID: $productId) {
          state 
          city
          zipCode
+         countryCode
      }
      }
    }

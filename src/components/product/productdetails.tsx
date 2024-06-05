@@ -64,7 +64,7 @@ const ProductDetails = ({ currProduct }: any) => {
                             <dt className="text-muted-foreground">Phone</dt>
                             <dd>
                                 <a href="tel:">
-                                    {currProduct?.seller?.phoneNumber}
+                                    {currProduct?.seller?.phone_number}
                                 </a>
                             </dd>
                         </div>

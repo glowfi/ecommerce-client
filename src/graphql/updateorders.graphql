@@ -1,0 +1,11 @@
+mutation updateorders($data: InputUpdateOrders!) {
+  updateOrder(data: $data) {
+    data {
+      id
+      amount
+      isPending
+      hasFailed
+    }
+    err
+  }
+}

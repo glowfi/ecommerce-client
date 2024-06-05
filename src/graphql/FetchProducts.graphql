@@ -30,6 +30,7 @@ query getallprod{
          state 
          city
          zipCode
+         countryCode
      }
      }
    }

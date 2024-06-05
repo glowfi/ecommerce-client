@@ -30,6 +30,7 @@ query paginateProd($skipping: Int!, $limit: Int!){
          state 
          city
          zipCode
+        countryCode
      }
      }
    }

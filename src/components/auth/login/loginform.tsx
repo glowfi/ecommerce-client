@@ -90,11 +90,34 @@ export function LoginForm() {
                                     description: res?.data?.login?.err
                                 });
                             } else {
+                                console.log(res?.data?.login?.data);
+                                let address = {
+                                    street_address:
+                                        res?.data?.login?.data?.address
+                                            ?.streetAddress,
+                                    country:
+                                        res?.data?.login?.data?.address
+                                            ?.country,
+                                    state: res?.data?.login?.data?.address
+                                        ?.state,
+                                    city: res?.data?.login?.data?.address?.city,
+                                    zipCode:
+                                        res?.data?.login?.data?.address
+                                            ?.zipCode,
+                                    countryCode:
+                                        res?.data?.login?.data?.address
+                                            ?.countryCode
+                                };
+
                                 addUser({
                                     email: res.data?.login?.data?.email,
                                     profile_pic:
                                         res.data?.login?.data?.profilePic,
-                                    name: res.data?.login?.data?.name
+                                    name: res.data?.login?.data?.name,
+                                    id: res?.data?.login?.data?.userID,
+                                    address,
+                                    phone_number:
+                                        res?.data?.login?.data?.phoneNumber
                                 });
                                 toast({
                                     variant: 'default',

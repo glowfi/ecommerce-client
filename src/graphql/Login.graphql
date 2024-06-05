@@ -1,9 +1,3 @@
-input InputLogin {
-email:String!
-password:String!
-userType:String!
-}
-
 mutation login($data: InputLogin!){
   login(data: $data) {
     data{
@@ -13,6 +7,15 @@ mutation login($data: InputLogin!){
       accToken
       profilePic
       name
+      address{
+          streetAddress
+          country
+          countryCode
+          city
+          state
+          zipCode
+      }
+      phoneNumber
     }
     err
     

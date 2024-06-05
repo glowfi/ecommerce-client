@@ -21,18 +21,23 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
+import { useMutation } from '@urql/next';
+import { LogoutDocument } from '@/gql/graphql';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
+    const [, execLogout] = useMutation(LogoutDocument);
+
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
+    const userID = useuserStore((state: any) => state.user.id);
     const reset = usesearchStore((state: any) => state.reset);
     const router = useRouter();
 
     return (
         <>
             <header
-                className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') ? 'hidden' : ''}`}
+                className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
             >
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
@@ -110,13 +115,18 @@ const Navbar = () => {
                                     <DropdownMenuItem>Profile</DropdownMenuItem>
                                     <DropdownMenuItem>Orders</DropdownMenuItem>
                                     <DropdownMenuItem
-                                        onClick={() => {
+                                        onClick={async () => {
                                             useuserStore.setState({
                                                 user: {
                                                     email: null,
                                                     profile_pic: null,
-                                                    name: null
+                                                    name: null,
+                                                    id: null
                                                 }
+                                            });
+
+                                            await execLogout({
+                                                userID
                                             });
                                         }}
                                     >
