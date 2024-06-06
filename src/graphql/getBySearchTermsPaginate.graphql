@@ -3,35 +3,13 @@ query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!){
    data {
      id
      title
-     stock
      price
-     rating
-     description
      brand
      category {
          name
      }
      images
-     dateCreated
-     dateCreatedHuman
-     wishedBy {
-       productWished {
-         brand
-       }
-     }
      coverImage
-     seller{
-     email 
-     sellerName
-     companyName
-     phoneNumber
-     companyAddress{
-         streetAddress
-         state 
-         city
-         zipCode
-     }
-     }
    }
     err
   }

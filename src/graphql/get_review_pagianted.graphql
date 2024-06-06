@@ -1,0 +1,12 @@
+query get_reviews_paginate($prodId: String!, $skipping: Int!, $limit: Int!){
+  getReviewsPaginate(prodID: $prodId, skipping: $skipping, limit: $limit) {
+    data {
+      id
+      comment
+      userReviewed {
+        name
+      }
+    }
+    err
+  }
+}

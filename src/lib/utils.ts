@@ -48,3 +48,10 @@ export const checkIsAuth = () => {
         return 'cart';
     }
 };
+
+export const getNameInitials = (name: string) => {
+    let spilts = name.split(' ');
+    let first_name = spilts[0];
+    let last_name = spilts[1];
+    return first_name.charAt(0) + last_name.charAt(0);
+};

@@ -1,0 +1,9 @@
+mutation create_review($data: InputReviews!){
+  createReview(data: $data) {
+    data {
+    id
+      comment
+    }
+    err
+  }
+}

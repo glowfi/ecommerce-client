@@ -1,20 +1,34 @@
 'use client';
-import { GetProductByIdDocument } from '@/gql/graphql';
-import { useQuery } from '@urql/next';
-import { usePathname } from 'next/navigation';
-import React from 'react';
+import { Create_ReviewDocument, GetProductByIdDocument } from '@/gql/graphql';
+import { useMutation, useQuery } from '@urql/next';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useuserStore } from '../auth/store';
+import RichTextEditor from '../editor/Tiptap';
+import { Button } from '../ui/button';
+import { useToast } from '../ui/use-toast';
 import CommentSection from './commentsection';
 import { ImagePreview } from './imagepreview';
 import Itemcarousel from './itemcarousel';
 import ItemPrev from './itempreview';
 import { useusecurrProdStore } from './product-store';
 import ProductDetails from './productdetails';
+import loading from '@/app/loading';
+import { LoadingButton } from '../ui/loading-button';
 
 const Product = () => {
     const pathname = usePathname();
     let ID = pathname.split('/').pop();
     const currProd = useusecurrProdStore((state: any) => state.currProd);
     const prodID = useusecurrProdStore((state: any) => state.prodID);
+    const [reviewText, setReviewText] = useState('');
+    const router = useRouter();
+    const user = useuserStore((state: any) => state.user);
+    const { toast } = useToast();
+    const allcomments = useusecurrProdStore((state: any) => state.comments);
+    const [loading, setLoading] = useState(false);
+
+    const [, execCreateReview] = useMutation(Create_ReviewDocument);
 
     useusecurrProdStore.setState({
         prodID: ID
@@ -57,6 +71,67 @@ const Product = () => {
                 <ImagePreview />
             </div>
             <div className="container">
+                <div className="flex flex-col gap-3">
+                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                        Add Your Review
+                    </h3>
+                    <RichTextEditor value="" onChange={setReviewText} />
+                    <LoadingButton
+                        loading={loading}
+                        className="w-fit"
+                        onClick={async () => {
+                            setLoading(true);
+                            console.log(reviewText);
+                            if (!user.id) {
+                                toast({
+                                    variant: 'destructive',
+                                    title: 'Authentication!',
+                                    description: 'Login to add review!'
+                                });
+                            } else {
+                                let newComment = {
+                                    comment: reviewText,
+                                    userReviewed: { name: user.name }
+                                };
+                                // useusecurrProdStore.setState({
+                                //     comments: {
+                                //         change_later: newComment,
+                                //         ...allcomments
+                                //     }
+                                // });
+
+                                // console.log(user.id);
+
+                                let data = await execCreateReview({
+                                    data: {
+                                        comment: reviewText,
+                                        userID: user.id,
+                                        productID: ID as string
+                                    }
+                                });
+
+                                let newObj = {} as any;
+
+                                let getID = data?.data?.createReview?.data;
+
+                                if (getID) {
+                                    newObj[`${getID.id}`] = {
+                                        ...newComment,
+                                        comment: getID.comment
+                                    };
+                                    useusecurrProdStore.setState({
+                                        comments: { ...newObj, ...allcomments }
+                                    });
+                                    setReviewText('');
+                                    setLoading(false);
+                                }
+                                // console.log(data);
+                            }
+                        }}
+                    >
+                        Add Review
+                    </LoadingButton>
+                </div>
                 <CommentSection />
             </div>
         </>

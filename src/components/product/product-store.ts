@@ -7,7 +7,12 @@ export const useusecurrProdStore = create<usecurrProdStore>(
     persist(
         (set: any, get: any) => ({
             prodID: null,
-            currProd: {}
+            currProd: {},
+            comments: {},
+            lastIdx: '',
+            pageIdx: 0,
+            hasMore: true,
+            isloading: false
         }),
         {
             name: 'currentproduct-storage',
