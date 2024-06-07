@@ -9,13 +9,19 @@ import {
 } from '@/components/ui/dialog';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { userefStore } from './store';
+import { SkeletonCard } from './SkeletonCard';
 
 export function ImagePreview() {
     const bref = useRef(null);
-    userefStore.setState({ eventRef: bref });
+
+    useEffect(() => {
+        userefStore.setState({ eventRef: bref });
+    }, [bref]);
+
     const currImage = userefStore((state: any) => state.currImage);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
         <Dialog>
@@ -29,19 +35,28 @@ export function ImagePreview() {
                     <DialogTitle>Preview</DialogTitle>
                 </DialogHeader>
                 <div className="gap-4 py-4 flex flex-col justify-center items-center">
-                    <Image
-                        src={currImage}
-                        width={500}
-                        height={500}
-                        alt="Not Found"
-                    />
-                    <Link
-                        href={currImage}
-                        target="_blank"
-                        className="hover:opacity-75 transition-all"
-                    >
-                        Watch in full resolution
-                    </Link>
+                    {!loaded && <SkeletonCard props={{ w: '300', h: '300' }} />}
+
+                    {currImage && (
+                        <>
+                            <Image
+                                onLoad={() => setLoaded(true)}
+                                src={currImage}
+                                width={300}
+                                height={300}
+                                alt="Not Found"
+                            />
+                            {loaded && (
+                                <Link
+                                    href={currImage}
+                                    target="_blank"
+                                    className="hover:opacity-75 transition-all"
+                                >
+                                    Watch in full resolution
+                                </Link>
+                            )}
+                        </>
+                    )}
                 </div>
             </DialogContent>
         </Dialog>

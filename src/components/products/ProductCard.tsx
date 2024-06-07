@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import {
@@ -13,9 +13,12 @@ import {
 } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import AddtoCart from '../product/addtocart';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const ProductCard = ({ currProduct }: any) => {
     const router = useRouter();
+    const [loaded, setLoaded] = useState<boolean>(false);
+
     return (
         <Card className="w-[350px] cursor-pointer">
             <CardHeader>
@@ -26,7 +29,10 @@ const ProductCard = ({ currProduct }: any) => {
                 <CardDescription>{currProduct?.title}</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center items-center">
+                {!loaded && <SkeletonCard props={{ w: '250', h: '250' }} />}
+
                 <Image
+                    onLoad={() => setLoaded(true)}
                     src={currProduct?.coverImage?.[0]}
                     width={250}
                     height={250}

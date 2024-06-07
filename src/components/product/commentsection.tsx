@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -11,12 +11,12 @@ import {
 } from '@/components/ui/card';
 import { Get_Reviews_PaginateDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
-import { getNameInitials } from '@/lib/utils';
+import { getDateHumanReadable, getNameInitials } from '@/lib/utils';
+import parse from 'html-react-parser';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui/button';
 import { TOTAL_ITEMS } from './constants';
 import { useusecurrProdStore } from './product-store';
-import parse, { domToReact } from 'html-react-parser';
 
 const loadData = async (ID: string) => {
     const pageIdx = useusecurrProdStore.getState().pageIdx;
@@ -24,7 +24,6 @@ const loadData = async (ID: string) => {
     const allcomments = useusecurrProdStore.getState().comments;
 
     const lastIdx = useusecurrProdStore.getState().lastIdx;
-    console.log(ID, lastIdx);
 
     if (!hasMore && ID == lastIdx) {
         return;
@@ -33,7 +32,6 @@ const loadData = async (ID: string) => {
     if (!lastIdx) {
         useusecurrProdStore.setState({ lastIdx: ID });
     } else if (ID !== undefined && ID !== lastIdx) {
-        console.log(ID, 'CURRID');
         useusecurrProdStore.setState({ lastIdx: ID });
         useusecurrProdStore.setState({ hasMore: true });
         useusecurrProdStore.setState({ pageIdx: 0 });
@@ -41,16 +39,6 @@ const loadData = async (ID: string) => {
     }
 
     if (hasMore) {
-        // console.log(
-        //     'Entered',
-        //     pageIdx,
-        //     new Date().toLocaleTimeString('en-GB', {
-        //         hour: 'numeric',
-        //         minute: 'numeric',
-        //         second: 'numeric'
-        //     })
-        // );
-
         useusecurrProdStore.setState({ isloading: true });
         const { data } = await getClient().query(
             Get_Reviews_PaginateDocument,
@@ -64,8 +52,6 @@ const loadData = async (ID: string) => {
             }
         );
 
-        console.log(data);
-
         useusecurrProdStore.setState({ isloading: false });
 
         if (data?.getReviewsPaginate?.data && hasMore) {
@@ -74,6 +60,7 @@ const loadData = async (ID: string) => {
 
             for (let index = 0; index < new_data.length; index++) {
                 let currComment = new_data[index];
+                // @ts-ignore
                 newComments[`${currComment.id}`] = { ...currComment };
             }
 
@@ -84,7 +71,6 @@ const loadData = async (ID: string) => {
             if (new_data.length < TOTAL_ITEMS) {
                 useusecurrProdStore.setState({ hasMore: false });
             }
-            // console.log(data?.getReviewsPaginate?.data);
         }
     }
 };
@@ -136,9 +122,18 @@ const CommentSection = () => {
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="grid gap-1">
-                                    <b className="text-sm font-semibold leading-none">
-                                        {p?.userReviewed?.name}
-                                    </b>
+                                    <div className="flex flex-col">
+                                        <b className="text-sm font-semibold leading-none">
+                                            {p?.userReviewed?.name}
+                                        </b>
+                                        <p>
+                                            <b>
+                                                {getDateHumanReadable(
+                                                    p?.reviewedAt
+                                                )}
+                                            </b>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <CardFooter>

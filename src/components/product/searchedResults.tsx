@@ -39,7 +39,6 @@ const SearchedResults = () => {
         usesearchStore.setState({ loading: true });
 
         setTimeout(async () => {
-            console.log(query);
             const { data } = await getClient().query(
                 SearchTermPaginateDocument,
                 {
@@ -49,8 +48,6 @@ const SearchedResults = () => {
                 },
                 { requestPolicy: 'network-only' }
             );
-
-            console.log(data);
 
             paginate(data?.getProductsBySearchTermPaginate?.data);
             usesearchStore.setState({ pageIdx: page + 1 });

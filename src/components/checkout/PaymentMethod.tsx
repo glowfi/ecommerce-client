@@ -71,7 +71,6 @@ const PaymentMethod = ({
                 <Button
                     onClick={() => {
                         handleNext();
-                        console.log(contact);
                     }}
                 >
                     Next

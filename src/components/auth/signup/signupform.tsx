@@ -141,7 +141,7 @@ export function SignUpForm() {
                                         zipCode: zipCode.current.value,
                                         city: city.current.value
                                     },
-                                    phone_number: phonenumber,
+                                    phoneNumber: phonenumber,
                                     dob: dob.current.value
                                 }
                             });

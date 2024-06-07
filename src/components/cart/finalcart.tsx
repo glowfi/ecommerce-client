@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import {
     Card,
@@ -21,11 +21,13 @@ import Image from 'next/image';
 import Addtocart from '../product/addtocart';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const FinalCart = () => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
     const router = useRouter();
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
         <div className="container mt-6">
@@ -71,7 +73,19 @@ const FinalCart = () => {
                                                         <div className="font-medium">
                                                             {p?.title}
                                                         </div>
+                                                        {!loaded && (
+                                                            <SkeletonCard
+                                                                props={{
+                                                                    w: '100',
+                                                                    h: '100'
+                                                                }}
+                                                            />
+                                                        )}
+
                                                         <Image
+                                                            onLoad={() =>
+                                                                setLoaded(true)
+                                                            }
                                                             src={
                                                                 p
                                                                     ?.coverImage?.[1]

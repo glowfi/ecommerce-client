@@ -20,7 +20,6 @@ const AddtoCart = ({ currProduct }: any) => {
     useEffect(() => {
         if (isPresent()) {
             for (let index = 0; index < cart.length; index++) {
-                console.log('Ran');
                 if (cart[index]['id'] == currProduct.id) {
                     setQty(cart[index]['quantity']);
                     setIdx(index);
@@ -70,7 +69,6 @@ const AddtoCart = ({ currProduct }: any) => {
                     className="h-8 gap-1"
                     onClick={() => {
                         let res = increaseCart(currProduct?.id, currProduct);
-                        console.log(res);
                     }}
                 >
                     <BaggageClaim className="h-3.5 w-3.5" />

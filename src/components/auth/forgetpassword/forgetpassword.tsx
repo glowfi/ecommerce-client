@@ -58,7 +58,6 @@ const ForgetPasswordForm = () => {
                                     userType: 'user'
                                 }
                             });
-                            console.log(data.data?.forgotPassword);
                             toast({
                                 title: 'Notification',
                                 description:

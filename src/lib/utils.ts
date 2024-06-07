@@ -40,7 +40,6 @@ export const detectBrowser = () => {
 export const checkIsAuth = () => {
     let user = useuserStore.getState().user;
     let cart = usecartStore.getState().cart;
-    console.log(cart);
 
     if (!user.id) {
         return 'auth';
@@ -54,4 +53,21 @@ export const getNameInitials = (name: string) => {
     let first_name = spilts[0];
     let last_name = spilts[1];
     return first_name.charAt(0) + last_name.charAt(0);
+};
+
+export const getDateHumanReadable = (data: string) => {
+    console.log(data);
+    const date = new Date(data);
+    const readableDate = date
+        .toLocaleString('en-GB', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour12: true,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        })
+        .replace(/(\d+)(st|nd|rd|th)/, '$1${"st","nd","rd","th"}[1]');
+    return readableDate;
 };

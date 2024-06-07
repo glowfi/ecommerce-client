@@ -21,12 +21,9 @@ import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { CommandDialogDemo } from './autocomplete';
 import { usesearchStore } from './store';
-import { useMutation } from '@urql/next';
-import { LogoutDocument } from '@/gql/graphql';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
-    const [, execLogout] = useMutation(LogoutDocument);
 
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
@@ -112,25 +109,25 @@ const Navbar = () => {
                                         {currUser.name}
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                                    <DropdownMenuItem>Orders</DropdownMenuItem>
                                     <DropdownMenuItem
-                                        onClick={async () => {
-                                            useuserStore.setState({
-                                                user: {
-                                                    email: null,
-                                                    profile_pic: null,
-                                                    name: null,
-                                                    id: null
-                                                }
-                                            });
-
-                                            await execLogout({
-                                                userID
-                                            });
+                                        onClick={() => {
+                                            router.push(`/user/${userID}`);
                                         }}
                                     >
-                                        Logout
+                                        Settings
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        className="text-red-600 hover:!bg-transparent"
+                                        // onClick={async () => {
+                                    >
+                                        <Button
+                                            variant="destructive"
+                                            onClick={() => {
+                                                router.push('/auth/logout');
+                                            }}
+                                        >
+                                            Logout
+                                        </Button>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>

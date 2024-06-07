@@ -36,7 +36,6 @@ export function LoginForm() {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                {/* <form action={loginaction}> */}
                 <div className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
@@ -83,14 +82,12 @@ export function LoginForm() {
                                 { requestPolicy: 'network-only' }
                             );
                             if (res?.data?.login?.err) {
-                                console.log('Entered!');
                                 toast({
                                     variant: 'destructive',
                                     title: 'Authentication Error!',
                                     description: res?.data?.login?.err
                                 });
                             } else {
-                                console.log(res?.data?.login?.data);
                                 let address = {
                                     street_address:
                                         res?.data?.login?.data?.address

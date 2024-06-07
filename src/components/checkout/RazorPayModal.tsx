@@ -19,12 +19,9 @@ export default function RazorPayModal({
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
     const { toast } = useToast();
     const router = useRouter();
-    const setStep = usecheckoutStore((state: any) => state.setStep);
 
     const handlePayment = useCallback(
         (setOrder_id_razor: any, setLoading: any) => {
-            // const order = await createOrder(params);
-
             const options: RazorpayOptions = {
                 key: process.env.RAZER_KEY_ID as string,
                 amount: '',
@@ -53,9 +50,6 @@ export default function RazorPayModal({
                         description: 'Payment Success!'
                     });
                     router.push('/');
-
-                    console.log('Payment Success!');
-                    console.log(res);
                 },
                 prefill: {
                     name: '',
@@ -71,8 +65,7 @@ export default function RazorPayModal({
             };
 
             const rzpay = new Razorpay(options);
-            rzpay.on('payment.failed', async function (res) {
-                console.log('Payment failed!');
+            rzpay.on('payment.failed', async function (res: any) {
                 await execUpdateOrder({
                     data: {
                         orderID: order_id,
@@ -85,13 +78,6 @@ export default function RazorPayModal({
                         }
                     }
                 });
-
-                // toast({
-                //     variant: 'destructive',
-                //     title: 'Info!',
-                //     description: 'Payment Failed!'
-                // });
-                // router.push('/');
             });
             rzpay.open();
         },
@@ -114,7 +100,6 @@ export default function RazorPayModal({
             >
                 Pay with razorpay
             </Button>
-            {/* <button onClick={handlePayment}>Pay with razorpay</button> */}
         </div>
     );
 }

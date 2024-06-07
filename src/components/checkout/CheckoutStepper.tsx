@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '../ui/use-toast';
 import { usecartStore } from '../cart/store';
 import { checkIsAuth } from '@/lib/utils';
+import Link from 'next/link';
 
 export default function CheckoutStepper() {
-    const [isstoreloaded, setIsstoreloaded] = useState(false);
     const router = useRouter();
     const user = useuserStore((state: any) => state.user);
     const cart = usecartStore((state: any) => state.cart);
@@ -35,7 +35,6 @@ export default function CheckoutStepper() {
     useEffect(() => {
         const data = checkIsAuth();
         if (data === 'auth') {
-            // console.log('Not authenticated');
             toast({
                 variant: 'destructive',
                 title: 'Authentication!',
@@ -43,7 +42,6 @@ export default function CheckoutStepper() {
             });
             router.push('/auth/login');
         } else if (data === 'cart') {
-            // console.log('empty cart!');
             toast({
                 variant: 'destructive',
                 title: 'Notification',
@@ -93,6 +91,11 @@ export default function CheckoutStepper() {
                 />
             )}
             {step === 3 && <OrderSummary handlePrevious={handlePrevious} />}
+            <div className="flex justify-center items-center">
+                <Link href="/" className="my-6 underline">
+                    Go to Home
+                </Link>
+            </div>
         </div>
     );
 }

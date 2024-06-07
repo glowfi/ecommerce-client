@@ -32,7 +32,6 @@ export const usesearchStore = create<searchStore>(
                     const { data } = await getClient().query(SbytermDocument, {
                         term: term
                     });
-                    console.log(data?.getProductsBySearchTerm.data);
                     if (data?.getProductsBySearchTerm.data) {
                         set({
                             searchProducts: [

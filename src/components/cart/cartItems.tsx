@@ -5,12 +5,14 @@ import Link from 'next/link';
 import AddtoCart from '../product/addtocart';
 import { CardContent } from '../ui/card';
 import { usecartStore } from './store';
+import { useState } from 'react';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const CartItems = () => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
     const removeCart = usecartStore((state: any) => state.removeCart);
-    console.log(cart);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
         <div className="grid gap-4 py-4">
@@ -18,7 +20,17 @@ const CartItems = () => {
                 {cart.map((p: any, idx: any) => {
                     return (
                         <div className="flex items-center gap-4" key={idx}>
+                            {!loaded && (
+                                <SkeletonCard
+                                    props={{
+                                        w: '100',
+                                        h: '100'
+                                    }}
+                                />
+                            )}
+
                             <Image
+                                onLoad={() => setLoaded(true)}
                                 src={p?.coverImage[0]}
                                 alt="Not Found"
                                 width={100}

@@ -46,13 +46,11 @@ const ResetPasswordForm = () => {
             </div>
         );
     }
-    console.log(data);
 
     if (
         data?.checkOtpExpired?.data?.hasExpired ||
         !data?.checkOtpExpired?.data
     ) {
-        console.log(data?.checkOtpExpired?.data?.hasExpired);
         return (
             <div className="flex flex-col h-dvh justify-center items-center gap-6">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
@@ -109,7 +107,6 @@ const ResetPasswordForm = () => {
                                     token: ID as string
                                 }
                             });
-                            console.log(data);
                             if (data?.data?.resetPassword?.err) {
                                 toast({
                                     variant: 'destructive',

@@ -1,3 +1,4 @@
+import { Atom, Barcode, ShoppingBasket } from 'lucide-react';
 import Link from 'next/link';
 
 const NotFound = () => {
@@ -6,24 +7,14 @@ const NotFound = () => {
             <h1 className="mb-4 text-6xl font-semibold">404</h1>
             <p className="mb-4 text-lg">Oops! Looks like you&apos;re lost.</p>
             <div className="animate-bounce">
-                <svg
-                    className="mx-auto h-16 w-16"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    ></path>
-                </svg>
+                <ShoppingBasket className="h-40 w-40" />
             </div>
             <p className="mt-4">
-                Let&apos;s get you back <br />
-                <Link href="/" className="text-blue-500">
-                    Home
+                <Link
+                    href="/"
+                    className="underline hover:opacity-75 transition-all"
+                >
+                    Go to Home Page
                 </Link>
             </p>
         </div>

@@ -1,11 +1,13 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const CategoryCard = ({ allCat }: any) => {
     const router = useRouter();
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
         <>
@@ -18,8 +20,13 @@ const CategoryCard = ({ allCat }: any) => {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
+                            {!loaded && (
+                                <SkeletonCard props={{ w: '200', h: '200' }} />
+                            )}
+
                             <Image
                                 src={p?.categoryImage?.[1]}
+                                onLoad={() => setLoaded(true)}
                                 alt="Not Found"
                                 width={200}
                                 height={200}

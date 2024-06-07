@@ -1,31 +1,42 @@
 'use client';
 import { CategoriesDocument } from '@/gql/graphql';
 import { useQuery } from '@urql/next';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Categorycard from './categorycard';
 import { usecategoryStore } from './store';
+import { getClient } from '@/lib/graphqlserver';
+
+const loadData = async () => {
+    const data = await getClient().query(CategoriesDocument, {});
+
+    if (data?.data?.getAllCategories?.data) {
+        usecategoryStore.setState({
+            allCategories: data?.data?.getAllCategories?.data
+        });
+    }
+    return data;
+};
 
 const Categories = () => {
     const allCat = usecategoryStore((state: any) => state.allCategories);
+    const [fetching, setFetching] = useState(false);
 
-    const [result, reexecuteQuery] = useQuery({
-        query: CategoriesDocument
-    });
-    const { data, fetching, error } = result;
+    useEffect(() => {
+        setFetching(true);
+        loadData().then((data) => {
+            if (data?.data?.getAllCategories?.data) {
+                setFetching(false);
+            }
+        });
+    }, []);
 
     if (fetching) {
         return <h1>Loading ...</h1>;
     }
 
-    if (data?.getAllCategories?.data) {
-        usecategoryStore.setState({
-            allCategories: data?.getAllCategories?.data
-        });
-    }
-
     return (
         <div className="flex justify-center items-center flex-col">
-            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
+            <h2 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
                 Shop by Categories
             </h2>
 

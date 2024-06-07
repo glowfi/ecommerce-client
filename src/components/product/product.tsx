@@ -1,11 +1,12 @@
 'use client';
 import { Create_ReviewDocument, GetProductByIdDocument } from '@/gql/graphql';
-import { useMutation, useQuery } from '@urql/next';
+import { getClient } from '@/lib/graphqlserver';
+import { useMutation } from '@urql/next';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
 import RichTextEditor from '../editor/Tiptap';
-import { Button } from '../ui/button';
+import { LoadingButton } from '../ui/loading-button';
 import { useToast } from '../ui/use-toast';
 import CommentSection from './commentsection';
 import { ImagePreview } from './imagepreview';
@@ -13,41 +14,48 @@ import Itemcarousel from './itemcarousel';
 import ItemPrev from './itempreview';
 import { useusecurrProdStore } from './product-store';
 import ProductDetails from './productdetails';
-import loading from '@/app/loading';
-import { LoadingButton } from '../ui/loading-button';
+
+const loadData = async (productId: string) => {
+    const data = await getClient().query(GetProductByIdDocument, {
+        productId
+    });
+
+    useusecurrProdStore.setState({
+        prodID: productId
+    });
+
+    if (data?.data?.getProductById?.data) {
+        useusecurrProdStore.setState({
+            currProd: data?.data?.getProductById?.data
+        });
+    }
+    return data;
+};
 
 const Product = () => {
     const pathname = usePathname();
     let ID = pathname.split('/').pop();
     const currProd = useusecurrProdStore((state: any) => state.currProd);
-    const prodID = useusecurrProdStore((state: any) => state.prodID);
     const [reviewText, setReviewText] = useState('');
-    const router = useRouter();
     const user = useuserStore((state: any) => state.user);
     const { toast } = useToast();
     const allcomments = useusecurrProdStore((state: any) => state.comments);
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(false);
 
     const [, execCreateReview] = useMutation(Create_ReviewDocument);
 
-    useusecurrProdStore.setState({
-        prodID: ID
-    });
-
-    const [result, reexecuteQuery] = useQuery({
-        query: GetProductByIdDocument,
-        variables: { productId: ID as string }
-    });
-    const { data, fetching, error } = result;
+    useEffect(() => {
+        setFetching(true);
+        loadData(ID as string).then((data) => {
+            if (data.data?.getProductById?.data) {
+                setFetching(false);
+            }
+        });
+    }, [ID]);
 
     if (fetching) {
         return <h1>Loading ....</h1>;
-    }
-
-    if (data?.getProductById?.data) {
-        useusecurrProdStore.setState({
-            currProd: data?.getProductById?.data
-        });
     }
 
     return (
@@ -80,27 +88,21 @@ const Product = () => {
                         loading={loading}
                         className="w-fit"
                         onClick={async () => {
-                            setLoading(true);
-                            console.log(reviewText);
                             if (!user.id) {
+                                setLoading(true);
                                 toast({
                                     variant: 'destructive',
                                     title: 'Authentication!',
                                     description: 'Login to add review!'
                                 });
+                                setLoading(false);
                             } else {
+                                setLoading(true);
+
                                 let newComment = {
                                     comment: reviewText,
                                     userReviewed: { name: user.name }
                                 };
-                                // useusecurrProdStore.setState({
-                                //     comments: {
-                                //         change_later: newComment,
-                                //         ...allcomments
-                                //     }
-                                // });
-
-                                // console.log(user.id);
 
                                 let data = await execCreateReview({
                                     data: {
@@ -125,7 +127,6 @@ const Product = () => {
                                     setReviewText('');
                                     setLoading(false);
                                 }
-                                // console.log(data);
                             }
                         }}
                     >

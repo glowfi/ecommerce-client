@@ -18,6 +18,7 @@ import { useMutation } from '@urql/next';
 import { CreateorderDocument } from '@/gql/graphql';
 import RazorPayModal from './RazorPayModal';
 import { LoadingButton } from '../ui/loading-button';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     const cart = usecartStore((state: any) => state.cart);
@@ -27,6 +28,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     const user = useuserStore((state: any) => state.user);
     const [, execCreateOrder] = useMutation(CreateorderDocument);
     const [loading, setLoading] = React.useState(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const [order_id_razor, setOrder_id_razor] = useState('');
     const [order_id, setOrder_id] = useState('');
@@ -36,8 +38,6 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
         let currProd = cart[index];
         productsOrdered.push([currProd.id, currProd.quantity.toString()]);
     }
-
-    // console.log(contact, payment);
 
     return (
         <Card>
@@ -60,7 +60,14 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                     key={idx}
                                 >
                                     <div className="flex items-center gap-2">
+                                        {!loaded && (
+                                            <SkeletonCard
+                                                props={{ w: '48', h: '48' }}
+                                            />
+                                        )}
+
                                         <Image
+                                            onLoad={() => setLoaded(true)}
                                             src={p?.coverImage[0]}
                                             width="48"
                                             height="48"
@@ -154,8 +161,6 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                             delete newContact.email;
                             delete newContact.name;
 
-                            console.log(newContact);
-
                             let data = await execCreateOrder({
                                 data: {
                                     paymentBy: payment,
@@ -167,8 +172,6 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                     }
                                 }
                             });
-
-                            console.log(data);
 
                             let get_oder_id = data?.data?.createOrder;
 

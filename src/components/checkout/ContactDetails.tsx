@@ -181,8 +181,6 @@ export function ContactDetails({ handleNext }: any) {
                         };
 
                         createNewState(data);
-
-                        // console.log(data);
                     }}
                 >
                     Next

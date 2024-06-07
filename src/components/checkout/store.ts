@@ -51,10 +51,8 @@ export const usecheckoutStore = create<checkoutStore>(
             },
             createNewState: (state: any) => {
                 let obj = { ...state };
-                console.log(obj);
                 set({ contact: obj });
                 const { contact } = get();
-                console.log(contact);
             },
             setCountryCode: (value: any) => {
                 const { contact } = get();
@@ -87,8 +85,6 @@ export const usecheckoutStore = create<checkoutStore>(
             updateContacts: (key: any, value: any, isAddress = false) => {
                 const { contact } = get();
                 if (!isAddress) {
-                    // let getCurrVal =;
-                    // console.log(getCurrVal + value);
                     set({
                         contact: {
                             ...contact,

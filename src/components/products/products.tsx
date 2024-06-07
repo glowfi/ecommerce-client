@@ -37,35 +37,39 @@ const Products = () => {
     };
     return (
         <>
-            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-6">
+            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-6">
                 Shop by Products
             </h2>
-
-            <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                {allProds?.map((p: any, idx: any) => {
-                    return (
-                        <ProductCard
-                            key={idx}
-                            currProduct={{
-                                ...p,
-                                category: p?.category?.name
-                            }}
-                        />
-                    );
-                })}
-                <InfiniteScroll
-                    hasMore={hasMore}
-                    isLoading={loading}
-                    next={next}
-                    threshold={1}
-                >
-                    {hasMore && (
-                        <div className="m-auto flex justify-center items-center justify-items-center">
-                            <Loader2 className="my-4 h-8 w-8 animate-spin" />
-                        </div>
-                    )}
-                </InfiniteScroll>
+            <div className="container mx-auto p-4 mt-6 flex justify-center items-center">
+                <div className="grid -cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
+                    {allProds?.map((p: any, idx: any) => {
+                        return (
+                            <ProductCard
+                                key={idx}
+                                currProduct={{
+                                    ...p,
+                                    category: p?.category?.name
+                                }}
+                            />
+                        );
+                    })}
+                    <InfiniteScroll
+                        hasMore={hasMore}
+                        isLoading={loading}
+                        next={next}
+                        threshold={1}
+                    >
+                        {hasMore && (
+                            <div className="m-auto flex justify-center items-center justify-items-center">
+                                <Loader2 className="my-4 h-8 w-8 animate-spin" />
+                            </div>
+                        )}
+                    </InfiniteScroll>
+                </div>
             </div>
+
+            {/* <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6"> */}
+            {/* </div> */}
         </>
     );
 };
