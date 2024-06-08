@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { useDebounce } from './hooks/useDebounce';
 import { usesearchStore } from './store';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 export function CommandDialogDemo({ open, setOpen }: any) {
     const router = useRouter();
@@ -25,6 +26,7 @@ export function CommandDialogDemo({ open, setOpen }: any) {
     const fetchProducts = usesearchStore((state: any) => state.fetchProducts);
 
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     // @ts-ignore
     useEffect(() => {
@@ -67,7 +69,17 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                                         }}
                                     >
                                         <CommandItem className="flex justify-between gap-6 m-6">
+                                            {!loaded && (
+                                                <SkeletonCard
+                                                    props={{
+                                                        w: '100',
+                                                        h: '100'
+                                                    }}
+                                                />
+                                            )}
+
                                             <Image
+                                                onLoad={() => setLoaded(true)}
                                                 src={p?.coverImage?.[1]}
                                                 width={100}
                                                 height={100}
@@ -89,7 +101,7 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                                                 <p className="text-lg font-semibold">
                                                     <Badge>Category</Badge>
                                                     <span className="ml-3">
-                                                        {p?.category?.name}
+                                                        {p?.categoryName}
                                                     </span>
                                                 </p>
                                                 <p className="text-lg font-semibold">

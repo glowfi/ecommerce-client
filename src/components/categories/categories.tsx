@@ -1,10 +1,9 @@
 'use client';
 import { CategoriesDocument } from '@/gql/graphql';
-import { useQuery } from '@urql/next';
+import { getClient } from '@/lib/graphqlserver';
 import React, { useEffect, useState } from 'react';
 import Categorycard from './categorycard';
 import { usecategoryStore } from './store';
-import { getClient } from '@/lib/graphqlserver';
 
 const loadData = async () => {
     const data = await getClient().query(CategoriesDocument, {});
@@ -28,7 +27,7 @@ const Categories = () => {
                 setFetching(false);
             }
         });
-    }, []);
+    }, [allCat]);
 
     if (fetching) {
         return <h1>Loading ...</h1>;

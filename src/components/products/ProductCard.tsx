@@ -24,7 +24,9 @@ const ProductCard = ({ currProduct }: any) => {
             <CardHeader>
                 <div className="flex gap-3">
                     <CardTitle>{currProduct?.brand}</CardTitle>
-                    <Badge variant={'default'}>{currProduct?.category}</Badge>
+                    <Badge variant={'default'}>
+                        {currProduct?.categoryName}
+                    </Badge>
                 </div>
                 <CardDescription>{currProduct?.title}</CardDescription>
             </CardHeader>

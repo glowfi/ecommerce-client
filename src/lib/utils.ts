@@ -56,7 +56,6 @@ export const getNameInitials = (name: string) => {
 };
 
 export const getDateHumanReadable = (data: string) => {
-    console.log(data);
     const date = new Date(data);
     const readableDate = date
         .toLocaleString('en-GB', {

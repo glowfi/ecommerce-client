@@ -8,31 +8,11 @@ query paginateProd($skipping: Int!, $limit: Int!){
      rating
      description
      brand
-     category {
-         name
-     }
+     categoryName
      images
      dateCreated
      dateCreatedHuman
-     wishedBy {
-       productWished {
-         brand
-       }
-     }
      coverImage
-     seller{
-     email 
-     sellerName
-     companyName
-     phoneNumber
-     companyAddress{
-         streetAddress
-         state 
-         city
-         zipCode
-        countryCode
-     }
-     }
    }
     err
   }

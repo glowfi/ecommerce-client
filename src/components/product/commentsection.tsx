@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -14,7 +14,7 @@ import { getClient } from '@/lib/graphqlserver';
 import { getDateHumanReadable, getNameInitials } from '@/lib/utils';
 import parse from 'html-react-parser';
 import { usePathname } from 'next/navigation';
-import { Button } from '../ui/button';
+import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './constants';
 import { useusecurrProdStore } from './product-store';
 
@@ -83,6 +83,7 @@ const CommentSection = () => {
     const hasMore = useusecurrProdStore((state: any) => state.hasMore);
     const isloading = useusecurrProdStore((state: any) => state.isloading);
     const flattened = Object.values(allcomments);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         loadData(ID as string);
@@ -145,15 +146,17 @@ const CommentSection = () => {
             })}
             {hasMore && (
                 <div className="flex flex-col justify-center items-center mt-6">
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         onClick={() => {
                             useusecurrProdStore.setState({
                                 pageIdx: pageIdx + 1
                             });
+                            setLoading(false);
                         }}
                     >
                         Load More
-                    </Button>
+                    </LoadingButton>
                 </div>
             )}
         </>

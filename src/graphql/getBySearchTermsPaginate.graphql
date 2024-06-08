@@ -5,9 +5,7 @@ query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!){
      title
      price
      brand
-     category {
-         name
-     }
+     categoryName
      images
      coverImage
    }

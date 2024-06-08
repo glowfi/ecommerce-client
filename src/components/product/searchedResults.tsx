@@ -73,7 +73,7 @@ const SearchedResults = () => {
                         key={idx}
                         currProduct={{
                             ...p,
-                            category: p?.category?.name
+                            category: p?.categoryName
                         }}
                     />
                 );
