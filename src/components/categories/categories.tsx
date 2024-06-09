@@ -22,15 +22,19 @@ const Categories = () => {
 
     useEffect(() => {
         setFetching(true);
-        loadData().then((data) => {
-            if (data?.data?.getAllCategories?.data) {
+        loadData()
+            .then((data) => {
+                if (data?.data?.getAllCategories?.data) {
+                    setFetching(false);
+                }
+            })
+            .catch(() => {
                 setFetching(false);
-            }
-        });
+            });
     }, [allCat]);
 
     if (fetching) {
-        return <h1>Loading ...</h1>;
+        return <h1>Loading Categories ...</h1>;
     }
 
     return (

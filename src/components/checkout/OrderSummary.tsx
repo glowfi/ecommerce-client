@@ -18,6 +18,8 @@ import { useMutation } from '@urql/next';
 import { CreateorderDocument } from '@/gql/graphql';
 import RazorPayModal from './RazorPayModal';
 import { LoadingButton } from '../ui/loading-button';
+import { useRouter } from 'next/navigation';
+
 import { SkeletonCard } from '../product/SkeletonCard';
 
 const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
@@ -29,6 +31,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     const [, execCreateOrder] = useMutation(CreateorderDocument);
     const [loading, setLoading] = React.useState(false);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const router = useRouter();
 
     const [order_id_razor, setOrder_id_razor] = useState('');
     const [order_id, setOrder_id] = useState('');
@@ -154,12 +157,17 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                             newContact['address']['streetAddress'] = currVal;
                             newContact['phoneNumber'] = currVal1;
 
+                            let savedEmail = newContact.email;
+                            let savedName = newContact.name;
+                            let savedChecked = newContact.update_address;
+
                             let currVal2 = newContact.countryCode;
                             delete newContact.countryCode;
                             newContact['address']['countryCode'] = currVal2;
                             delete newContact.phone_number;
                             delete newContact.email;
                             delete newContact.name;
+                            delete newContact.update_address;
 
                             let data = await execCreateOrder({
                                 data: {
@@ -169,7 +177,12 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                     userID: user.id,
                                     userDetails: {
                                         ...newContact
-                                    }
+                                    },
+                                    name: savedName,
+                                    email: savedEmail,
+                                    phoneNumber: newContact.phoneNumber,
+                                    address: newContact.address,
+                                    updateAddress: savedChecked
                                 }
                             });
 
@@ -178,11 +191,18 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                             if (get_oder_id && payment == 'razorpay') {
                                 setOrder_id_razor(get_oder_id[0]);
                                 setOrder_id(get_oder_id[1]);
+                            } else {
+                                if (get_oder_id) {
+                                    usecheckoutStore.setState({ step: 1 });
+                                    usecartStore.setState({ cart: [] });
+                                    usecartStore.setState({ amount: 0 });
+                                    router.push('/');
+                                }
                             }
                         }, 1000);
                     }}
                 >
-                    Confirm Order
+                    Pay
                 </LoadingButton>
                 {order_id_razor && (
                     <RazorPayModal

@@ -16,6 +16,8 @@ import RegionSelect from '@/components/ui/region-select';
 import lookup from 'country-code-lookup';
 import { usecheckoutStore } from './store';
 import { useuserStore } from '../auth/store';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useState } from 'react';
 
 export function ContactDetails({ handleNext }: any) {
     const contact = usecheckoutStore((state: any) => state.contact);
@@ -147,6 +149,22 @@ export function ContactDetails({ handleNext }: any) {
                             value={contact.phone_number}
                         />
                     </div>
+
+                    <div className="flex items-center space-x-2">
+                        <Checkbox
+                            checked={contact.checked}
+                            id="terms"
+                            onClick={() => {
+                                updateContacts('checked', !contact.checked);
+                            }}
+                        />
+                        <label
+                            htmlFor="terms"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            Save Address in database
+                        </label>
+                    </div>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
@@ -157,6 +175,7 @@ export function ContactDetails({ handleNext }: any) {
                             name: user.name,
                             email: user.email,
                             countryCode: contact.address.countryCode,
+                            update_address: contact.checked,
                             address: {
                                 street_address: contact.address.street_address
                                     ? contact.address.street_address

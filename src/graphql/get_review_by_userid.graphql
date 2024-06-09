@@ -1,0 +1,14 @@
+query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {
+  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {
+    data {
+    comment
+      userReviewed {
+        name
+      }
+      productReviewed {
+        id
+      }
+    }
+    err
+  }
+}

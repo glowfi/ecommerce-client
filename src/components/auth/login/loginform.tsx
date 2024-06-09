@@ -81,13 +81,14 @@ export function LoginForm() {
                                 },
                                 { requestPolicy: 'network-only' }
                             );
+                            // console.log(res.data?.login);
                             if (res?.data?.login?.err) {
                                 toast({
                                     variant: 'destructive',
                                     title: 'Authentication Error!',
                                     description: res?.data?.login?.err
                                 });
-                            } else {
+                            } else if (res?.data?.login?.data) {
                                 let address = {
                                     street_address:
                                         res?.data?.login?.data?.address
@@ -123,6 +124,11 @@ export function LoginForm() {
                                 });
 
                                 router.push('/');
+                            } else {
+                                toast({
+                                    variant: 'destructive',
+                                    title: 'Some Error occured!'
+                                });
                             }
                         }}
                     >

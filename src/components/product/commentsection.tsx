@@ -92,7 +92,7 @@ const CommentSection = () => {
     if (isloading) {
         return (
             <>
-                <h1>Loading ...</h1>
+                <h1>Loading comments ...</h1>
             </>
         );
     }

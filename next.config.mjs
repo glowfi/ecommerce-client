@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: false,
     env: {
         GRAPHQL_API_ENDPOINT: process.env.GRAPHQL_API_ENDPOINT,
         STORE_NAME: process.env.STORE_NAME,

@@ -11,6 +11,7 @@ export const usecheckoutStore = create<checkoutStore>(
         (set: any, get: any) => ({
             contact: {
                 name: '',
+                checked: false,
                 email: '',
                 address: {
                     street_address: '',

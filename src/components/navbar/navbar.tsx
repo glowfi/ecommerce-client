@@ -114,7 +114,7 @@ const Navbar = () => {
                                             router.push(`/user/${userID}`);
                                         }}
                                     >
-                                        Settings
+                                        Account Settings
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
                                         className="text-red-600 hover:!bg-transparent"

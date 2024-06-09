@@ -8,6 +8,7 @@ import useRazorpay, { RazorpayOptions } from 'react-razorpay';
 import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
 import { usecheckoutStore } from './store';
+import { usecartStore } from '../cart/store';
 
 export default function RazorPayModal({
     order_id_razor,
@@ -45,11 +46,15 @@ export default function RazorPayModal({
                         }
                     });
 
+                    usecheckoutStore.setState({ step: 1 });
+                    usecartStore.setState({ cart: [] });
+                    usecartStore.setState({ amount: 0 });
+
                     toast({
                         title: 'Info!',
                         description: 'Payment Success!'
                     });
-                    router.push('/');
+                    router.push('/checkout/payment');
                 },
                 prefill: {
                     name: '',
@@ -91,7 +96,7 @@ export default function RazorPayModal({
     }, [isLoaded, handlePayment]);
 
     return (
-        <div className="App">
+        <div className="App hidden">
             <Button
                 variant={'secondary'}
                 onClick={() => {

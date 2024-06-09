@@ -47,15 +47,19 @@ const Product = () => {
 
     useEffect(() => {
         setFetching(true);
-        loadData(ID as string).then((data) => {
-            if (data.data?.getProductById?.data) {
+        loadData(ID as string)
+            .then((data) => {
+                if (data.data?.getProductById?.data) {
+                    setFetching(false);
+                }
+            })
+            .catch(() => {
                 setFetching(false);
-            }
-        });
+            });
     }, [ID]);
 
     if (fetching) {
-        return <h1>Loading ....</h1>;
+        return <h1>Loading Product ....</h1>;
     }
 
     return (

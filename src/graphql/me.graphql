@@ -1,0 +1,21 @@
+query mequery($userId: String!)  {
+  getUserById(userID: $userId) {
+    data {
+    name
+      address {
+        city
+        country
+        countryCode
+        state
+        streetAddress
+        zipCode
+      }
+      email
+      profilePic
+      phoneNumber
+      dob
+      id
+    }
+    err
+  }
+}
