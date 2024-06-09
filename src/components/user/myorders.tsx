@@ -256,6 +256,49 @@ function Side({ allOrders, idx }) {
     );
 }
 
+const getData = async () => {
+    console.log('Enterd');
+    const userId = useuserStore.getState().user.id;
+    const pageIdx_order = useuserinfo.getState().pageIdx_order;
+    const hasMore_order = useuserinfo.getState().hasMore_order;
+    const lastIdx = useuserinfo.getState().lastIdx_order;
+    const allOrders = useuserinfo.getState().allOrders;
+
+    if (lastIdx === -1 || lastIdx !== pageIdx_order) {
+        useuserinfo.setState({ lastIdx_order: pageIdx_order });
+    } else if (lastIdx !== -1 && lastIdx === pageIdx_order) {
+        // setLoading(false);
+        // useuserinfo.setState({ loading: false });
+        return -1;
+    }
+
+    if (hasMore_order) {
+        // useuserinfo.setState({ loading: true });
+        const data = await getClient().query(Get_Order_By_UseridDocument, {
+            userId,
+            skipping: pageIdx_order * TOTAL_ITEMS,
+            limit: TOTAL_ITEMS
+        });
+        let currData = data?.data?.getOrdersByUserid?.data;
+
+        if (currData) {
+            useuserinfo.setState({
+                allOrders: [...allOrders, ...currData]
+            });
+            if (currData.length < TOTAL_ITEMS) {
+                useuserinfo.setState({ hasMore_order: false });
+            }
+
+            return data;
+            // setLoading(false);
+
+            // useuserinfo.setState({ loading: false });
+        } else {
+            // setLoading(false);
+            // useuserinfo.setState({ loading: false });
+        }
+    }
+};
 export function Myorders() {
     const [loading, setLoading] = useState(true);
     const [fetching, setFetching] = useState(true);
@@ -267,53 +310,7 @@ export function Myorders() {
     const [idx, setIdx] = useState(0);
 
     useEffect(() => {
-        const getData = async () => {
-            console.log('Enterd');
-            const userId = useuserStore.getState().user.id;
-            const pageIdx_order = useuserinfo.getState().pageIdx_order;
-            const hasMore_order = useuserinfo.getState().hasMore_order;
-            const lastIdx = useuserinfo.getState().lastIdx_order;
-            const allOrders = useuserinfo.getState().allOrders;
-
-            if (lastIdx === -1 || lastIdx !== pageIdx_order) {
-                useuserinfo.setState({ lastIdx_order: pageIdx_order });
-            } else if (lastIdx !== -1 && lastIdx === pageIdx_order) {
-                // setLoading(false);
-                // useuserinfo.setState({ loading: false });
-                return -1;
-            }
-
-            if (hasMore_order) {
-                // useuserinfo.setState({ loading: true });
-                const data = await getClient().query(
-                    Get_Order_By_UseridDocument,
-                    {
-                        userId,
-                        skipping: pageIdx_order * TOTAL_ITEMS,
-                        limit: TOTAL_ITEMS
-                    }
-                );
-                let currData = data?.data?.getOrdersByUserid?.data;
-
-                if (currData) {
-                    useuserinfo.setState({
-                        allOrders: [...allOrders, ...currData]
-                    });
-                    if (currData.length < TOTAL_ITEMS) {
-                        useuserinfo.setState({ hasMore_order: false });
-                    }
-
-                    return data;
-                    // setLoading(false);
-
-                    // useuserinfo.setState({ loading: false });
-                } else {
-                    // setLoading(false);
-                    // useuserinfo.setState({ loading: false });
-                }
-            }
-        };
-
+        setLoading(true);
         setFetching(true);
         getData()
             .then((data) => {
@@ -339,29 +336,44 @@ export function Myorders() {
 
     return (
         <div className="container flex gap-6 items-start justify-center">
-            <div className="flex flex-col">
-                <OrderTable allOrders={allOrders} cidx={idx} setIdx={setIdx} />
-                {hasMore_order && (
-                    <LoadingButton
-                        className="mt-6 w-fit"
-                        loading={loading}
-                        onClick={() => {
-                            console.log('clicked');
-                            useuserinfo.setState({
-                                pageIdx_order: pageIdx_order + 1
-                            });
+            {allOrders.length === 0 && (
+                <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                    No orders yet!
+                </h2>
+            )}
 
-                            // useuserinfo.setState({ loading: true });
-                            // setLoading(true);
-                        }}
-                    >
-                        Load more Orders
-                    </LoadingButton>
-                )}
-            </div>
-            <div className="hidden xl:block">
-                <Side allOrders={allOrders} idx={idx} />
-            </div>
+            {allOrders.length > 0 && (
+                <>
+                    <div className="flex flex-col">
+                        <OrderTable
+                            allOrders={allOrders}
+                            cidx={idx}
+                            setIdx={setIdx}
+                        />
+                        {hasMore_order && (
+                            <LoadingButton
+                                className="mt-6 w-fit"
+                                loading={loading}
+                                onClick={() => {
+                                    console.log('clicked');
+                                    useuserinfo.setState({
+                                        pageIdx_order: pageIdx_order + 1
+                                    });
+
+                                    // useuserinfo.setState({ loading: true });
+                                    // setLoading(true);
+                                }}
+                            >
+                                Load more Orders
+                            </LoadingButton>
+                        )}
+                    </div>
+
+                    <div className="hidden xl:block">
+                        <Side allOrders={allOrders} idx={idx} />
+                    </div>
+                </>
+            )}
         </div>
     );
 }

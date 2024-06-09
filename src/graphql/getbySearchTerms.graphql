@@ -1,14 +1,15 @@
-query sbyterm($term: String!){
-  getProductsBySearchTerm(term: $term) {
-   data {
-     id
-     title
-     price
-     brand
-     images
-     coverImage
-     categoryName
-   }
-    err
+query search_atlas($term: String!){
+  getProductsBySearchTermAtlasSearch(term: $term) {
+    data {
+      brand
+      categoryName
+      description
+      coverImage
+      id
+      price
+      score
+      sellerName
+      title
+    }
   }
 }

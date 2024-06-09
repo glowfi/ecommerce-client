@@ -1,4 +1,4 @@
-import { SbytermDocument } from '@/gql/graphql';
+import { Search_AtlasDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -29,14 +29,18 @@ export const usesearchStore = create<searchStore>(
             },
             fetchProducts: async (term: any) => {
                 if (term) {
-                    const { data } = await getClient().query(SbytermDocument, {
-                        term: term
-                    });
+                    const { data } = await getClient().query(
+                        Search_AtlasDocument,
+                        {
+                            term: term
+                        }
+                    );
 
-                    if (data?.getProductsBySearchTerm.data) {
+                    if (data?.getProductsBySearchTermAtlasSearch.data) {
                         set({
                             searchProducts: [
-                                ...data?.getProductsBySearchTerm?.data
+                                ...data?.getProductsBySearchTermAtlasSearch
+                                    ?.data
                             ]
                         });
                     }

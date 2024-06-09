@@ -139,6 +139,13 @@ const MyDetails = () => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">Country</dt>
+                            <dd>
+                                <a href="tel:">{userData?.address?.country}</a>
+                            </dd>
+                        </div>
+
+                        <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">ZipCode</dt>
                             <dd>
                                 <a href="tel:">{userData?.address?.zipCode}</a>
