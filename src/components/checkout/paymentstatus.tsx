@@ -23,7 +23,7 @@ const Paymentstatus = () => {
 
     return (
         <div className="text-center flex flex-col justify-center items-center h-dvh">
-            <h1 className="mb-4 text-6xl font-semibold">Payment Success!</h1>
+            <h1 className="mb-4 text-6xl font-semibold">Order Placed!</h1>
             <div className="animate-bounce">
                 <MailCheck className="h-40 w-40 text-green-500" />
             </div>

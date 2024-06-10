@@ -41,15 +41,16 @@ export default function CheckoutStepper() {
                 description: 'Login to purchase products!'
             });
             router.push('/auth/login');
-        } else if (data === 'cart') {
-            toast({
-                variant: 'destructive',
-                title: 'Notification',
-                description:
-                    'Cart Empty! Add some products to cart before checkking out'
-            });
-            router.push('/');
         }
+        // } else if (data === 'cart') {
+        //     toast({
+        //         variant: 'destructive',
+        //         title: 'Notification',
+        //         description:
+        //             'Cart Empty! Add some products to cart before checkking out'
+        //     });
+        //     router.push('/');
+        // }
     }, [cart, user]);
 
     return (

@@ -28,7 +28,7 @@ export const usecheckoutStore = create<checkoutStore>(
                 set({ step });
             },
             payment: 'razorpay',
-            amount: 0,
+            amount: 0.0,
             updatePayment: (method: any) => {
                 set({ payment: method });
             },

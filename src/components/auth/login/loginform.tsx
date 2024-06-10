@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useuserStore } from '../store';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { LoadingButton } from '@/components/ui/loading-button';
 
 export function LoginForm() {
     const [, execLogin] = useMutation(LoginDocument);
@@ -26,6 +27,7 @@ export function LoginForm() {
     const currUser = useuserStore((state: any) => state.user);
     const router = useRouter();
     const { toast } = useToast();
+    const [loading, setLoading] = useState(false);
 
     return (
         <Card className="mx-auto max-w-sm">
@@ -67,10 +69,12 @@ export function LoginForm() {
                             onChange={(e) => setPassword(() => e.target.value)}
                         />
                     </div>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         type="button"
                         className="w-full"
                         onClick={async () => {
+                            setLoading(true);
                             let res = await execLogin(
                                 {
                                     data: {
@@ -130,10 +134,11 @@ export function LoginForm() {
                                     title: 'Some Error occured!'
                                 });
                             }
+                            setLoading(false);
                         }}
                     >
                         Login
-                    </Button>
+                    </LoadingButton>
                 </div>
                 {/* </form> */}
                 <div className="mt-4 text-center text-sm flex flex-col gap-3 underline">

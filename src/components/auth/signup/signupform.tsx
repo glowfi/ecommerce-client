@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
@@ -11,6 +10,7 @@ import {
 import CountrySelect from '@/components/ui/country-select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LoadingButton } from '@/components/ui/loading-button';
 import { PhoneInput } from '@/components/ui/phone-input';
 import RegionSelect from '@/components/ui/region-select';
 import { useToast } from '@/components/ui/use-toast';
@@ -35,6 +35,7 @@ export function SignUpForm() {
     const [, execSignup] = useMutation(SignupDocument);
     const { toast } = useToast();
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     return (
         <Card className="mx-auto max-w-sm">
@@ -124,10 +125,12 @@ export function SignUpForm() {
                         <Label>Date of Birth (Optional)</Label>
                         <input type="date" ref={dob} />
                     </div>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         type="submit"
                         className="w-full"
                         onClick={async () => {
+                            setLoading(true);
                             let data = await execSignup({
                                 data: {
                                     name: name.current.value,
@@ -151,10 +154,11 @@ export function SignUpForm() {
                                     'Check your email for account confirmation link!'
                             });
                             router.push('/auth/login');
+                            setLoading(false);
                         }}
                     >
                         Create an account
-                    </Button>
+                    </LoadingButton>
                 </div>
                 <div className="mt-4 text-center text-sm flex flex-col gap-3">
                     <Link href="/auth/login" className="underline">

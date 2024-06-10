@@ -146,60 +146,58 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                     onClick={async () => {
                         setLoading(true);
 
-                        setTimeout(async () => {
-                            let newContact = { ...contact };
-                            let currVal = newContact.address.street_address;
-                            let currVal1 = newContact.phone_number;
+                        let newContact = { ...contact };
+                        let currVal = newContact.address.street_address;
+                        let currVal1 = newContact.phone_number;
 
-                            delete newContact.address.street_address;
-                            delete newContact.address.phoneNumber;
+                        delete newContact.address.street_address;
+                        delete newContact.address.phoneNumber;
 
-                            newContact['address']['streetAddress'] = currVal;
-                            newContact['phoneNumber'] = currVal1;
+                        newContact['address']['streetAddress'] = currVal;
+                        newContact['phoneNumber'] = currVal1;
 
-                            let savedEmail = newContact.email;
-                            let savedName = newContact.name;
-                            let savedChecked = newContact.update_address;
+                        let savedEmail = newContact.email;
+                        let savedName = newContact.name;
+                        let savedChecked = newContact.update_address;
 
-                            let currVal2 = newContact.countryCode;
-                            delete newContact.countryCode;
-                            newContact['address']['countryCode'] = currVal2;
-                            delete newContact.phone_number;
-                            delete newContact.email;
-                            delete newContact.name;
-                            delete newContact.update_address;
+                        let currVal2 = newContact.countryCode;
+                        delete newContact.countryCode;
+                        newContact['address']['countryCode'] = currVal2;
+                        delete newContact.phone_number;
+                        delete newContact.email;
+                        delete newContact.name;
+                        delete newContact.update_address;
 
-                            let data = await execCreateOrder({
-                                data: {
-                                    paymentBy: payment,
-                                    amount,
-                                    productsOrdered,
-                                    userID: user.id,
-                                    userDetails: {
-                                        ...newContact
-                                    },
-                                    name: savedName,
-                                    email: savedEmail,
-                                    phoneNumber: newContact.phoneNumber,
-                                    address: newContact.address,
-                                    updateAddress: savedChecked
-                                }
-                            });
-
-                            let get_oder_id = data?.data?.createOrder;
-
-                            if (get_oder_id && payment == 'razorpay') {
-                                setOrder_id_razor(get_oder_id[0]);
-                                setOrder_id(get_oder_id[1]);
-                            } else {
-                                if (get_oder_id) {
-                                    usecheckoutStore.setState({ step: 1 });
-                                    usecartStore.setState({ cart: [] });
-                                    usecartStore.setState({ amount: 0 });
-                                    router.push('/');
-                                }
+                        let data = await execCreateOrder({
+                            data: {
+                                paymentBy: payment,
+                                amount: parseInt(parseFloat(amount).toFixed(2)),
+                                productsOrdered,
+                                userID: user.id,
+                                userDetails: {
+                                    ...newContact
+                                },
+                                name: savedName,
+                                email: savedEmail,
+                                phoneNumber: newContact.phoneNumber,
+                                address: newContact.address,
+                                updateAddress: savedChecked ? true : false
                             }
-                        }, 1000);
+                        });
+
+                        let get_oder_id = data?.data?.createOrder;
+
+                        if (get_oder_id && payment == 'razorpay') {
+                            setOrder_id_razor(get_oder_id[0]);
+                            setOrder_id(get_oder_id[1]);
+                        } else {
+                            if (get_oder_id) {
+                                usecheckoutStore.setState({ step: 1 });
+                                usecartStore.setState({ cart: [] });
+                                usecartStore.setState({ amount: 0 });
+                                router.push('/checkout/payment');
+                            }
+                        }
                     }}
                 >
                     Pay

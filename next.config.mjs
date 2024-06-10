@@ -13,7 +13,7 @@ const nextConfig = {
                 hostname: 'res.cloudinary.com'
             },
             {
-                hostname: 'ui.shadcn.com'
+                hostname: 'xsgames.co'
             }
         ]
     }

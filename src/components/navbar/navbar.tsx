@@ -117,17 +117,18 @@ const Navbar = () => {
                                         Account Settings
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                        className="text-red-600 hover:!bg-transparent"
-                                        // onClick={async () => {
+                                        onClick={() => {
+                                            router.push('/cart');
+                                        }}
                                     >
-                                        <Button
-                                            variant="destructive"
-                                            onClick={() => {
-                                                router.push('/auth/logout');
-                                            }}
-                                        >
-                                            Logout
-                                        </Button>
+                                        Cart
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() => {
+                                            router.push('/auth/logout');
+                                        }}
+                                    >
+                                        Logout
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>

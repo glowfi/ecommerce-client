@@ -40,24 +40,26 @@ const Cart = () => {
                     <>
                         <CartItems />
                         <SheetFooter>
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    setSheetOpen(false);
-                                    router.push('/cart');
-                                }}
-                            >
-                                Buy
-                            </Button>
-                            <Button
-                                type="button"
-                                onClick={() => {
-                                    setSheetOpen(false);
-                                    router.push('/checkout');
-                                }}
-                            >
-                                Buy Now
-                            </Button>
+                            <div className="flex gap-6 justify-center items-center">
+                                <Button
+                                    type="button"
+                                    onClick={() => {
+                                        setSheetOpen(false);
+                                        router.push('/cart');
+                                    }}
+                                >
+                                    Final Cart
+                                </Button>
+                                <Button
+                                    type="button"
+                                    onClick={() => {
+                                        setSheetOpen(false);
+                                        router.push('/checkout');
+                                    }}
+                                >
+                                    Buy Now
+                                </Button>
+                            </div>
                             <SheetClose />
                         </SheetFooter>
                     </>
