@@ -1,7 +1,9 @@
 query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {
   getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {
     data {
-    comment
+      id
+      comment
+      reviewedAt
       userReviewed {
         name
       }

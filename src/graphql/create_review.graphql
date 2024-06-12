@@ -3,6 +3,7 @@ mutation create_review($data: InputReviews!){
     data {
     id
       comment
+      reviewedAt
     }
     err
   }

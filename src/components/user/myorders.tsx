@@ -1,5 +1,5 @@
 'use client';
-import { Copy, CreditCard, Truck } from 'lucide-react';
+import { Copy, Truck } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -23,20 +23,22 @@ import { getClient } from '@/lib/graphqlserver';
 import { getDateHumanReadable } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
+import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
 
 function OrderTable({ allOrders, cidx, setIdx }) {
     return (
-        <Card>
-            <CardHeader className="px-7">
-                <CardTitle>Orders</CardTitle>
-                <CardDescription>
+        <div>
+            <div className="px-7">
+                <h1 className="text-center font-semibold mb-6">Orders</h1>
+                <p className="text-center mb-6">
                     Your recent orders from our store.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
+                </p>
+            </div>
+            <div>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -89,8 +91,8 @@ function OrderTable({ allOrders, cidx, setIdx }) {
                         })}
                     </TableBody>
                 </Table>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }
 
@@ -145,7 +147,12 @@ function Side({ allOrders, idx }) {
                             <span className="text-muted-foreground">
                                 Subtotal
                             </span>
-                            <span>${allOrders[idx]?.amount}</span>
+                            <span>
+                                $
+                                {allOrders[idx]?.amount -
+                                    TAX_AMOUNT -
+                                    SHIPPING_AMOUNT}
+                            </span>
                         </li>
                         <li className="flex items-center justify-between">
                             <span className="text-muted-foreground">
@@ -155,7 +162,7 @@ function Side({ allOrders, idx }) {
                         </li>
                         <li className="flex items-center justify-between">
                             <span className="text-muted-foreground">Tax</span>
-                            <span>$25.00</span>
+                            <span>$15.00</span>
                         </li>
                         <li className="flex items-center justify-between font-semibold">
                             <span className="text-muted-foreground">Total</span>
@@ -167,10 +174,6 @@ function Side({ allOrders, idx }) {
                 <div className="grid gap-3">
                     <div className="font-semibold">Shipping Information</div>
                     <dl className="grid gap-3">
-                        <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Name</dt>
-                            <dd>{allOrders[idx]?.name}</dd>
-                        </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">
                                 Street Address
@@ -221,7 +224,7 @@ function Side({ allOrders, idx }) {
                     <div className="font-semibold">Information</div>
                     <dl className="grid gap-3">
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Customer</dt>
+                            <dt className="text-muted-foreground">Name</dt>
                             <dd>{allOrders[idx]?.name}</dd>
                         </div>
                         <div className="flex items-center justify-between">
@@ -235,19 +238,6 @@ function Side({ allOrders, idx }) {
                             <dd>
                                 <a href="tel:">{allOrders[idx]?.phoneNumber}</a>
                             </dd>
-                        </div>
-                    </dl>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
-                    <div className="font-semibold">Payment Information</div>
-                    <dl className="grid gap-3">
-                        <div className="flex items-center justify-between">
-                            <dt className="flex items-center gap-1 text-muted-foreground">
-                                <CreditCard className="h-4 w-4" />
-                                Visa
-                            </dt>
-                            <dd>**** **** **** 4532</dd>
                         </div>
                     </dl>
                 </div>
@@ -281,24 +271,49 @@ const getData = async () => {
         });
         let currData = data?.data?.getOrdersByUserid?.data;
 
-        if (currData) {
+        if (currData && hasMore_order) {
+            let newOrder = {};
+
+            for (let index = 0; index < currData.length; index++) {
+                let currOrder = currData[index];
+                // @ts-ignore
+                newOrder[`${currOrder.id}`] = { ...currOrder };
+            }
+
+            console.log(newOrder);
+
             useuserinfo.setState({
-                allOrders: [...allOrders, ...currData]
+                allOrders: { ...allOrders, ...newOrder }
             });
+
             if (currData.length < TOTAL_ITEMS) {
-                useuserinfo.setState({ hasMore_order: false });
+                useuserinfo.setState({ hasMore: false });
             }
 
             return data;
-            // setLoading(false);
-
-            // useuserinfo.setState({ loading: false });
-        } else {
-            // setLoading(false);
-            // useuserinfo.setState({ loading: false });
         }
     }
+    return [];
+
+    //     if (currData) {
+    //         useuserinfo.setState({
+    //             allOrders: [...allOrders, ...currData]
+    //         });
+    //         if (currData.length < TOTAL_ITEMS) {
+    //             useuserinfo.setState({ hasMore_order: false });
+    //         }
+
+    //         return data;
+    //         // setLoading(false);
+
+    //         // useuserinfo.setState({ loading: false });
+    //     } else {
+    //         // setLoading(false);
+    //         // useuserinfo.setState({ loading: false });
+    //     }
+    // }
 };
+
 export function Myorders() {
     const [loading, setLoading] = useState(true);
     const [fetching, setFetching] = useState(true);
@@ -308,6 +323,7 @@ export function Myorders() {
     const pageIdx_order = useuserinfo((state: any) => state.pageIdx_order);
     const hasMore_order = useuserinfo((state: any) => state.hasMore_order);
     const [idx, setIdx] = useState(0);
+    const flattened = Object.values(allOrders);
 
     useEffect(() => {
         setLoading(true);
@@ -331,22 +347,22 @@ export function Myorders() {
 
     if (loading) {
         console.log('Enter loading state');
-        return <h1>Loading user orders ...</h1>;
+        return <LoadingSpinner name="user orders" />;
     }
 
     return (
         <div className="container flex gap-6 items-start justify-center">
-            {allOrders.length === 0 && (
+            {flattened.length === 0 && (
                 <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                     No orders yet!
                 </h2>
             )}
 
-            {allOrders.length > 0 && (
+            {flattened.length > 0 && (
                 <>
                     <div className="flex flex-col">
                         <OrderTable
-                            allOrders={allOrders}
+                            allOrders={flattened}
                             cidx={idx}
                             setIdx={setIdx}
                         />
@@ -370,7 +386,7 @@ export function Myorders() {
                     </div>
 
                     <div className="hidden xl:block">
-                        <Side allOrders={allOrders} idx={idx} />
+                        <Side allOrders={flattened} idx={idx} />
                     </div>
                 </>
             )}

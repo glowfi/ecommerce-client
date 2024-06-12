@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './constants';
 import { useusecurrProdStore } from './product-store';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const loadData = async (ID: string) => {
     const pageIdx = useusecurrProdStore.getState().pageIdx;
@@ -28,18 +29,19 @@ const loadData = async (ID: string) => {
     if (!hasMore && ID == lastIdx) {
         return;
     }
-
-    if (!lastIdx) {
+    if (lastIdx === -1) {
+        console.log('First!');
         useusecurrProdStore.setState({ lastIdx: ID });
-    } else if (ID !== undefined && ID !== lastIdx) {
+    } else if (lastIdx !== ID) {
+        console.log('reset');
         useusecurrProdStore.setState({ lastIdx: ID });
         useusecurrProdStore.setState({ hasMore: true });
         useusecurrProdStore.setState({ pageIdx: 0 });
-        useusecurrProdStore.setState({ comments: [] });
+        useusecurrProdStore.setState({ comments: {} });
     }
-
     if (hasMore) {
         useusecurrProdStore.setState({ isloading: true });
+        console.log('Get Back', ID);
         const { data } = await getClient().query(
             Get_Reviews_PaginateDocument,
             {
@@ -58,11 +60,15 @@ const loadData = async (ID: string) => {
             let new_data = data?.getReviewsPaginate?.data;
             let newComments = {};
 
+            console.log(new_data);
+
             for (let index = 0; index < new_data.length; index++) {
                 let currComment = new_data[index];
                 // @ts-ignore
                 newComments[`${currComment.id}`] = { ...currComment };
             }
+
+            const allcomments = useusecurrProdStore.getState().comments;
 
             useusecurrProdStore.setState({
                 comments: { ...allcomments, ...newComments }
@@ -92,7 +98,7 @@ const CommentSection = () => {
     if (isloading) {
         return (
             <>
-                <h1>Loading comments ...</h1>
+                <LoadingSpinner name="comments" />
             </>
         );
     }

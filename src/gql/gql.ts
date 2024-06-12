@@ -18,20 +18,21 @@ const documents = {
     "mutation signup($data: InputUser!) {\n  createUser(data: $data) {\n    data {\n      email\n    }\n    err\n  }\n}": types.SignupDocument,
     "query otpexpired($data: OTPInput!) {\n  checkOtpExpired(data: $data) {\n    data {\n      hasExpired\n    }\n    err\n  }\n}": types.OtpexpiredDocument,
     "query confirmacc($token: String!) {\n  confirmAccount(token: $token) {\n    data\n    err\n  }\n}": types.ConfirmaccDocument,
-    "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n    }\n    err\n  }\n}": types.Create_ReviewDocument,
+    "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n      reviewedAt\n    }\n    err\n  }\n}": types.Create_ReviewDocument,
     "mutation createorder($data: InputOrders!) {\n  createOrder(data: $data)\n}": types.CreateorderDocument,
     "mutation forgpass($data: InputForgotPassword!) {\n  forgotPassword(data: $data) {\n    data {\n      email\n      token\n    }\n    err\n  }\n}": types.ForgpassDocument,
     "query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!) {\n  getProductsBySearchTermPaginate(term: $term, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      title\n      price\n      brand\n      categoryName\n      images\n      coverImage\n    }\n    err\n  }\n}": types.SearchTermPaginateDocument,
     "query getProductById($productId: String!) {\n  getProductById(productID: $productId) {\n    data {\n      id\n      title\n      stock\n      price\n      rating\n      description\n      brand\n      category {\n        name\n      }\n      images\n      dateCreated\n      dateCreatedHuman\n      coverImage\n      seller {\n        email\n        sellerName\n        companyName\n        phoneNumber\n        companyAddress {\n          streetAddress\n          state\n          city\n          zipCode\n          countryCode\n        }\n      }\n    }\n    err\n  }\n}": types.GetProductByIdDocument,
     "query paginateProd($skipping: Int!, $limit: Int!) {\n  getAllProductsPaginate(skipping: $skipping, limit: $limit) {\n    data {\n      id\n      title\n      stock\n      price\n      rating\n      description\n      brand\n      categoryName\n      images\n      dateCreated\n      dateCreatedHuman\n      coverImage\n    }\n    err\n  }\n}": types.PaginateProdDocument,
     "query get_order_by_userid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getOrdersByUserid(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      name\n      email\n      phoneNumber\n      paymentBy\n      isPending\n      amount\n      address {\n        city\n        state\n        country\n        zipCode\n        streetAddress\n      }\n      productsOrdered {\n        title\n        quantity\n        sellerName\n        price\n      }\n      orderedAt\n    }\n    err\n  }\n}": types.Get_Order_By_UseridDocument,
-    "query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      comment\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}": types.GetrevuseridDocument,
+    "query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      comment\n      reviewedAt\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}": types.GetrevuseridDocument,
     "query get_reviews_paginate($prodId: String!, $skipping: Int!, $limit: Int!) {\n  getReviewsPaginate(prodID: $prodId, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      comment\n      userReviewed {\n        name\n      }\n      reviewedAt\n    }\n    err\n  }\n}": types.Get_Reviews_PaginateDocument,
     "query search_atlas($term: String!) {\n  getProductsBySearchTermAtlasSearch(term: $term) {\n    data {\n      brand\n      categoryName\n      description\n      coverImage\n      id\n      price\n      score\n      sellerName\n      title\n    }\n  }\n}": types.Search_AtlasDocument,
     "mutation logout($userID: String!) {\n  logout(userID: $userID) {\n    data\n    err\n  }\n}": types.LogoutDocument,
     "query mequery($userId: String!) {\n  getUserById(userID: $userId) {\n    data {\n      name\n      address {\n        city\n        country\n        countryCode\n        state\n        streetAddress\n        zipCode\n      }\n      email\n      profilePic\n      phoneNumber\n      dob\n      id\n    }\n    err\n  }\n}": types.MequeryDocument,
     "mutation resetpass($data: InputresetPassword!) {\n  resetPassword(data: $data) {\n    data {\n      token\n      userid\n    }\n    err\n  }\n}": types.ResetpassDocument,
     "mutation updateorders($data: InputUpdateOrders!) {\n  updateOrder(data: $data) {\n    data {\n      id\n      amount\n      isPending\n      hasFailed\n    }\n    err\n  }\n}": types.UpdateordersDocument,
+    "mutation updateuser($data: InputUpdateUser!, $userId: String!) {\n  updateUser(data: $data, userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}": types.UpdateuserDocument,
 };
 
 /**
@@ -71,7 +72,7 @@ export function graphql(source: "query confirmacc($token: String!) {\n  confirmA
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n    }\n    err\n  }\n}"): (typeof documents)["mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n    }\n    err\n  }\n}"];
+export function graphql(source: "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n      reviewedAt\n    }\n    err\n  }\n}"): (typeof documents)["mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n      reviewedAt\n    }\n    err\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -99,7 +100,7 @@ export function graphql(source: "query get_order_by_userid($userId: String!, $sk
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      comment\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}"): (typeof documents)["query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      comment\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}"];
+export function graphql(source: "query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      comment\n      reviewedAt\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}"): (typeof documents)["query getrevuserid($userId: String!, $skipping: Int!, $limit: Int!) {\n  getAllReviewsByUserId(userID: $userId, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      comment\n      reviewedAt\n      userReviewed {\n        name\n      }\n      productReviewed {\n        id\n      }\n    }\n    err\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -124,6 +125,10 @@ export function graphql(source: "mutation resetpass($data: InputresetPassword!) 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "mutation updateorders($data: InputUpdateOrders!) {\n  updateOrder(data: $data) {\n    data {\n      id\n      amount\n      isPending\n      hasFailed\n    }\n    err\n  }\n}"): (typeof documents)["mutation updateorders($data: InputUpdateOrders!) {\n  updateOrder(data: $data) {\n    data {\n      id\n      amount\n      isPending\n      hasFailed\n    }\n    err\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation updateuser($data: InputUpdateUser!, $userId: String!) {\n  updateUser(data: $data, userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}"): (typeof documents)["mutation updateuser($data: InputUpdateUser!, $userId: String!) {\n  updateUser(data: $data, userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

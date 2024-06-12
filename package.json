@@ -31,6 +31,7 @@
         "@radix-ui/react-toast": "^1.1.5",
         "@radix-ui/react-toggle": "^1.0.3",
         "@radix-ui/react-tooltip": "^1.0.7",
+        "@tanstack/react-table": "^8.17.3",
         "@tiptap/extension-placeholder": "^2.4.0",
         "@tiptap/pm": "^2.4.0",
         "@tiptap/react": "^2.4.0",

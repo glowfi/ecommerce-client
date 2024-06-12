@@ -4,8 +4,10 @@ import { getClient } from '@/lib/graphqlserver';
 import React, { useEffect, useState } from 'react';
 import Categorycard from './categorycard';
 import { usecategoryStore } from './store';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const loadData = async () => {
+    console.log('alwawys run!');
     const data = await getClient().query(CategoriesDocument, {});
 
     if (data?.data?.getAllCategories?.data) {
@@ -22,19 +24,15 @@ const Categories = () => {
 
     useEffect(() => {
         setFetching(true);
-        loadData()
-            .then((data) => {
-                if (data?.data?.getAllCategories?.data) {
-                    setFetching(false);
-                }
-            })
-            .catch(() => {
+        loadData().then((data) => {
+            if (data?.data?.getAllCategories?.data) {
                 setFetching(false);
-            });
-    }, [allCat]);
+            }
+        });
+    }, []);
 
     if (fetching) {
-        return <h1>Loading Categories ...</h1>;
+        return <LoadingSpinner name="Categories" />;
     }
 
     return (

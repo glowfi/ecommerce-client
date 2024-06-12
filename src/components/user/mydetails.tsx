@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
 import { Skeleton } from '../ui/skeleton';
 import { UserUpdate } from './userupdate';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 export interface Address {
     city: string;
@@ -67,7 +68,7 @@ const MyDetails = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading Details ...</div>;
+        return <LoadingSpinner name="user details" />;
     }
 
     return (
@@ -150,19 +151,6 @@ const MyDetails = () => {
                             <dd>
                                 <a href="tel:">{userData?.address?.zipCode}</a>
                             </dd>
-                        </div>
-                    </dl>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
-                    <div className="font-semibold">Payment Information</div>
-                    <dl className="grid gap-3">
-                        <div className="flex items-center justify-between">
-                            <dt className="flex items-center gap-1 text-muted-foreground">
-                                <CreditCard className="h-4 w-4" />
-                                Visa
-                            </dt>
-                            <dd>**** **** **** 4532</dd>
                         </div>
                     </dl>
                 </div>

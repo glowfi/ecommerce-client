@@ -28,6 +28,7 @@ interface RegionSelectProps {
     whitelist?: string[];
     blacklist?: string[];
     onChange?: (value: string) => void;
+    onChangeCapture?: (value: string) => void;
     className?: string;
     placeholder?: string;
     defaultValue?: string;
@@ -39,6 +40,7 @@ function RegionSelect({
     whitelist = [],
     blacklist = [],
     onChange = () => {},
+    onChangeCapture = () => {},
     className,
     placeholder = 'State',
     defaultValue
@@ -67,6 +69,7 @@ function RegionSelect({
             value={defaultValue}
             onValueChange={(value: string) => {
                 onChange(value);
+                onChangeCapture(value);
             }}
         >
             <SelectTrigger className={className}>

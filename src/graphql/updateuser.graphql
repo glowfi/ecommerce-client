@@ -1,0 +1,8 @@
+mutation updateuser($data: InputUpdateUser!, $userId: String!) {
+  updateUser(data: $data, userID: $userId) {
+    data {
+      name
+    }
+    err
+  }
+}

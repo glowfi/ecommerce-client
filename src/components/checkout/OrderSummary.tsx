@@ -21,6 +21,8 @@ import { LoadingButton } from '../ui/loading-button';
 import { useRouter } from 'next/navigation';
 
 import { SkeletonCard } from '../product/SkeletonCard';
+import { useuserinfo } from '../user/store';
+import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
 
 const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     const cart = usecartStore((state: any) => state.cart);
@@ -44,9 +46,6 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
-            </CardHeader>
             <CardContent className="space-y-4">
                 <div className="grid gap-2">
                     <div className="flex items-center justify-between">
@@ -101,10 +100,10 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                         </div>
                         <div className="flex flex-col">
                             <p className="leading-7 [&:not(:first-child)]:mt-0">
-                                <b> Name</b> : {contact.name}
+                                <b> Name</b> : {user.name}
                             </p>
                             <p className="leading-7 [&:not(:first-child)]:mt-0">
-                                <b>Email</b> : {contact.email}
+                                <b>Email</b> : {user.email}
                             </p>
                             <p className="leading-7 [&:not(:first-child)]:mt-0">
                                 <b>Phone</b> : {contact.phone_number}
@@ -158,7 +157,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
 
                         let savedEmail = newContact.email;
                         let savedName = newContact.name;
-                        let savedChecked = newContact.update_address;
+                        let savedChecked = newContact.checked;
 
                         let currVal2 = newContact.countryCode;
                         delete newContact.countryCode;
@@ -167,11 +166,15 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                         delete newContact.email;
                         delete newContact.name;
                         delete newContact.update_address;
+                        delete newContact.checked;
 
                         let data = await execCreateOrder({
                             data: {
                                 paymentBy: payment,
-                                amount: parseInt(parseFloat(amount).toFixed(2)),
+                                amount:
+                                    parseInt(parseFloat(amount).toFixed(2)) +
+                                    TAX_AMOUNT +
+                                    SHIPPING_AMOUNT,
                                 productsOrdered,
                                 userID: user.id,
                                 userDetails: {
@@ -198,6 +201,14 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                 router.push('/checkout/payment');
                             }
                         }
+
+                        useuserinfo.setState({
+                            pageIdx_order: 0,
+                            hasMore_order: true,
+                            lastIdx_order: -1,
+                            allOrders: {}
+                        });
+                        setLoading(false);
                     }}
                 >
                     Pay

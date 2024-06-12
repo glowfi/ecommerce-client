@@ -6,8 +6,8 @@ type userinfo = any;
 export const useuserinfo = create<userinfo>(
     persist(
         (set: any, get: any) => ({
-            allReviews: [],
-            allOrders: [],
+            allReviews: {},
+            allOrders: {},
             loading: true,
             currIdx: 1,
             pageIdx: 0,

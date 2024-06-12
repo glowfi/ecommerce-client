@@ -15,20 +15,29 @@ import {
     FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { ResetpassDocument } from '@/gql/graphql';
+import { useMutation } from '@urql/next';
+import { Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { useuserStore } from '../auth/store';
 import { useToast } from '../ui/use-toast';
-import React from 'react';
+import { confirmpasswordSchema, passwordSchema } from './schema';
 
 const Myaccount = () => {
     const { toast } = useToast();
+    const [, execReset] = useMutation(ResetpassDocument);
+    const [loading, setLoading] = useState(false);
+    const user = useuserStore.getState().user;
 
-    const FormSchema = z.object({
-        password: z.string().min(2, {
-            message: 'Password must be at least 2 characters.'
-        }),
-        confirmpassword: z.string().min(2, {
-            message: 'Password must be at least 2 characters.'
+    const FormSchema = z
+        .object({
+            password: passwordSchema,
+            confirmpassword: confirmpasswordSchema
         })
-    });
+        .refine((data) => data.password === data.confirmpassword, {
+            message: 'Password do not match',
+            path: ['confirmpassword']
+        });
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -38,17 +47,42 @@ const Myaccount = () => {
         }
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast({
-            title: 'You submitted the following values:',
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(data, null, 2)}
-                    </code>
-                </pre>
-            )
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        setLoading(true);
+        let res = await execReset({
+            data: {
+                password: data.password,
+                token: 'fromacc',
+                userid: user.id
+            }
         });
+        console.log(res);
+        if (res?.data?.resetPassword?.err) {
+            toast({
+                variant: 'destructive',
+                title: 'Some error occured!',
+                description: res?.data.resetPassword?.err
+            });
+        } else {
+            toast({
+                title: 'Password Reset',
+                description: 'Password reset successful!'
+            });
+            form.reset();
+        }
+
+        setLoading(false);
+
+        // toast({
+        //     title: 'You submitted the following values:',
+        //     description: (
+        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //             <code className="text-white">
+        //                 {JSON.stringify(data, null, 2)}
+        //             </code>
+        //         </pre>
+        //     )
+        // });
     }
 
     return (
@@ -101,7 +135,14 @@ const Myaccount = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Reset Password</Button>
+                        {loading ? (
+                            <Button disabled>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit">Reset Password</Button>
+                        )}
                     </form>
                 </Form>
             </div>

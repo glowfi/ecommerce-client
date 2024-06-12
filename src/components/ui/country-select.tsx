@@ -26,6 +26,7 @@ interface CountrySelectProps {
     whitelist?: string[];
     blacklist?: string[];
     onChange?: (value: string) => void;
+    onChangeCapture?: (value: string) => void;
     className?: string;
     placeholder?: string;
     defaultValue?: string;
@@ -36,6 +37,7 @@ function CountrySelect({
     whitelist = [],
     blacklist = [],
     onChange = () => {},
+    onChangeCapture = () => {},
     className,
     placeholder = 'Country',
     defaultValue
@@ -58,6 +60,8 @@ function CountrySelect({
             value={defaultValue}
             onValueChange={(value: string) => {
                 onChange(value);
+                onChangeCapture(value);
+                console.log(value);
             }}
         >
             <SelectTrigger className={className}>

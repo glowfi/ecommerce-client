@@ -14,21 +14,16 @@ import { AvatarFallback } from '@radix-ui/react-avatar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
-import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
-import { CommandDialogDemo } from './autocomplete';
-import { usesearchStore } from './store';
+import Autocomplete from './autocomplete';
 
 const Navbar = () => {
-    const [open, setOpen] = useState(false);
-
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
     const userID = useuserStore((state: any) => state.user.id);
-    const reset = usesearchStore((state: any) => state.reset);
     const router = useRouter();
 
     return (
@@ -39,38 +34,28 @@ const Navbar = () => {
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
                         href="/"
-                        className="flex items-center text-lg font-semibold md:text-base"
+                        className="flex items-center text-lg font-semibold md:text-base hover:opacity-75 transition-all"
                     >
-                        {/* <Store className="h-6 w-6" /> */}
-                        <Image
-                            src={Logo}
-                            width={100}
-                            height={100}
-                            alt="Not Found"
-                            className="h-10 w-14 hover:opacity-75 transition-all"
-                        />
-                        <p
-                            className="hover:opacity-75 transition-all"
-                            onClick={() => {
-                                router.push('/');
-                            }}
-                        >
-                            {process.env.STORE_NAME}
-                        </p>
+                        <div className="flex gap-1 justify-center items-center">
+                            <Image
+                                src={Logo}
+                                width={100}
+                                height={100}
+                                alt="Not Found"
+                                className="h-10 w-14"
+                            />
+                            <p
+                                onClick={() => {
+                                    router.push('/');
+                                }}
+                            >
+                                {process.env.STORE_NAME.split(' ')[0]}
+                            </p>
+                        </div>
                     </Link>
                 </nav>
                 <div className="flex justify-center items-center w-full gap-1.5">
-                    <Input
-                        type="text"
-                        id="text"
-                        placeholder="Click to start searching for products ..."
-                        className="text-center"
-                        onClick={() => {
-                            reset();
-                            setOpen(!open);
-                        }}
-                    />
-                    <CommandDialogDemo open={open} setOpen={setOpen} />
+                    <Autocomplete />
                 </div>
 
                 <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">

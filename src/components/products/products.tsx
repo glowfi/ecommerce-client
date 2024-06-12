@@ -8,6 +8,7 @@ import ProductCard from './ProductCard';
 import { useProductsStore } from './store';
 import InfiniteScroll from '../ui/InfinteScroll';
 import { TOTAL_ITEMS } from './constants';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const Products = () => {
     const allProds = useProductsStore((state: any) => state.allProducts);
@@ -53,6 +54,7 @@ const Products = () => {
                             />
                         );
                     })}
+
                     <InfiniteScroll
                         hasMore={hasMore}
                         isLoading={loading}
@@ -61,15 +63,12 @@ const Products = () => {
                     >
                         {hasMore && (
                             <div className="m-auto flex justify-center items-center justify-items-center">
-                                <Loader2 className="my-4 h-8 w-8 animate-spin" />
+                                <LoadingSpinner name="products" />
                             </div>
                         )}
                     </InfiniteScroll>
                 </div>
             </div>
-
-            {/* <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6"> */}
-            {/* </div> */}
         </>
     );
 };

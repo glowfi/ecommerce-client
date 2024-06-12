@@ -9,7 +9,7 @@ export const useusecurrProdStore = create<usecurrProdStore>(
             prodID: null,
             currProd: {},
             comments: {},
-            lastIdx: '',
+            lastIdx: -1,
             pageIdx: 0,
             hasMore: true,
             isloading: false

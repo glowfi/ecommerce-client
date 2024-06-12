@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export const useDebounce = (value: string, delay = 500) => {
     const [debouncedText, setDebouncedText] = useState('');
-    const [isloading, setIsloading] = useState(true);
+    const [isloading, setIsloading] = useState(false);
 
     useEffect(() => {
         const timeout = setTimeout(() => {

@@ -71,6 +71,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.0.7
         version: 1.0.7(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tanstack/react-table':
+        specifier: ^8.17.3
+        version: 8.17.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/extension-placeholder':
         specifier: ^2.4.0
         version: 2.4.0(@tiptap/core@2.4.0(@tiptap/pm@2.4.0))(@tiptap/pm@2.4.0)
@@ -1584,6 +1587,17 @@ packages:
 
   '@swc/helpers@0.5.5':
     resolution: {integrity: sha512-KGYxvIOXcceOAbEk4bi/dVLEK9z8sZ0uBB3Il5b1rhfClSpcX0yfRO0KmTkqR2cnQDymwLB+25ZyMzICg/cm/A==}
+
+  '@tanstack/react-table@8.17.3':
+    resolution: {integrity: sha512-5gwg5SvPD3lNAXPuJJz1fOCEZYk9/GeBFH3w/hCgnfyszOIzwkwgp5I7Q4MJtn0WECp84b5STQUDdmvGi8m3nA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+
+  '@tanstack/table-core@8.17.3':
+    resolution: {integrity: sha512-mPBodDGVL+fl6d90wUREepHa/7lhsghg2A3vFpakEhrhtbIlgNAZiMr7ccTgak5qbHqF14Fwy+W1yFWQt+WmYQ==}
+    engines: {node: '>=12'}
 
   '@tiptap/core@2.4.0':
     resolution: {integrity: sha512-YJSahk8pkxpCs8SflCZfTnJpE7IPyUWIylfgXM2DefjRQa5DZ+c6sNY0s/zbxKYFQ6AuHVX40r9pCfcqHChGxQ==}
@@ -5815,6 +5829,14 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
       tslib: 2.6.2
+
+  '@tanstack/react-table@8.17.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/table-core': 8.17.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@tanstack/table-core@8.17.3': {}
 
   '@tiptap/core@2.4.0(@tiptap/pm@2.4.0)':
     dependencies:

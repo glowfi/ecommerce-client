@@ -16,6 +16,8 @@ import { Button } from '../ui/button';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { getDateHumanReadable } from '@/lib/utils';
 
 const getData = async () => {
     const userId = useuserStore.getState().user.id;
@@ -45,19 +47,38 @@ const getData = async () => {
 
         let currData = data?.data?.getAllReviewsByUserId?.data;
 
-        if (currData) {
-            console.log(currData);
+        // if (currData) {
+        // console.log(currData);
+        // useuserinfo.setState({
+        //     allReviews: [...allReviews, ...currData]
+        // });
+
+        if (currData && hasMore) {
+            let newReview = {};
+
+            for (let index = 0; index < currData.length; index++) {
+                let currReview = currData[index];
+                // @ts-ignore
+                newReview[`${currReview.id}`] = { ...currReview };
+            }
+
+            console.log(newReview);
+
             useuserinfo.setState({
-                allReviews: [...allReviews, ...currData]
+                allReviews: { ...allReviews, ...newReview }
             });
+
             if (currData.length < TOTAL_ITEMS) {
                 useuserinfo.setState({ hasMore: false });
             }
-            // setLoading(false);
-            // useuserinfo.setState({ loading: false });
-            return data;
         }
+
+        // setLoading(false);
+        // useuserinfo.setState({ loading: false });
+        return data;
     }
+    return [];
+    // }
 };
 const MyReviews = () => {
     const [loading, setLoading] = useState(true);
@@ -67,6 +88,7 @@ const MyReviews = () => {
     const allReviews = useuserinfo((state: any) => state.allReviews);
     const pageIdx = useuserinfo((state: any) => state.pageIdx);
     const hasMore = useuserinfo((state: any) => state.hasMore);
+    const flattened = Object.values(allReviews);
 
     useEffect(() => {
         setFetching(true);
@@ -94,12 +116,12 @@ const MyReviews = () => {
 
     if (fetching) {
         console.log('Got execurted');
-        return <h1>Loading user reviews ...</h1>;
+        return <LoadingSpinner name="user reviews" />;
     }
 
     return (
         <>
-            {allReviews.length === 0 ? (
+            {flattened?.length === 0 ? (
                 <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                     No products reviewed yet!
                 </h2>
@@ -112,22 +134,29 @@ const MyReviews = () => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[100px]">
-                                    ProductID
+                                    ReviewID
                                 </TableHead>
                                 <TableHead>Comment</TableHead>
+                                <TableHead>Date reviewed</TableHead>
                                 <TableHead>Link to product</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {allReviews?.map((p: any, idx: number) => {
+                            {flattened?.map((p: any, idx: number) => {
                                 return (
                                     <TableRow key={idx}>
                                         <TableCell className="font-medium">
-                                            {p?.productReviewed?.id}
+                                            {p?.id}
                                         </TableCell>
                                         <TableCell>
                                             {p?.comment?.slice(0, 25) + '...'}
                                         </TableCell>
+                                        <TableCell>
+                                            {getDateHumanReadable(
+                                                p?.reviewedAt
+                                            )}
+                                        </TableCell>
+
                                         <TableCell>
                                             <Button asChild variant={'outline'}>
                                                 <Link

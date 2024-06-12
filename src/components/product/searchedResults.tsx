@@ -8,6 +8,7 @@ import { usesearchStore } from '../navbar/store';
 import ProductCard from '../products/ProductCard';
 import InfiniteScroll from '../ui/InfinteScroll';
 import { TOTAL_ITEMS } from './constants';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const SearchedResults = () => {
     const searchParams = useSearchParams();
@@ -78,6 +79,7 @@ const SearchedResults = () => {
                     />
                 );
             })}
+
             <InfiniteScroll
                 hasMore={hasMore}
                 isLoading={loading}
@@ -86,7 +88,7 @@ const SearchedResults = () => {
             >
                 {hasMore && (
                     <div className="m-auto flex justify-center items-center justify-items-center">
-                        <Loader2 className="my-4 h-8 w-8 animate-spin" />
+                        <LoadingSpinner name="results" />
                     </div>
                 )}
             </InfiniteScroll>

@@ -1,24 +1,27 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { SkeletonCard } from '../product/SkeletonCard';
 import AddtoCart from '../product/addtocart';
-import { CardContent, CardFooter } from '../ui/card';
 import { usecartStore } from './store';
+import { useRouter } from 'next/navigation';
+import { SHIPPING_AMOUNT, TAX_AMOUNT } from './constants';
 
-const CartItems = () => {
+const CartItems = ({ setSheetOpen }: any) => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
     const removeCart = usecartStore((state: any) => state.removeCart);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const router = useRouter();
 
     return (
-        <div className="w-full">
-            <div className="grid gap-4 py-4">
-                <CardContent className="grid gap-8">
-                    {cart.slice(0, 3).map((p: any, idx: any) => {
+        <ScrollArea className="h-[95vh] rounded-md p-4">
+            <div className="w-full">
+                <div className="grid gap-4 py-4">
+                    {cart.map((p: any, idx: any) => {
                         return (
                             <div className="flex items-center gap-4" key={idx}>
                                 {!loaded && (
@@ -72,23 +75,22 @@ const CartItems = () => {
 
                     <div className="flex items-center gap-4">
                         <span>Amount to be paid :</span>
-                        <div className="ml-auto font-medium">${amount}</div>
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    {cart.length >= 3 && (
-                        <div className="flex flex-col items-start justify-start">
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">
-                                More {cart.length - 3} items ....
-                            </p>
-                            <p className="leading-7 [&:not(:first-child)]:mt-6">
-                                Go to Final cart to checkout
-                            </p>
+                        <div className="ml-auto font-medium">
+                            ${amount + TAX_AMOUNT + SHIPPING_AMOUNT}
                         </div>
-                    )}
-                </CardFooter>
+                    </div>
+                    <Button
+                        type="button"
+                        onClick={() => {
+                            setSheetOpen(false);
+                            router.push('/cart');
+                        }}
+                    >
+                        Checkout
+                    </Button>
+                </div>
             </div>
-        </div>
+        </ScrollArea>
     );
 };
 

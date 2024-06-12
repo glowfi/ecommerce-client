@@ -1,23 +1,17 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandItem,
-    CommandList,
-    CommandSeparator
-} from '@/components/ui/command';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Input } from '../ui/input';
+import { useEffect, useRef, useState } from 'react';
+import { SkeletonCard } from '../product/SkeletonCard';
+import { Badge } from '../ui/badge';
 import { useDebounce } from './hooks/useDebounce';
 import { usesearchStore } from './store';
-import { SkeletonCard } from '../product/SkeletonCard';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
-export function CommandDialogDemo({ open, setOpen }: any) {
+export default function Autocomplete() {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const searchedProducts = usesearchStore(
@@ -27,6 +21,26 @@ export function CommandDialogDemo({ open, setOpen }: any) {
 
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [isopen, setIsopen] = useState(false);
+    const reset = usesearchStore((state: any) => state.reset);
+    const menuRef = useRef<any>(null);
+
+    // Function to handle click outside the menu
+    const handleClickOutside = (event) => {
+        if (isopen && !menuRef?.current?.contains(event.target)) {
+            setSearchTerm('');
+            setIsopen(false);
+        }
+    };
+
+    useEffect(() => {
+        // Add the event listener
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            // Remove the event listener
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isopen]);
 
     // @ts-ignore
     useEffect(() => {
@@ -34,15 +48,23 @@ export function CommandDialogDemo({ open, setOpen }: any) {
     }, [debouncedText]);
 
     return (
-        <>
-            <CommandDialog open={open} onOpenChange={setOpen}>
+        <div className="relative w-full max-w-md" ref={menuRef}>
+            <div className="relative">
                 <Input
-                    placeholder="Type a command or search..."
+                    placeholder="Type to start searching for products..."
                     value={searchTerm}
+                    onClick={() => {
+                        // reset();
+                        setIsopen(true);
+                    }}
+                    onMouseDown={() => {
+                        setIsopen(false);
+                    }}
                     onChange={(e: any) => {
                         setSearchTerm((curr) => e.target.value);
                         //@ts-ignore
                         setIsloading(true);
+                        setIsopen(true);
                     }}
                     className="focus-visible:ring-0"
                     onKeyDown={(event) => {
@@ -51,75 +73,63 @@ export function CommandDialogDemo({ open, setOpen }: any) {
                         }
                     }}
                 />
-                {isloading ? (
-                    <h1 className="font-semibold text-center">Loading ...</h1>
-                ) : (
-                    <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Suggestions">
-                            {searchedProducts?.map((p: any, idx: any) => {
-                                return (
-                                    <div
-                                        key={idx}
-                                        className="hover:opacity-75 transition-all"
-                                        onClick={() => {
-                                            router.push(`/product/${p?.id}`);
-                                            setOpen(false);
-                                            setSearchTerm('');
-                                        }}
-                                    >
-                                        <CommandItem className="flex justify-between gap-6 m-6">
-                                            {!loaded && (
-                                                <SkeletonCard
-                                                    props={{
-                                                        w: '100',
-                                                        h: '100'
-                                                    }}
-                                                />
-                                            )}
+                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            </div>
 
-                                            <Image
-                                                onLoad={() => setLoaded(true)}
-                                                src={p?.coverImage?.[1]}
-                                                width={100}
-                                                height={100}
-                                                alt="Not Found"
-                                            />
-                                            <div className="flex flex-col">
-                                                <p className="text-lg font-semibold gap-6">
-                                                    <Badge>Brand</Badge>
-                                                    <span className="ml-3">
-                                                        {p?.brand}
-                                                    </span>
-                                                </p>
-                                                <p className="text-lg font-semibold">
-                                                    <Badge>Title</Badge>
-                                                    <span className="ml-3">
-                                                        {p?.title}
-                                                    </span>
-                                                </p>
-                                                <p className="text-lg font-semibold">
-                                                    <Badge>Category</Badge>
-                                                    <span className="ml-3">
-                                                        {p?.categoryName}
-                                                    </span>
-                                                </p>
-                                                <p className="text-lg font-semibold">
-                                                    <Badge>Price</Badge>
-                                                    <span className="ml-3">
-                                                        ${p?.price}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </CommandItem>
-                                        <CommandSeparator />
-                                    </div>
-                                );
-                            })}
-                        </CommandGroup>
-                    </CommandList>
-                )}
-            </CommandDialog>
-        </>
+            {isloading ? (
+                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-950 ">
+                    <LoadingSpinner name="results" />
+                </div>
+            ) : (
+                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-950 ">
+                    <ul
+                        className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'}`}
+                    >
+                        {searchedProducts.map((product: any) => (
+                            <li
+                                key={product.id}
+                                className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-primary-foreground hover:cursor-pointer"
+                                onClick={() => {
+                                    router.push(`/product/${product?.id}`);
+                                    setSearchTerm('');
+                                    setIsopen(false);
+                                }}
+                            >
+                                {!loaded && (
+                                    <SkeletonCard
+                                        props={{
+                                            w: '100',
+                                            h: '100'
+                                        }}
+                                    />
+                                )}
+
+                                <Image
+                                    onLoad={() => setLoaded(true)}
+                                    src={product?.coverImage?.[1]}
+                                    alt="Not Found"
+                                    width={100}
+                                    height={100}
+                                    className="rounded-md"
+                                />
+                                <div className="flex-1">
+                                    <h2 className="font-bold">
+                                        {product.brand}
+                                    </h2>
+                                    <h3 className="font-medium">
+                                        {product.title}
+                                    </h3>
+                                    <Badge>{product.categoryName}</Badge>
+
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        ${product.price}
+                                    </p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
     );
 }
