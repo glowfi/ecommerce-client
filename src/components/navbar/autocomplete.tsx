@@ -85,7 +85,7 @@ export default function Autocomplete() {
                     <ul
                         className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'}`}
                     >
-                        {searchedProducts.map((product: any) => (
+                        {searchedProducts?.map((product: any) => (
                             <li
                                 key={product.id}
                                 className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-primary-foreground hover:cursor-pointer"

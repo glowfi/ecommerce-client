@@ -1,3 +1,5 @@
+'use client';
+
 import { GetProductByIdDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +12,11 @@ import ProductDetails from './productdetails';
 import { usePathname } from 'next/navigation';
 
 const loadData = async (productId: string) => {
+    const lastIdx = useusecurrProdStore.getState().lastIdx;
+    if (lastIdx == productId) {
+        return;
+    }
+
     const data = await getClient().query(GetProductByIdDocument, {
         productId
     });

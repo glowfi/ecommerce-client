@@ -1,18 +1,23 @@
 'use client';
 import { SearchTermPaginateDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
-import { Loader2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { usesearchStore } from '../navbar/store';
 import ProductCard from '../products/ProductCard';
 import InfiniteScroll from '../ui/InfinteScroll';
 import { TOTAL_ITEMS } from './constants';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { useRouter } from 'next/navigation';
 
 const SearchedResults = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
+    const router = useRouter();
+
+    if (!query) {
+        router.push('/');
+    }
     const storeQuery = usesearchStore((state: any) => state.query);
     const oldquery = usesearchStore((state: any) => state.oldquery);
 

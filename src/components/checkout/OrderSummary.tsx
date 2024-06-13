@@ -46,7 +46,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
 
     return (
         <Card>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 m-6">
                 <div className="grid gap-2">
                     <div className="flex items-center justify-between">
                         <h3 className="text-lg font-medium">Cart Items</h3>
@@ -58,7 +58,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                         {cart.map((p: any, idx: any) => {
                             return (
                                 <div
-                                    className="flex items-center justify-between"
+                                    className="flex items-center justify-between gap-3"
                                     key={idx}
                                 >
                                     <div className="flex items-center gap-2">
@@ -133,7 +133,9 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                 <Separator />
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-medium">Total</h3>
-                    <div className="text-2xl font-bold">${amount}</div>
+                    <div className="text-2xl font-bold">
+                        ${amount.toFixed(2)}
+                    </div>
                 </div>
             </CardContent>
             <CardFooter className="flex justify-between gap-2">
@@ -171,10 +173,11 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                         let data = await execCreateOrder({
                             data: {
                                 paymentBy: payment,
-                                amount:
-                                    parseInt(parseFloat(amount).toFixed(2)) +
-                                    TAX_AMOUNT +
-                                    SHIPPING_AMOUNT,
+                                amount: parseInt(
+                                    parseFloat(
+                                        amount + TAX_AMOUNT + SHIPPING_AMOUNT
+                                    ).toFixed(2)
+                                ),
                                 productsOrdered,
                                 userID: user.id,
                                 userDetails: {
@@ -184,7 +187,9 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                 email: savedEmail,
                                 phoneNumber: newContact.phoneNumber,
                                 address: newContact.address,
-                                updateAddress: savedChecked ? true : false
+                                updateAddress: savedChecked ? true : false,
+                                tax: TAX_AMOUNT,
+                                shippingFee: SHIPPING_AMOUNT
                             }
                         });
 

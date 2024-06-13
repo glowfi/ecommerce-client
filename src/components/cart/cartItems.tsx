@@ -18,7 +18,7 @@ const CartItems = ({ setSheetOpen }: any) => {
     const router = useRouter();
 
     return (
-        <ScrollArea className="h-[95vh] rounded-md p-4">
+        <ScrollArea className="h-[95vh] w-full  rounded-md p-4">
             <div className="w-full">
                 <div className="grid gap-4 py-4">
                     {cart.map((p: any, idx: any) => {
@@ -76,7 +76,8 @@ const CartItems = ({ setSheetOpen }: any) => {
                     <div className="flex items-center gap-4">
                         <span>Amount to be paid :</span>
                         <div className="ml-auto font-medium">
-                            ${amount + TAX_AMOUNT + SHIPPING_AMOUNT}
+                            $
+                            {(amount + TAX_AMOUNT + SHIPPING_AMOUNT).toFixed(2)}
                         </div>
                     </div>
                     <Button

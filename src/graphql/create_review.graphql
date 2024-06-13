@@ -4,6 +4,11 @@ mutation create_review($data: InputReviews!){
     id
       comment
       reviewedAt
+      rating
+      userReviewed{
+      name
+      profilePic
+      }
     }
     err
   }

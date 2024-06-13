@@ -1,16 +1,18 @@
 'use client';
 import { Create_ReviewDocument } from '@/gql/graphql';
 import { useMutation } from '@urql/next';
+import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 import { useuserStore } from '../auth/store';
 import RichTextEditor from '../editor/Tiptap';
 import { LoadingButton } from '../ui/loading-button';
+import Rating from '../ui/rating';
 import { useToast } from '../ui/use-toast';
+import { useuserinfo } from '../user/store';
 import CommentSection from './commentsection';
 import { useusecurrProdStore } from './product-store';
 import Productcontainer from './productcontainer';
-import { useuserinfo } from '../user/store';
-import { usePathname } from 'next/navigation';
+import Reviewpercentage from './reviewpercentage';
 
 const Product = () => {
     const pathname = usePathname();
@@ -24,6 +26,8 @@ const Product = () => {
     const [loading, setLoading] = useState(false);
 
     const [, execCreateReview] = useMutation(Create_ReviewDocument);
+    const [rating, setRating] = useState(0);
+    const totalstars = 5;
 
     return (
         <>
@@ -34,6 +38,12 @@ const Product = () => {
                         Add Your Review
                     </h3>
                     <RichTextEditor value="" onChange={setReviewText} />
+                    <span>Rating</span>
+                    <Rating
+                        rating={rating}
+                        setRating={setRating}
+                        totalstars={totalstars}
+                    />
                     <LoadingButton
                         loading={loading}
                         className="w-fit"
@@ -44,6 +54,23 @@ const Product = () => {
                                     variant: 'destructive',
                                     title: 'Authentication!',
                                     description: 'Login to add review!'
+                                });
+                                setLoading(false);
+                            } else if (!reviewText) {
+                                setLoading(true);
+                                toast({
+                                    variant: 'destructive',
+                                    title: 'Review!',
+                                    description: 'Add some text to add review!'
+                                });
+                                setLoading(false);
+                            } else if (rating <= 0) {
+                                setLoading(true);
+                                toast({
+                                    variant: 'destructive',
+                                    title: 'Rating!',
+                                    description:
+                                        'Rate the product to add review!'
                                 });
                                 setLoading(false);
                             } else {
@@ -58,7 +85,8 @@ const Product = () => {
                                     data: {
                                         comment: reviewText,
                                         userID: user.id,
-                                        productID: ID as string
+                                        productID: ID as string,
+                                        rating
                                     }
                                 });
 
@@ -70,7 +98,9 @@ const Product = () => {
                                     newObj[`${getID.id}`] = {
                                         ...newComment,
                                         comment: getID.comment,
-                                        reviewedAt: getID.reviewedAt
+                                        reviewedAt: getID.reviewedAt,
+                                        rating: getID.rating,
+                                        userReviewed: getID.userReviewed
                                     };
                                     useusecurrProdStore.setState({
                                         comments: { ...newObj, ...allcomments }
@@ -90,8 +120,9 @@ const Product = () => {
                         Add Review
                     </LoadingButton>
                 </div>
-                <CommentSection />
             </div>
+            <Reviewpercentage />
+            <CommentSection />
         </>
     );
 };

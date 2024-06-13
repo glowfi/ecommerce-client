@@ -18,6 +18,10 @@ import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { getDateHumanReadable } from '@/lib/utils';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+TimeAgo.addDefaultLocale(en);
+import ReactTimeAgo from 'react-time-ago';
 
 const getData = async () => {
     const userId = useuserStore.getState().user.id;
@@ -133,9 +137,9 @@ const MyReviews = () => {
                         </TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-[100px]">
-                                    ReviewID
-                                </TableHead>
+                                {/* <TableHead className="w-[100px]"> */}
+                                {/*     ReviewID */}
+                                {/* </TableHead> */}
                                 <TableHead>Comment</TableHead>
                                 <TableHead>Date reviewed</TableHead>
                                 <TableHead>Link to product</TableHead>
@@ -145,27 +149,30 @@ const MyReviews = () => {
                             {flattened?.map((p: any, idx: number) => {
                                 return (
                                     <TableRow key={idx}>
-                                        <TableCell className="font-medium">
-                                            {p?.id}
+                                        {/* <TableCell className="font-medium"> */}
+                                        {/*     {p?.id} */}
+                                        {/* </TableCell> */}
+                                        <TableCell>
+                                            {p?.comment?.slice(0, 35) + '...'}
                                         </TableCell>
                                         <TableCell>
-                                            {p?.comment?.slice(0, 25) + '...'}
-                                        </TableCell>
-                                        <TableCell>
-                                            {getDateHumanReadable(
-                                                p?.reviewedAt
-                                            )}
+                                            <ReactTimeAgo
+                                                date={p?.reviewedAt}
+                                                locale="en-US"
+                                            />
+
+                                            {/* {getDateHumanReadable( */}
+                                            {/*     p?.reviewedAt */}
+                                            {/* )} */}
                                         </TableCell>
 
                                         <TableCell>
-                                            <Button asChild variant={'outline'}>
-                                                <Link
-                                                    href={`/product/${p?.productReviewed?.id}`}
-                                                    target="_blank"
-                                                >
-                                                    Product Link
-                                                </Link>
-                                            </Button>
+                                            <Link
+                                                className="underline"
+                                                href={`/product/${p?.productReviewed?.id}`}
+                                            >
+                                                Product Link
+                                            </Link>
                                         </TableCell>
                                     </TableRow>
                                 );

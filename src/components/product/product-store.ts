@@ -9,6 +9,7 @@ export const useusecurrProdStore = create<usecurrProdStore>(
             prodID: null,
             currProd: {},
             comments: {},
+            ratings: {},
             lastIdx: -1,
             pageIdx: 0,
             hasMore: true,

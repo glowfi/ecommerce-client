@@ -98,7 +98,7 @@ export default function FinalCart() {
                                         Subtotal
                                     </span>
                                     <span className="text-base font-semibold">
-                                        ${amount}
+                                        ${amount.toFixed(2)}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -123,7 +123,12 @@ export default function FinalCart() {
                                         Total
                                     </span>
                                     <span className="text-lg font-semibold">
-                                        ${amount + TAX_AMOUNT + SHIPPING_AMOUNT}
+                                        $
+                                        {(
+                                            amount +
+                                            TAX_AMOUNT +
+                                            SHIPPING_AMOUNT
+                                        ).toFixed(2)}
                                     </span>
                                 </div>
                                 <div className="flex justify-center items-center">

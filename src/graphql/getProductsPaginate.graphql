@@ -5,7 +5,6 @@ query paginateProd($skipping: Int!, $limit: Int!){
      title
      stock
      price
-     rating
      description
      brand
      categoryName

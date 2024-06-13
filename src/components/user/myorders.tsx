@@ -28,6 +28,11 @@ import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
 import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+TimeAgo.addDefaultLocale(en);
+import ReactTimeAgo from 'react-time-ago';
+import { OrderDetailsModal } from './orderinfo';
 
 function OrderTable({ allOrders, cidx, setIdx }) {
     return (
@@ -44,15 +49,14 @@ function OrderTable({ allOrders, cidx, setIdx }) {
                         <TableRow>
                             <TableHead>Order ID</TableHead>
                             <TableHead className="hidden sm:table-cell">
-                                Payment By
-                            </TableHead>
-                            <TableHead className="hidden sm:table-cell">
                                 Status
                             </TableHead>
                             <TableHead className="hidden lg:table-cell">
-                                Date
+                                Orderd At
                             </TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
+                            <TableHead className="text-right xl:hidden">
+                                Orders Details
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -73,18 +77,21 @@ function OrderTable({ allOrders, cidx, setIdx }) {
                                         </div>
                                     </TableCell>
                                     <TableCell className="hidden sm:table-cell">
-                                        {p?.paymentBy}
-                                    </TableCell>
-                                    <TableCell className="hidden sm:table-cell">
                                         {p?.isPending
                                             ? 'Pending'
                                             : 'Order Placed'}
                                     </TableCell>
                                     <TableCell className="hidden lg:table-cell">
-                                        {getDateHumanReadable(p?.orderedAt)}
+                                        <ReactTimeAgo
+                                            date={p?.orderedAt}
+                                            locale="en-US"
+                                        />
                                     </TableCell>
-                                    <TableCell className="text-right">
-                                        ${p?.amount}
+                                    <TableCell className="text-right xl:hidden">
+                                        <OrderDetailsModal
+                                            allOrders={allOrders}
+                                            idx={cidx}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             );
@@ -96,7 +103,7 @@ function OrderTable({ allOrders, cidx, setIdx }) {
     );
 }
 
-function Side({ allOrders, idx }) {
+export function Side({ allOrders, idx }) {
     const user = useuserStore((state: any) => state.user);
     return (
         <Card className="overflow-hidden max-w-fit max-h-fit">
@@ -167,6 +174,25 @@ function Side({ allOrders, idx }) {
                         <li className="flex items-center justify-between font-semibold">
                             <span className="text-muted-foreground">Total</span>
                             <span>${allOrders[idx]?.amount}</span>
+                        </li>
+                        <li className="flex items-center justify-between">
+                            <span className="text-muted-foreground">
+                                Payment By
+                            </span>
+                            <span>
+                                {allOrders[idx]?.paymentBy.toUpperCase()}
+                            </span>
+                        </li>
+                        <li className="flex items-center justify-between">
+                            <span className="text-muted-foreground">
+                                Order Time
+                            </span>
+
+                            <span>
+                                {getDateHumanReadable(
+                                    allOrders[idx]?.orderedAt
+                                )}
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -287,7 +313,7 @@ const getData = async () => {
             });
 
             if (currData.length < TOTAL_ITEMS) {
-                useuserinfo.setState({ hasMore: false });
+                useuserinfo.setState({ hasMore_order: false });
             }
 
             return data;

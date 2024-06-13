@@ -2,22 +2,21 @@
 import React, { useEffect, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card';
 import { Get_Reviews_PaginateDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { getDateHumanReadable, getNameInitials } from '@/lib/utils';
+import { Separator } from '@/components/ui/separator';
 import parse from 'html-react-parser';
 import { usePathname } from 'next/navigation';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
+import Rating from '../ui/rating';
 import { TOTAL_ITEMS } from './constants';
 import { useusecurrProdStore } from './product-store';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+TimeAgo.addDefaultLocale(en);
+import ReactTimeAgo from 'react-time-ago';
 
 const loadData = async (ID: string) => {
     const pageIdx = useusecurrProdStore.getState().pageIdx;
@@ -108,18 +107,14 @@ const CommentSection = () => {
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mt-6">
                 Reviews
             </h3>
-            {flattened?.map((p: any, idx: any) => {
-                return (
-                    <Card className="mt-6" key={idx}>
-                        <CardHeader>
-                            <CardTitle></CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid gap-8">
-                            <div className="flex items-center gap-4">
-                                <Avatar className="hidden h-9 w-9 sm:flex">
+            <div className="px-4 md:px-6 max-w-2xl grid gap-12 mt-6">
+                {flattened?.map((p: any, idx: any) => {
+                    return (
+                        <div key={idx}>
+                            <div className="flex w-full gap-4 border p-6">
+                                <Avatar className="w-12 h-12 border hover:opacity-75 transition-all hover:cursor-pointer">
                                     <AvatarImage
-                                        src="/avatars/01.png"
-                                        alt="Avatar"
+                                        src={p?.userReviewed?.profilePic}
                                     />
                                     <AvatarFallback>
                                         {p?.userReviewed?.name &&
@@ -128,43 +123,52 @@ const CommentSection = () => {
                                             )}
                                     </AvatarFallback>
                                 </Avatar>
-                                <div className="grid gap-1">
-                                    <div className="flex flex-col">
-                                        <b className="text-sm font-semibold leading-none">
-                                            {p?.userReviewed?.name}
-                                        </b>
-                                        <p>
-                                            <b>
-                                                {getDateHumanReadable(
-                                                    p?.reviewedAt
-                                                )}
-                                            </b>
-                                        </p>
+                                <div className="grid gap-4">
+                                    <div className="flex gap-4">
+                                        <div className="grid gap-0.5 text-sm justify-between items-between">
+                                            <h3 className="font-semibold hover:underline hover:opacity-75 transition-all hover:cursor-pointer">
+                                                {p?.userReviewed?.name}
+                                            </h3>
+                                            <time className="text-sm text-gray-500 dark:text-gray-400">
+                                                <ReactTimeAgo
+                                                    date={p?.reviewedAt}
+                                                    locale="en-US"
+                                                />
+                                                {/* {getDateHumanReadable( */}
+                                                {/*     p?.reviewedAt */}
+                                                {/* )} */}
+                                            </time>
+                                            <Rating
+                                                totalstars={5}
+                                                rating={p?.rating}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="text-sm leading-loose text-gray-500 dark:text-gray-400">
+                                        {parse(`${p?.comment}`)}
                                     </div>
                                 </div>
                             </div>
-                            <CardFooter>
-                                <p>{parse(`${p?.comment}`)}</p>
-                            </CardFooter>
-                        </CardContent>
-                    </Card>
-                );
-            })}
-            {hasMore && (
-                <div className="flex flex-col justify-center items-center mt-6">
-                    <LoadingButton
-                        loading={loading}
-                        onClick={() => {
-                            useusecurrProdStore.setState({
-                                pageIdx: pageIdx + 1
-                            });
-                            setLoading(false);
-                        }}
-                    >
-                        Load More
-                    </LoadingButton>
-                </div>
-            )}
+                            {/* <Separator /> */}
+                        </div>
+                    );
+                })}
+                {hasMore && (
+                    <div className="flex flex-col justify-center items-center">
+                        <LoadingButton
+                            loading={loading}
+                            onClick={() => {
+                                useusecurrProdStore.setState({
+                                    pageIdx: pageIdx + 1
+                                });
+                                setLoading(false);
+                            }}
+                        >
+                            Load More
+                        </LoadingButton>
+                    </div>
+                )}
+            </div>
         </>
     );
 };

@@ -28,10 +28,6 @@ const ProductDetails = ({ currProduct }: any) => {
             <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">
                     <div className="font-semibold">Product Details</div>
-                    <li className="flex items-center justify-between font-semibold">
-                        <span className="text-muted-foreground">Rating</span>
-                        <span>{currProduct?.rating}/5</span>
-                    </li>
                     <ul className="grid gap-3">
                         <li className="flex items-center justify-between font-semibold">
                             <span className="text-muted-foreground">Price</span>
@@ -64,7 +60,7 @@ const ProductDetails = ({ currProduct }: any) => {
                             <dt className="text-muted-foreground">Phone</dt>
                             <dd>
                                 <a href="tel:">
-                                    {currProduct?.seller?.phone_number}
+                                    {currProduct?.seller?.phoneNumber}
                                 </a>
                             </dd>
                         </div>
@@ -75,29 +71,60 @@ const ProductDetails = ({ currProduct }: any) => {
                     </dl>
                 </div>
                 <Separator className="my-4" />
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-3">
-                        <div className="font-semibold">
-                            Seller Company Information
-                        </div>
-                        <address className="grid gap-0.5 not-italic text-muted-foreground">
-                            <span>
+                <div className="grid gap-3">
+                    <div className="font-semibold">Seller Company address</div>
+                    <dl className="grid gap-3">
+                        <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">
+                                Street Address
+                            </dt>
+                            <dd>
                                 {
                                     currProduct?.seller?.companyAddress
                                         ?.streetAddress
                                 }
-                            </span>
-                            <span>
-                                {currProduct?.seller?.companyAddress?.state}
-                            </span>
-                            <span>
-                                {currProduct?.seller?.companyAddress?.city}
-                            </span>
-                            <span>
-                                {currProduct?.seller?.companyAddress?.zipCode}
-                            </span>
-                        </address>
-                    </div>
+                            </dd>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">City</dt>
+                            <dd>
+                                <a href="mailto:">
+                                    {currProduct?.seller?.companyAddress?.city}
+                                </a>
+                            </dd>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">State</dt>
+                            <dd>
+                                <a href="tel:">
+                                    {currProduct?.seller?.companyAddress?.state}
+                                </a>
+                            </dd>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">Country</dt>
+                            <dd>
+                                <a href="tel:">
+                                    {
+                                        currProduct?.seller?.companyAddress
+                                            ?.country
+                                    }
+                                </a>
+                            </dd>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <dt className="text-muted-foreground">ZipCode</dt>
+                            <dd>
+                                <a href="tel:">
+                                    {
+                                        currProduct?.seller?.companyAddress
+                                            ?.zipCode
+                                    }
+                                </a>
+                            </dd>
+                        </div>
+                    </dl>
                 </div>
             </CardContent>
             <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">

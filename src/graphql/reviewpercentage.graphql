@@ -1,0 +1,13 @@
+query reviewpercentage($prodId: String!) {
+  getReviewsPercentage(prodID: $prodId) {
+    data {
+      fiveStars
+      fourStars
+      oneStars
+      threeStars
+      twoStars
+      totalReviews
+    }
+    err
+  }
+}

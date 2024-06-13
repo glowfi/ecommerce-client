@@ -5,7 +5,6 @@ getProductById(productID: $productId) {
      title
      stock
      price
-     rating
      description
      brand
      category {
@@ -21,6 +20,7 @@ getProductById(productID: $productId) {
      companyName
      phoneNumber
      companyAddress{
+         country
          streetAddress
          state 
          city

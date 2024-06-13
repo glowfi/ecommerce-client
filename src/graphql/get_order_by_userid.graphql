@@ -8,12 +8,12 @@ query get_order_by_userid($userId: String!, $skipping: Int!, $limit: Int!) {
       paymentBy
       isPending
       amount
-      address{
-      city
-      state
-      country
-zipCode
-streetAddress
+      address {
+        city
+        state
+        country
+        zipCode
+        streetAddress
       }
       productsOrdered {
         title
