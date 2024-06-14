@@ -44,7 +44,6 @@ const ProductCard = ({ currProduct }: any) => {
                     onClick={() => {
                         router.push(`/product/${currProduct?.id}`);
                     }}
-                    priority
                 />
             </CardContent>
             <CardFooter className="flex justify-around items-center">

@@ -49,7 +49,8 @@ const Navbar = () => {
                                     router.push('/');
                                 }}
                             >
-                                {process.env.STORE_NAME.split(' ')[0]}
+                                {process?.env?.STORE_NAME &&
+                                    process.env.STORE_NAME.split(' ')[0]}
                             </p>
                         </div>
                     </Link>

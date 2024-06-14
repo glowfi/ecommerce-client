@@ -34,7 +34,7 @@ TimeAgo.addDefaultLocale(en);
 import ReactTimeAgo from 'react-time-ago';
 import { OrderDetailsModal } from './orderinfo';
 
-function OrderTable({ allOrders, cidx, setIdx }) {
+function OrderTable({ allOrders, cidx, setIdx }: any) {
     return (
         <div>
             <div className="px-7">
@@ -103,7 +103,7 @@ function OrderTable({ allOrders, cidx, setIdx }) {
     );
 }
 
-export function Side({ allOrders, idx }) {
+export function Side({ allOrders, idx }: any) {
     const user = useuserStore((state: any) => state.user);
     return (
         <Card className="overflow-hidden max-w-fit max-h-fit">
@@ -137,16 +137,22 @@ export function Side({ allOrders, idx }) {
                 <div className="grid gap-3">
                     <div className="font-semibold">Order Details</div>
                     <ul className="grid gap-3">
-                        {allOrders[idx]?.productsOrdered?.map((p: any) => {
-                            return (
-                                <li className="flex items-center justify-between">
-                                    <span className="text-muted-foreground">
-                                        {p?.title} x <span>{p?.quantity}</span>
-                                    </span>
-                                    <span>${p?.price}</span>
-                                </li>
-                            );
-                        })}
+                        {allOrders[idx]?.productsOrdered?.map(
+                            (p: any, id: any) => {
+                                return (
+                                    <li
+                                        className="flex items-center justify-between"
+                                        key={id}
+                                    >
+                                        <span className="text-muted-foreground">
+                                            {p?.title} x{' '}
+                                            <span>{p?.quantity}</span>
+                                        </span>
+                                        <span>${p?.price}</span>
+                                    </li>
+                                );
+                            }
+                        )}
                     </ul>
                     <Separator className="my-2" />
                     <ul className="grid gap-3">
@@ -357,6 +363,7 @@ export function Myorders() {
         getData()
             .then((data) => {
                 console.log('Resolved');
+                //@ts-ignore
                 if (data?.data?.getOrdersByUserid?.data || data === -1) {
                     setFetching(false);
                     setLoading(false);

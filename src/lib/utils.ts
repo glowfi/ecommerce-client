@@ -80,7 +80,10 @@ export const SecureStorage: StateStorage = {
         const value = localStorage.getItem(key);
 
         if (value) {
-            const decryptedBytes = CryptoJS.AES.decrypt(value, YOUR_NONCE);
+            const decryptedBytes = CryptoJS.AES.decrypt(
+                value,
+                YOUR_NONCE as string
+            );
             const decryptedValue = decryptedBytes.toString(CryptoJS.enc.Utf8);
             return decryptedValue;
         }
@@ -88,7 +91,10 @@ export const SecureStorage: StateStorage = {
         return value;
     },
     setItem: async (key: string, value: any): Promise<void> => {
-        const encrypted = CryptoJS.AES.encrypt(value, YOUR_NONCE).toString();
+        const encrypted = CryptoJS.AES.encrypt(
+            value,
+            YOUR_NONCE as string
+        ).toString();
         localStorage.setItem(key, encrypted);
     },
     removeItem: async (key: string): Promise<void> => {

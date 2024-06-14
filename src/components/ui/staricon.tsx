@@ -1,4 +1,4 @@
-export function StarIcon(props) {
+export function StarIcon(props: any) {
     return (
         <svg
             {...props}

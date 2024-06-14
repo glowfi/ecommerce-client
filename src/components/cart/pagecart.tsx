@@ -23,7 +23,7 @@ export function PaginationDemo({
                 </PaginationItem>
                 {Array.from({ length: perPage }, (_, i) => i).map((_, i) => {
                     return (
-                        <PaginationItem onClick={handleIdxNext}>
+                        <PaginationItem onClick={handleIdxNext} key={i}>
                             <PaginationLink
                                 href="#"
                                 isActive={idx === i ? true : false}

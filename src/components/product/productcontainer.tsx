@@ -46,6 +46,7 @@ const Productcontainer = () => {
         setFetching(true);
         loadData(ID as string)
             .then((data) => {
+                //@ts-ignore
                 if (data.data?.getProductById?.data) {
                     setFetching(false);
                 }

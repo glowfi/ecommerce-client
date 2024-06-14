@@ -8,13 +8,16 @@ type SliderProps = React.ComponentProps<typeof Slider>;
 export function Priceslider({ className, ...props }: SliderProps) {
     // console.log(props, 'PORPS');
 
-    const handlePriceChange = (values) => {
+    const handlePriceChange = (values: any) => {
         console.log(props);
+        //@ts-ignore
         console.log(props.props.selectedFilters, 'CURR');
         let [min, max] = values;
         // price: { min: 0, max: 100000 },
 
+        //@ts-ignore
         props.props.setSelectedFilters({
+            //@ts-ignore
             ...props.props.selectedFilters,
             price: { min, max }
         });
@@ -29,13 +32,15 @@ export function Priceslider({ className, ...props }: SliderProps) {
                     Price Range
                 </span>
                 <span className="text-sm font-medium">
-                    ${props.props.min}-${props.props.max}
+                    {/* @ts-ignore */}
+                    {/* prettier-ignore */}${props.props.min}-${props.props.max}
                 </span>
             </div>
             <Slider
                 min={MIN_PRICE}
                 max={MAX_PRICE}
                 step={PRICE_STEP}
+                //@ts-ignore
                 defaultValue={[props.props.min, props.props.max]}
                 onValueChange={handlePriceChange}
                 className="w-full"

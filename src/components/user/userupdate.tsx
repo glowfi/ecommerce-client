@@ -44,6 +44,7 @@ import { useuserStore } from '../auth/store';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+// @ts-ignore
 export function UserUpdate({ userdetails }: User) {
     const FormSchema = z.object({
         name: nameSchema,
@@ -140,8 +141,8 @@ export function UserUpdate({ userdetails }: User) {
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>
-                        Make changes to your profile here. Click save when
-                        you're done.
+                        Make changes to your profile here. Click save when you
+                        are done.
                     </DialogDescription>
                 </DialogHeader>
 

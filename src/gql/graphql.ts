@@ -801,7 +801,7 @@ export type User = {
   orders: Array<Orders>;
   password: Scalars['String']['output'];
   phoneNumber: Scalars['String']['output'];
-  profilePic: Scalars['String']['output'];
+  profilePic?: Maybe<Scalars['String']['output']>;
   reviews: Array<Reviews>;
   wishlist: Array<Wishlist>;
 };
@@ -864,7 +864,7 @@ export type Create_ReviewMutationVariables = Exact<{
 }>;
 
 
-export type Create_ReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'ResponseReviews', err?: string | null, data?: { __typename?: 'Reviews', id: string, comment: string, reviewedAt: any, rating: number, userReviewed: { __typename?: 'User', name: string, profilePic: string } } | null } };
+export type Create_ReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'ResponseReviews', err?: string | null, data?: { __typename?: 'Reviews', id: string, comment: string, reviewedAt: any, rating: number, userReviewed: { __typename?: 'User', name: string, profilePic?: string | null } } | null } };
 
 export type CreateorderMutationVariables = Exact<{
   data: InputOrders;
@@ -929,7 +929,7 @@ export type Get_Reviews_PaginateQueryVariables = Exact<{
 }>;
 
 
-export type Get_Reviews_PaginateQuery = { __typename?: 'Query', getReviewsPaginate: { __typename?: 'ResponseGetallReviews', err?: string | null, data?: Array<{ __typename?: 'Reviews', id: string, rating: number, comment: string, reviewedAt: any, userReviewed: { __typename?: 'User', name: string, profilePic: string } }> | null } };
+export type Get_Reviews_PaginateQuery = { __typename?: 'Query', getReviewsPaginate: { __typename?: 'ResponseGetallReviews', err?: string | null, data?: Array<{ __typename?: 'Reviews', id: string, rating: number, comment: string, reviewedAt: any, userReviewed: { __typename?: 'User', name: string, profilePic?: string | null } }> | null } };
 
 export type Search_AtlasQueryVariables = Exact<{
   term: Scalars['String']['input'];
@@ -952,7 +952,7 @@ export type MequeryQueryVariables = Exact<{
 }>;
 
 
-export type MequeryQuery = { __typename?: 'Query', getUserById: { __typename?: 'ResponseUser', err?: string | null, data?: { __typename?: 'User', name: string, email: string, profilePic: string, phoneNumber: string, dob: string, id: string, address: { __typename?: 'Address', city: string, country: string, countryCode: string, state: string, streetAddress: string, zipCode: string } } | null } };
+export type MequeryQuery = { __typename?: 'Query', getUserById: { __typename?: 'ResponseUser', err?: string | null, data?: { __typename?: 'User', name: string, email: string, profilePic?: string | null, phoneNumber: string, dob: string, id: string, address: { __typename?: 'Address', city: string, country: string, countryCode: string, state: string, streetAddress: string, zipCode: string } } | null } };
 
 export type ResetpassMutationVariables = Exact<{
   data: InputresetPassword;

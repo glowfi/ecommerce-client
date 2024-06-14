@@ -57,6 +57,7 @@ const MyDetails = () => {
         getData()
             .then((data) => {
                 if (data?.data?.getUserById?.data) {
+                    //@ts-ignore
                     setUserData(data?.data?.getUserById?.data);
                 }
                 // console.log(data?.data?.getUserById?.data);
@@ -87,6 +88,7 @@ const MyDetails = () => {
 
                     <Image
                         onLoad={() => setLoaded(true)}
+                        // @ts-ignore
                         src={userData?.profilePic}
                         alt="Not found"
                         width={50}
@@ -159,6 +161,7 @@ const MyDetails = () => {
                 <div className="text-xs text-muted-foreground">
                     Proud Member of {process.env.STORE_NAME}
                 </div>
+                {/* @ts-ignore */}
                 {userData?.email && <UserUpdate userdetails={userData} />}
             </CardFooter>
         </Card>

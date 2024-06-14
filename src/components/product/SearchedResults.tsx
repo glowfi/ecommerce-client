@@ -119,11 +119,12 @@ export default function SearchedResults() {
         price: { min: MIN_PRICE, max: MAX_PRICE },
         rating: 0
     });
-    const handleFilterChange = (type, value) => {
+    const handleFilterChange = (type: any, value: any) => {
         if (type === 'category') {
             console.log(selectedFilters);
             setSelectedFilters({
                 ...selectedFilters,
+                //@ts-ignore
                 category: selectedFilters?.category?.includes(value)
                     ? selectedFilters?.category?.filter(
                           (item) => item !== value
@@ -154,10 +155,11 @@ export default function SearchedResults() {
 
     const filteredProducts = useMemo(() => {
         return products
-            .filter((product) => {
+            .filter((product: any) => {
                 if (
-                    selectedFilters.category.length > 0 &&
-                    !selectedFilters.category.includes(product.categoryName)
+                    selectedFilters?.category?.length > 0 &&
+                    //@ts-ignore
+                    !selectedFilters?.category?.includes(product?.categoryName)
                 ) {
                     return false;
                 }
@@ -172,7 +174,7 @@ export default function SearchedResults() {
                 }
                 return true;
             })
-            .sort((a, b) => b.rating - a.rating);
+            .sort((a: any, b: any) => b.rating - a.rating);
     }, [selectedFilters, products, page, query]);
 
     // const getData = useCallback(() => {
@@ -258,6 +260,7 @@ export default function SearchedResults() {
                             </AccordionTrigger>
                             <AccordionContent>
                                 <Priceslider
+                                    // @ts-ignore
                                     props={{
                                         ...selectedFilters.price,
                                         selectedFilters,
@@ -274,6 +277,7 @@ export default function SearchedResults() {
                                 <div className="grid gap-2">
                                     <Label className="flex items-center gap-2 font-normal">
                                         <RadioGroup
+                                            // @ts-ignore
                                             value={selectedFilters.rating}
                                             onValueChange={(value) =>
                                                 handleFilterChange(
@@ -282,6 +286,7 @@ export default function SearchedResults() {
                                                 )
                                             }
                                         >
+                                            {/* @ts-ignore */}
                                             <RadioGroupItem value={5} />
                                             <span className="flex items-center gap-1">
                                                 <StarIcon className="w-5 h-5 fill-primary" />
@@ -294,6 +299,7 @@ export default function SearchedResults() {
                                     </Label>
                                     <Label className="flex items-center gap-2 font-normal">
                                         <RadioGroup
+                                            //@ts-ignore
                                             value={selectedFilters.rating}
                                             onValueChange={(value) =>
                                                 handleFilterChange(
@@ -302,6 +308,7 @@ export default function SearchedResults() {
                                                 )
                                             }
                                         >
+                                            {/* @ts-ignore */}
                                             <RadioGroupItem value={4} />
                                             <span className="flex items-center gap-1">
                                                 <StarIcon className="w-5 h-5 fill-primary" />
@@ -314,6 +321,7 @@ export default function SearchedResults() {
                                     </Label>
                                     <Label className="flex items-center gap-2 font-normal">
                                         <RadioGroup
+                                            // @ts-ignore
                                             value={selectedFilters.rating}
                                             onValueChange={(value) =>
                                                 handleFilterChange(
@@ -322,6 +330,7 @@ export default function SearchedResults() {
                                                 )
                                             }
                                         >
+                                            {/* @ts-ignore */}
                                             <RadioGroupItem value={3} />
                                             <span className="flex items-center gap-1">
                                                 <StarIcon className="w-5 h-5 fill-primary" />
@@ -334,6 +343,7 @@ export default function SearchedResults() {
                                     </Label>
                                     <Label className="flex items-center gap-2 font-normal">
                                         <RadioGroup
+                                            // @ts-ignore
                                             value={selectedFilters.rating}
                                             onValueChange={(value) =>
                                                 handleFilterChange(
@@ -342,6 +352,7 @@ export default function SearchedResults() {
                                                 )
                                             }
                                         >
+                                            {/* @ts-ignore */}
                                             <RadioGroupItem value={2} />
                                             <span className="flex items-center gap-1">
                                                 <StarIcon className="w-5 h-5 fill-primary" />
@@ -354,6 +365,7 @@ export default function SearchedResults() {
                                     </Label>
                                     <Label className="flex items-center gap-2 font-normal">
                                         <RadioGroup
+                                            //@ts-ignore
                                             value={selectedFilters.rating}
                                             onValueChange={(value) =>
                                                 handleFilterChange(
@@ -362,6 +374,7 @@ export default function SearchedResults() {
                                                 )
                                             }
                                         >
+                                            {/* @ts-ignore  */}
                                             <RadioGroupItem value={1} />
                                             <span className="flex items-center gap-1">
                                                 <StarIcon className="w-5 h-5 fill-primary" />

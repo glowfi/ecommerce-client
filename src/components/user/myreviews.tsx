@@ -102,6 +102,7 @@ const MyReviews = () => {
         getData()
             .then((data) => {
                 console.log('Resolved');
+                //@ts-ignore
                 if (data?.data?.getAllReviewsByUserId?.data || data === -1) {
                     setFetching(false);
                     setLoading(false);
