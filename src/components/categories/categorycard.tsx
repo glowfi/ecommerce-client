@@ -32,7 +32,9 @@ const CategoryCard = ({ allCat }: any) => {
                                 height={200}
                                 className="hover:opacity-75 transition-all"
                                 onClick={() => {
-                                    router.push(`/product/search?q=${p?.name}`);
+                                    router.push(
+                                        `/product/bycategories?q=${p?.name}`
+                                    );
                                 }}
                             />
                         </CardContent>

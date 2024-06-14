@@ -3,6 +3,7 @@ query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!){
    data {
      id
      title
+     rating
      price
      brand
      categoryName

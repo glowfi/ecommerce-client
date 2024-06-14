@@ -1,5 +1,9 @@
-query search_atlas($term: String!){
-  getProductsBySearchTermAtlasSearch(term: $term) {
+query search_atlas($term: String!, $limit: Int!, $lastTokensaved: String!) {
+  getProductsBySearchTermAtlasSearch(
+    term: $term
+    limit: $limit
+    lastTokensaved: $lastTokensaved
+  ) {
     data {
       brand
       categoryName
@@ -10,6 +14,9 @@ query search_atlas($term: String!){
       score
       sellerName
       title
+      rating
     }
+    lastToken
+    err
   }
 }

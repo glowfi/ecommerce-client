@@ -5,6 +5,7 @@ getProductById(productID: $productId) {
      title
      stock
      price
+     rating
      description
      brand
      category {

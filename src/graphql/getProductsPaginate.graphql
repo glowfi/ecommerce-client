@@ -2,6 +2,7 @@ query paginateProd($skipping: Int!, $limit: Int!){
   getAllProductsPaginate(skipping: $skipping, limit: $limit) {
    data {
      id
+     rating
      title
      stock
      price

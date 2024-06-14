@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { useusecurrProdStore } from './product-store';
 import humanNumber from 'human-number';
+import { StarIcon } from '../ui/staricon';
 
 const loadData = async (productId: string) => {
     const lastIdx = useusecurrProdStore.getState().lastIdx;
@@ -146,29 +147,13 @@ export default function Reviewpercentage() {
                 </div>
             </CardContent>
             <CardFooter>
-                Based on
-                {ratings?.totalReviews && humanNumber(ratings?.totalReviews)}
-                reviews
+                <span>
+                    Based on{' '}
+                    {ratings?.totalReviews &&
+                        humanNumber(ratings?.totalReviews)}{' '}
+                    reviews
+                </span>
             </CardFooter>
         </Card>
-    );
-}
-
-function StarIcon(props: any) {
-    return (
-        <svg
-            {...props}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
     );
 }

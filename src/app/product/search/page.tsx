@@ -1,4 +1,4 @@
-import SearchedResults from '@/components/product/searchedResults';
+import SearchedResults from '@/components/product/SearchedResults';
 
 const ProductSearch = ({
     params,

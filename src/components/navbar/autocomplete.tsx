@@ -5,31 +5,29 @@ import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { SkeletonCard } from '../product/SkeletonCard';
 import { Badge } from '../ui/badge';
+import { useautoStore } from './autocompletestore';
 import { useDebounce } from './hooks/useDebounce';
-import { usesearchStore } from './store';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 export default function Autocomplete() {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
-    const searchedProducts = usesearchStore(
-        (state: any) => state.searchProducts
-    );
-    const fetchProducts = usesearchStore((state: any) => state.fetchProducts);
+    const searchedProducts = useautoStore((state: any) => state.searchProducts);
+    const fetchProducts = useautoStore((state: any) => state.fetchProducts);
 
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
     const [loaded, setLoaded] = useState<boolean>(false);
     const [isopen, setIsopen] = useState(false);
-    const reset = usesearchStore((state: any) => state.reset);
     const menuRef = useRef<any>(null);
 
     // Function to handle click outside the menu
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
         if (isopen && !menuRef?.current?.contains(event.target)) {
             setSearchTerm('');
             setIsopen(false);
+            useautoStore.setState({ searchProducts: [] });
         }
     };
 
@@ -90,41 +88,48 @@ export default function Autocomplete() {
                                 key={product.id}
                                 className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-primary-foreground hover:cursor-pointer"
                                 onClick={() => {
-                                    router.push(`/product/${product?.id}`);
+                                    // router.push(`/product/${product?.id}`);
+                                    useautoStore.setState({
+                                        searchProducts: []
+                                    });
+
                                     setSearchTerm('');
                                     setIsopen(false);
+                                    router.push(
+                                        `/product/search?q=${searchTerm}`
+                                    );
                                 }}
                             >
-                                {!loaded && (
-                                    <SkeletonCard
-                                        props={{
-                                            w: '100',
-                                            h: '100'
-                                        }}
-                                    />
-                                )}
+                                <h3 className="font-medium">
+                                    {product.title.toLowerCase()}
+                                </h3>
+                                {/* {!loaded && ( */}
+                                {/*     <SkeletonCard */}
+                                {/*         props={{ */}
+                                {/*             w: '100', */}
+                                {/*             h: '100' */}
+                                {/*         }} */}
+                                {/*     /> */}
+                                {/* )} */}
 
-                                <Image
-                                    onLoad={() => setLoaded(true)}
-                                    src={product?.coverImage?.[1]}
-                                    alt="Not Found"
-                                    width={100}
-                                    height={100}
-                                    className="rounded-md"
-                                />
-                                <div className="flex-1">
-                                    <h2 className="font-bold">
-                                        {product.brand}
-                                    </h2>
-                                    <h3 className="font-medium">
-                                        {product.title}
-                                    </h3>
-                                    <Badge>{product.categoryName}</Badge>
+                                {/* <Image */}
+                                {/*     onLoad={() => setLoaded(true)} */}
+                                {/*     src={product?.coverImage?.[1]} */}
+                                {/*     alt="Not Found" */}
+                                {/*     width={100} */}
+                                {/*     height={100} */}
+                                {/*     className="rounded-md" */}
+                                {/* /> */}
+                                {/* <div className="flex-1"> */}
+                                {/*     <h2 className="font-bold"> */}
+                                {/*         {product.brand} */}
+                                {/*     </h2> */}
+                                {/*     <Badge>{product.categoryName}</Badge> */}
 
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        ${product.price}
-                                    </p>
-                                </div>
+                                {/*     <p className="text-sm text-gray-500 dark:text-gray-400"> */}
+                                {/*         ${product.price} */}
+                                {/*     </p> */}
+                                {/* </div> */}
                             </li>
                         ))}
                     </ul>

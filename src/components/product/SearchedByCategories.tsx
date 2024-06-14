@@ -1,16 +1,15 @@
 'use client';
 import { SearchTermPaginateDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
-import { usesearchStore } from '../navbar/store';
 import ProductCard from '../products/ProductCard';
 import InfiniteScroll from '../ui/InfinteScroll';
 import { TOTAL_ITEMS } from './constants';
-import { useRouter } from 'next/navigation';
+import { usesearchStore } from './search-store';
 
-const SearchedResults = () => {
+const SearchedByCategories = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
     const router = useRouter();
@@ -101,4 +100,4 @@ const SearchedResults = () => {
     );
 };
 
-export default React.memo(SearchedResults);
+export default React.memo(SearchedByCategories);

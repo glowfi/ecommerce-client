@@ -2,6 +2,8 @@ import { useuserStore } from '@/components/auth/store';
 import { usecartStore } from '@/components/cart/store';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { StateStorage } from 'zustand/middleware';
+import CryptoJS from 'crypto-js';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -69,4 +71,27 @@ export const getDateHumanReadable = (data: string) => {
         })
         .replace(/(\d+)(st|nd|rd|th)/, '$1${"st","nd","rd","th"}[1]');
     return readableDate;
+};
+
+let YOUR_NONCE = process.env.STORE_NONCE;
+
+export const SecureStorage: StateStorage = {
+    getItem: async (key: string): Promise<string | null> => {
+        const value = localStorage.getItem(key);
+
+        if (value) {
+            const decryptedBytes = CryptoJS.AES.decrypt(value, YOUR_NONCE);
+            const decryptedValue = decryptedBytes.toString(CryptoJS.enc.Utf8);
+            return decryptedValue;
+        }
+
+        return value;
+    },
+    setItem: async (key: string, value: any): Promise<void> => {
+        const encrypted = CryptoJS.AES.encrypt(value, YOUR_NONCE).toString();
+        localStorage.setItem(key, encrypted);
+    },
+    removeItem: async (key: string): Promise<void> => {
+        localStorage.removeItem(key);
+    }
 };

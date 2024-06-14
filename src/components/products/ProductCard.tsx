@@ -12,15 +12,16 @@ import {
     CardTitle
 } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
-import AddtoCart from '../product/addtocart';
 import { SkeletonCard } from '../product/SkeletonCard';
+import AddtoCart from '../product/addtocart';
+import { StarIcon } from '../ui/staricon';
 
 const ProductCard = ({ currProduct }: any) => {
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
-        <Card className="w-[350px] cursor-pointer">
+        <Card className="w-[350px] cursor-pointer shadow-sm hover:shadow-md transition-shadow rounded-lg overflow-hidden">
             <CardHeader>
                 <div className="flex gap-3">
                     <CardTitle>{currProduct?.brand}</CardTitle>
@@ -39,10 +40,11 @@ const ProductCard = ({ currProduct }: any) => {
                     width={250}
                     height={250}
                     alt={'Not Found'}
-                    className="hover:opacity-75 transition-all"
+                    className="hover:opacity-75 transition-all object-cover w-full aspect-square"
                     onClick={() => {
                         router.push(`/product/${currProduct?.id}`);
                     }}
+                    priority
                 />
             </CardContent>
             <CardFooter className="flex justify-around items-center">
@@ -50,6 +52,12 @@ const ProductCard = ({ currProduct }: any) => {
                     ${parseFloat(currProduct?.price).toFixed(2)}
                 </h1>
                 <AddtoCart currProduct={currProduct} />
+                <div className="flex gap-1">
+                    <StarIcon className="w-5 h-5 fill-primary" />
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                        {currProduct?.rating?.toFixed(1)}
+                    </span>
+                </div>
             </CardFooter>
         </Card>
     );
