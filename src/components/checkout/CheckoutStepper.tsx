@@ -52,7 +52,7 @@ export default function CheckoutStepper() {
                 </h2>
             ) : (
                 <div className="mb-8">
-                    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center mb-6">
+                    <h1 className="mt-16 sm:mt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center mb-6">
                         Checkout
                     </h1>
 
@@ -92,11 +92,13 @@ export default function CheckoutStepper() {
                 </div>
             )}
 
-            <div className="flex justify-center items-center">
-                <Link href="/" className="my-6 underline">
-                    Go to Home
-                </Link>
-            </div>
+            {step <= 2 && (
+                <div className="flex justify-center items-center">
+                    <Link href="/" className="my-6 underline">
+                        Go to Home
+                    </Link>
+                </div>
+            )}
         </div>
     );
 }

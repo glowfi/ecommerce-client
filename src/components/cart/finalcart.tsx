@@ -84,8 +84,14 @@ export default function FinalCart() {
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-base font-semibold">
-                                                        ${' '}
-                                                        {p?.price * p?.quantity}
+                                                        $
+                                                        {(
+                                                            ((100 -
+                                                                p?.discountPercent) /
+                                                                100) *
+                                                            p?.price *
+                                                            p?.quantity
+                                                        ).toFixed(0)}
                                                     </span>
                                                 </div>
                                             </div>
@@ -98,7 +104,7 @@ export default function FinalCart() {
                                         Subtotal
                                     </span>
                                     <span className="text-base font-semibold">
-                                        ${amount.toFixed(2)}
+                                        ${amount.toFixed(0)}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -106,7 +112,7 @@ export default function FinalCart() {
                                         Shipping
                                     </span>
                                     <span className="text-base font-semibold">
-                                        $5.00
+                                        ${TAX_AMOUNT}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between">
@@ -114,7 +120,7 @@ export default function FinalCart() {
                                         Tax
                                     </span>
                                     <span className="text-base font-semibold">
-                                        $15.00
+                                        ${SHIPPING_AMOUNT}
                                     </span>
                                 </div>
                                 <Separator className="my-6" />
@@ -128,7 +134,7 @@ export default function FinalCart() {
                                             amount +
                                             TAX_AMOUNT +
                                             SHIPPING_AMOUNT
-                                        ).toFixed(2)}
+                                        ).toFixed(0)}
                                     </span>
                                 </div>
                                 <div className="flex justify-center items-center">

@@ -45,10 +45,10 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     }
 
     return (
-        <Card>
+        <Card className="border-transparent">
             <CardContent className="space-y-4 m-6">
                 <div className="grid gap-2">
-                    <div className="flex items-center justify-between">
+                    <div className="hidden sm:flex items-center justify-between">
                         <h3 className="text-lg font-medium">Cart Items</h3>
                         <div className="text-sm text-gray-500 dark:text-gray-400">
                             {cart?.length} items
@@ -83,9 +83,12 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                             <p className="text-sm text-gray-500 dark:text-gray-400">
                                                 ${p?.price} x {p?.quantity}
                                             </p>
+                                            <div className="text-sm font-medium sm:hidden">
+                                                ${p?.price * p?.quantity}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="text-sm font-medium">
+                                    <div className="text-sm font-medium hidden sm:block">
                                         ${p?.price * p?.quantity}
                                     </div>
                                 </div>

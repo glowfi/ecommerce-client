@@ -19,7 +19,7 @@ export const usecheckoutStore = create<checkoutStore>(
                     countryCode: '',
                     state: '',
                     city: '',
-                    zipCode: ''
+                    zipCode: 0
                 },
                 phone_number: ''
             },

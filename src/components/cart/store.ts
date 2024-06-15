@@ -25,8 +25,16 @@ export const usecartStore = create<cartStore>(
                             isOverStockLimit = true;
                         } else {
                             currProduct['quantity'] += 1;
+                            let newPrice = currProduct?.price;
+                            if (currProduct?.discountPercent !== 0) {
+                                newPrice = (
+                                    ((100 - currProduct?.discountPercent) /
+                                        100) *
+                                    currProduct?.price
+                                ).toFixed(0);
+                            }
                             set((state: any) => ({
-                                amount: state.amount + currProduct['price']
+                                amount: state.amount + parseFloat(newPrice)
                             }));
                             set({ cart: [...cart] });
                         }
@@ -35,8 +43,17 @@ export const usecartStore = create<cartStore>(
                 if (!found) {
                     const { cart } = get();
                     set({ cart: [...cart, { ...product, quantity: 1 }] });
+
+                    let newPrice = product?.price;
+                    if (product?.discountPercent !== 0) {
+                        newPrice = (
+                            ((100 - product?.discountPercent) / 100) *
+                            product?.price
+                        ).toFixed(0);
+                    }
+
                     set((state: any) => ({
-                        amount: state.amount + product.price
+                        amount: state.amount + parseFloat(newPrice)
                     }));
                 }
                 if (isOverStockLimit) {
@@ -57,8 +74,17 @@ export const usecartStore = create<cartStore>(
                             currProduct['quantity'] -= 1;
                             set({ cart: [...cart] });
                         }
+
+                        let newPrice = currProduct?.price;
+                        if (currProduct?.discountPercent !== 0) {
+                            newPrice = (
+                                ((100 - currProduct?.discountPercent) / 100) *
+                                currProduct?.price
+                            ).toFixed(0);
+                        }
+
                         set((state: any) => ({
-                            amount: state.amount - currProduct['price']
+                            amount: state.amount - parseFloat(newPrice)
                         }));
                     }
                 }

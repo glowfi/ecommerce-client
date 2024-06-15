@@ -67,7 +67,12 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     </div>
                                 </div>
                                 <div className="ml-auto font-medium">
-                                    ${p?.price}
+                                    $
+                                    {(
+                                        ((100 - p?.discountPercent) / 100) *
+                                        p?.price *
+                                        p?.quantity
+                                    ).toFixed(0)}
                                 </div>
                             </div>
                         );

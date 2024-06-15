@@ -77,8 +77,8 @@ export function ContactDetails({ handleNext }: any) {
                 ? contact.address.city
                 : user?.address?.city,
             zipCode: contact.address.zipCode
-                ? contact.address.zipCode
-                : user?.address?.zipCode,
+                ? parseInt(contact.address.zipCode)
+                : parseInt(user?.address?.zipCode),
             phoneNumber: contact.phone_number
                 ? contact.phone_number
                 : user?.phone_number,
@@ -92,7 +92,7 @@ export function ContactDetails({ handleNext }: any) {
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         handleNext();
-        
+
         let output = {
             name: user.name,
             email: user.email,
@@ -322,7 +322,7 @@ export function ContactDetails({ handleNext }: any) {
                                                 onChangeCapture={() => {
                                                     updateContacts(
                                                         'zipCode',
-                                                        field.value,
+                                                        parseInt(field.value),
                                                         true
                                                     );
                                                 }}

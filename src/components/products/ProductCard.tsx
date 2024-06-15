@@ -11,7 +11,6 @@ import { Badge } from '../ui/badge';
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
-    
 
     return (
         <div
@@ -24,10 +23,10 @@ const ProductCard = ({ product }: any) => {
                 </div>
             )}
             {!loaded && <SkeletonCard props={{ w: '200', h: '200' }} />}
-            <img
+            <Image
                 onLoad={() => setLoaded(true)}
                 src={product?.coverImage?.[0]}
-                alt={product?.name}
+                alt={'Not Found!'}
                 width={200}
                 height={200}
                 className="h-64 transition-all w-full object-cover"
@@ -36,17 +35,21 @@ const ProductCard = ({ product }: any) => {
                 }}
             />
             <div className="p-4 bg-white dark:bg-muted">
-                <h3 className="font-bold text-lg">{product?.brand}</h3>
+                <div className="flex flex-wrap gap-3">
+                    <h3 className="font-bold text-lg">{product?.brand}</h3>
+                    <Badge className="border-b">{product?.categoryName}</Badge>
+                </div>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
                     {product?.title}
                 </p>
-                <div className="flex flex-wrap justify-between items-center gap-3">
-                    <div className="flex gap-1">
+                <div className="flex flex-wrap justify-between items-center mt-3 gap-3">
+                    <div className="flex gap-1 justify-center items-center">
                         <StarIcon className="w-5 h-5 fill-primary" />
                         <span className="text-sm text-gray-500 dark:text-gray-400">
                             {product?.rating?.toFixed(1)}
                         </span>
                     </div>
+
                     {product?.discountPercent ? (
                         <div className="flex">
                             <span className="text-lg font-bold mr-2">
