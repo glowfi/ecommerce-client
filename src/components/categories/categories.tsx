@@ -36,16 +36,16 @@ const Categories = () => {
     }
 
     return (
-        <div className="flex justify-center items-center flex-col">
-            <h2 className="scroll-m-20  pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-6">
-                Shop by Categories
-            </h2>
-
-            <div className="grid justify-center items-center justify-items-center gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                <Categorycard allCat={allCat} />
+        <section className="py-12 md:py-24 lg:py-32">
+            <div className="container px-4 md:px-6">
+                <h2 className="text-2xl font-bold mb-8">Shop by Category</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <Categorycard categories={allCat} />
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 
+// <Categorycard allCat={allCat} />
 export default React.memo(Categories);

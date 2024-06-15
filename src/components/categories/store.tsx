@@ -10,7 +10,7 @@ export const usecategoryStore = create<categoryStore>(
         }),
         {
             name: 'categories-storage',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => localStorage)
         }
     )
 );

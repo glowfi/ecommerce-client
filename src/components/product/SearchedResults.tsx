@@ -8,19 +8,18 @@ import {
 } from '@/components/ui/accordion';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Search_AtlasDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { usecategoryStore } from '../categories/store';
 import ProductCard from '../products/ProductCard';
 import { LoadingButton } from '../ui/loading-button';
-import { MAX_PRICE, MIN_PRICE, TOTAL_ITEMS } from './constants';
-import { usesearchStore } from './search-store';
-import { Priceslider } from './priceslider';
-import { useautoStore } from '../navbar/autocompletestore';
 import { StarIcon } from '../ui/staricon';
+import { MAX_PRICE, MIN_PRICE, TOTAL_ITEMS } from './constants';
+import { Priceslider } from './priceslider';
+import { usesearchStore } from './search-store';
 
 async function fetchProducts(query: string) {
     console.log('Entred!');
@@ -70,21 +69,10 @@ async function fetchProducts(query: string) {
     if (currData) {
         console.log(currData);
         paginate(currData);
-        // usesearchStore.setState({ pageIdx: page + 1 });
         usesearchStore.setState({
             lastToken: data?.getProductsBySearchTermAtlasSearch?.lastToken
         });
 
-        let filteredProducts = usesearchStore.getState().filteredProducts;
-        // if (lastquery !== query) {
-        //     usesearchStore.setState({ filteredProducts: currData });
-        // } else {
-        //     usesearchStore.setState({
-        //         filteredProducts: [...filteredProducts, ...currData]
-        //     });
-        // }
-
-        // console.log(currData, 'NOw');
         if (currData.length < TOTAL_ITEMS) {
             usesearchStore.setState({ hasMore: false });
         }
@@ -108,11 +96,6 @@ export default function SearchedResults() {
     const loading = usesearchStore((state: any) => state.loading);
     const hasMore = usesearchStore((state: any) => state.hasMore);
     const allCat = usecategoryStore((state: any) => state.allCategories);
-    const lastquery = usesearchStore((state: any) => state.lastquery);
-    const isEmpty = usesearchStore((state: any) => state.isEmpty);
-    // const filteredProducts = usesearchStore(
-    //     (state: any) => state.filteredProducts
-    // );
 
     const [selectedFilters, setSelectedFilters] = useState({
         category: [],
@@ -131,25 +114,16 @@ export default function SearchedResults() {
                       )
                     : [...selectedFilters?.category, value]
             });
-            // usesearchStore.setState({
-            //     filteredProducts: getData()
-            // });
         } else if (type === 'price') {
             setSelectedFilters({
                 ...selectedFilters,
                 price: value
             });
-            // usesearchStore.setState({
-            //     filteredProducts: getData()
-            // });
         } else if (type === 'rating') {
             setSelectedFilters({
                 ...selectedFilters,
                 rating: value
             });
-            // usesearchStore.setState({
-            //     filteredProducts: getData()
-            // });
         }
     };
 
@@ -177,50 +151,9 @@ export default function SearchedResults() {
             .sort((a: any, b: any) => b.rating - a.rating);
     }, [selectedFilters, products, page, query]);
 
-    // const getData = useCallback(() => {
-    //     return filteredProducts
-    //         .filter((product) => {
-    //             if (
-    //                 selectedFilters.category.length > 0 &&
-    //                 !selectedFilters.category.includes(product.category)
-    //             ) {
-    //                 return false;
-    //             }
-    //             if (
-    //                 product.price < selectedFilters.price.min ||
-    //                 product.price > selectedFilters.price.max
-    //             ) {
-    //                 return false;
-    //             }
-    //             if (product.rating < selectedFilters.rating) {
-    //                 return false;
-    //             }
-    //             return true;
-    //         })
-    //         .sort((a, b) => b.rating - a.rating);
-    // }, [selectedFilters, products, filteredProducts, query]);
-
-    // useEffect(() => {
-    //     let val = getData();
-    //     if (isEmpty()) {
-    //         usesearchStore.setState({
-    //             filteredProducts: val
-    //         });
-    //     }
-    // }, []);
-
     useEffect(() => {
         fetchProducts(query as string);
     }, [page, query]);
-
-    // useEffect(() => {
-    //     const observer = new IntersectionObserver((entries) => {
-    //         if (entries[0].isIntersecting) {
-    //             usesearchStore.setState({ pageIdx: page + 1 });
-    //         }
-    //     });
-    //     observer.observe(bottom.current);
-    // }, []);
 
     return (
         <section>
@@ -394,18 +327,17 @@ export default function SearchedResults() {
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
                         <div className="grid gap-1">
                             <h1 className="text-2xl font-bold tracking-tight">
-                                Summer Collection
+                                Search Results
                             </h1>
                             <p className="text-gray-500 dark:text-gray-400">
-                                Hot Picks from the Summer Collection: Embrace
-                                the Season in Style!
+                                Showing search results for {query}
                             </p>
                         </div>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 justify-center items-center">
                         {filteredProducts?.map((product: any, idx: any) => (
                             <div className="flex gap-6" key={idx}>
-                                <ProductCard currProduct={product} />
+                                <ProductCard product={product} />
                             </div>
                         ))}
                     </div>

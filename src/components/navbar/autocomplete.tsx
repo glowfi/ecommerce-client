@@ -64,29 +64,29 @@ export default function Autocomplete() {
                         setIsloading(true);
                         setIsopen(true);
                     }}
-                    className="focus-visible:ring-0"
+                    className="focus-visible:ring-0 text-center"
                     onKeyDown={(event) => {
                         if (event.key == 'Enter') {
                             router.push(`/product/search/?q=${searchTerm}`);
                         }
                     }}
                 />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 hidden md:block" />
             </div>
 
             {isloading ? (
-                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-950 ">
+                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-primary-foreground">
                     <LoadingSpinner name="results" />
                 </div>
             ) : (
-                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-950 ">
+                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-primary-foreground">
                     <ul
                         className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'}`}
                     >
                         {searchedProducts?.map((product: any) => (
                             <li
                                 key={product.id}
-                                className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-primary-foreground hover:cursor-pointer"
+                                className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-black hover:cursor-pointer"
                                 onClick={() => {
                                     // router.push(`/product/${product?.id}`);
                                     useautoStore.setState({
@@ -95,31 +95,37 @@ export default function Autocomplete() {
 
                                     setSearchTerm('');
                                     setIsopen(false);
-                                    router.push(
-                                        `/product/search?q=${searchTerm}`
-                                    );
+                                    router.push(`/product/${product.id}`);
                                 }}
                             >
-                                <h3 className="font-medium">
-                                    {product.title.toLowerCase()}
-                                </h3>
-                                {/* {!loaded && ( */}
-                                {/*     <SkeletonCard */}
-                                {/*         props={{ */}
-                                {/*             w: '100', */}
-                                {/*             h: '100' */}
-                                {/*         }} */}
-                                {/*     /> */}
-                                {/* )} */}
+                                <div className="flex gap-3 justify-around">
+                                    {!loaded && (
+                                        <SkeletonCard
+                                            props={{
+                                                w: '100',
+                                                h: '100'
+                                            }}
+                                        />
+                                    )}
 
-                                {/* <Image */}
-                                {/*     onLoad={() => setLoaded(true)} */}
-                                {/*     src={product?.coverImage?.[1]} */}
-                                {/*     alt="Not Found" */}
-                                {/*     width={100} */}
-                                {/*     height={100} */}
-                                {/*     className="rounded-md" */}
-                                {/* /> */}
+                                    <Image
+                                        onLoad={() => setLoaded(true)}
+                                        src={product?.coverImage?.[1]}
+                                        alt="Not Found"
+                                        width={100}
+                                        height={100}
+                                        className="rounded-md"
+                                    />
+
+                                    <h3 className="font-medium">
+                                        {product.title.toLowerCase()}
+                                    </h3>
+                                    <h3 className="font-medium">
+                                        <Badge>
+                                            {product.categoryName.toLowerCase()}
+                                        </Badge>
+                                    </h3>
+                                </div>
                                 {/* <div className="flex-1"> */}
                                 {/*     <h2 className="font-bold"> */}
                                 {/*         {product.brand} */}

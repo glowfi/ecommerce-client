@@ -20,7 +20,7 @@ const AddtoCart = ({ currProduct }: any) => {
     useEffect(() => {
         if (isPresent()) {
             for (let index = 0; index < cart.length; index++) {
-                if (cart[index]['id'] == currProduct.id) {
+                if (cart[index]['id'] == currProduct?.id) {
                     setQty(cart[index]['quantity']);
                     setIdx(index);
                 }

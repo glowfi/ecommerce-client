@@ -23,7 +23,7 @@ export const useProductsStore = create<ProductsStore>(
         }),
         {
             name: 'product-storage',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => localStorage)
         }
     )
 );

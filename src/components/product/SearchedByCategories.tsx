@@ -76,7 +76,7 @@ const SearchedByCategories = () => {
                 return (
                     <ProductCard
                         key={idx}
-                        currProduct={{
+                        product={{
                             ...p,
                             category: p?.categoryName
                         }}

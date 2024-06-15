@@ -39,7 +39,7 @@ export const usesearchStore = create<searchStore>(
         }),
         {
             name: 'search-bar-storage',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => localStorage)
         }
     )
 );

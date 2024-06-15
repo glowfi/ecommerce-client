@@ -19,7 +19,7 @@ export const useuserinfo = create<userinfo>(
         }),
         {
             name: 'userinfo-storage',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => localStorage)
         }
     )
 );

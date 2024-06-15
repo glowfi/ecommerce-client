@@ -38,37 +38,37 @@ const Products = () => {
     };
     return (
         <>
-            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 mt-6">
-                Shop by Products
-            </h2>
-            <div className="container mx-auto p-4 mt-6 flex justify-center items-center">
-                <div className="grid -cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center items-center">
-                    {allProds?.map((p: any, idx: any) => {
-                        return (
+            <section className="py-6 md:py-12 lg:py-16">
+                <div className="container px-4 md:px-6">
+                    <h2 className="text-2xl font-bold mb-8">
+                        Featured Products
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {allProds?.map((product: any, idx: any) => (
                             <ProductCard
                                 key={idx}
-                                currProduct={{
-                                    ...p,
-                                    category: p?.category?.name
+                                product={{
+                                    ...product,
+                                    category: product?.category?.name
                                 }}
                             />
-                        );
-                    })}
-
-                    <InfiniteScroll
-                        hasMore={hasMore}
-                        isLoading={loading}
-                        next={next}
-                        threshold={1}
-                    >
-                        {hasMore && (
-                            <div className="m-auto flex justify-center items-center justify-items-center">
-                                <LoadingSpinner name="products" />
-                            </div>
-                        )}
-                    </InfiniteScroll>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <InfiniteScroll
+                hasMore={hasMore}
+                isLoading={loading}
+                next={next}
+                threshold={1}
+            >
+                {hasMore && (
+                    <div className="m-auto flex justify-center items-center justify-items-center">
+                        <LoadingSpinner name="products" />
+                    </div>
+                )}
+            </InfiniteScroll>
         </>
     );
 };

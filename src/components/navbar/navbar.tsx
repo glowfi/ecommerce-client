@@ -1,6 +1,5 @@
 'use client';
 
-import Logo from '@/app/icon.png';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -14,29 +13,38 @@ import { AvatarFallback } from '@radix-ui/react-avatar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
+import { useTheme } from 'next-themes';
+import Logo from '@/app/icon.png';
 
 const Navbar = () => {
     const pathname = usePathname();
     const currUser = useuserStore((state: any) => state.user);
     const userID = useuserStore((state: any) => state.user.id);
     const router = useRouter();
+    const [hasHydrated, setHasHydrated] = useState(false);
+
+    // console.log(useTheme());
+    const { theme } = useTheme();
+    useEffect(() => {
+        setHasHydrated(!hasHydrated);
+    }, [theme]);
 
     return (
         <>
             <header
-                className={`sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+                className={`sticky z-50 top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
             >
                 <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
                         href="/"
                         className="flex items-center text-lg font-semibold md:text-base hover:opacity-75 transition-all"
                     >
-                        <div className="flex gap-1 justify-center items-center">
+                        <div className="flex gap-1 justify-between items-center">
                             <Image
                                 src={Logo}
                                 width={100}
@@ -44,13 +52,15 @@ const Navbar = () => {
                                 alt="Not Found"
                                 className="h-10 w-14"
                             />
+
                             <p
                                 onClick={() => {
                                     router.push('/');
                                 }}
                             >
-                                {process?.env?.STORE_NAME &&
-                                    process.env.STORE_NAME.split(' ')[0]}
+                                {/* {process?.env?.STORE_NAME && */}
+                                {/*     process.env.STORE_NAME.split(' ')[0]} */}
+                                {process?.env?.STORE_NAME}
                             </p>
                         </div>
                     </Link>

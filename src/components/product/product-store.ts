@@ -17,7 +17,7 @@ export const useusecurrProdStore = create<usecurrProdStore>(
         }),
         {
             name: 'currentproduct-storage',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => localStorage)
         }
     )
 );
