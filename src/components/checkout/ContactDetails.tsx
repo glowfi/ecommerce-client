@@ -322,7 +322,7 @@ export function ContactDetails({ handleNext }: any) {
                                                 onChangeCapture={() => {
                                                     updateContacts(
                                                         'zipCode',
-                                                        parseInt(field.value),
+                                                        field.value as number,
                                                         true
                                                     );
                                                 }}

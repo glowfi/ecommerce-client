@@ -22,7 +22,6 @@ import { Priceslider } from './priceslider';
 import { usesearchStore } from './search-store';
 
 async function fetchProducts(query: string) {
-    
     const lastquery = usesearchStore.getState().lastquery;
     const reset = usesearchStore.getState().reset;
 
@@ -36,7 +35,6 @@ async function fetchProducts(query: string) {
     const lastToken = usesearchStore.getState().lastToken;
 
     if (lastIdx !== -1 && lastIdx === page) {
-        
         return;
     }
 
@@ -64,10 +62,8 @@ async function fetchProducts(query: string) {
     );
 
     let currData = data?.getProductsBySearchTermAtlasSearch?.data;
-    
 
     if (currData) {
-        
         paginate(currData);
         usesearchStore.setState({
             lastToken: data?.getProductsBySearchTermAtlasSearch?.lastToken
@@ -104,7 +100,6 @@ export default function SearchedResults() {
     });
     const handleFilterChange = (type: any, value: any) => {
         if (type === 'category') {
-            
             setSelectedFilters({
                 ...selectedFilters,
                 //@ts-ignore
@@ -336,7 +331,9 @@ export default function SearchedResults() {
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 justify-center items-center">
                         {filteredProducts?.map((product: any, idx: any) => (
-                            <ProductCard product={product} />
+                            <div key={idx}>
+                                <ProductCard product={product} />
+                            </div>
                         ))}
                     </div>
                     {hasMore && (
@@ -348,7 +345,6 @@ export default function SearchedResults() {
                                     usesearchStore.setState({
                                         pageIdx: page + 1
                                     });
-                                    
                                 }}
                             >
                                 Load more
