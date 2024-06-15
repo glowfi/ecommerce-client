@@ -13,6 +13,8 @@ query paginateProd($skipping: Int!, $limit: Int!){
      dateCreated
      dateCreatedHuman
      coverImage
+     discountPercent
+     totalReviews
    }
     err
   }

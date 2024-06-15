@@ -6,24 +6,31 @@ import { useRouter } from 'next/navigation';
 import { SkeletonCard } from '../product/SkeletonCard';
 import AddtoCart from '../product/addtocart';
 import { StarIcon } from '../ui/staricon';
+import { Badge } from '../ui/badge';
 
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
+    
 
     return (
         <div
             key={product?.id}
             className="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2"
         >
-            {!loaded && <SkeletonCard props={{ w: '300', h: '300' }} />}
-            <Image
+            {product?.discountPercent !== 0 && (
+                <div className="absolute top-4 left-4  px-3 py-1 rounded-full text-xs font-medium">
+                    <Badge>{product?.discountPercent}% Off</Badge>
+                </div>
+            )}
+            {!loaded && <SkeletonCard props={{ w: '200', h: '200' }} />}
+            <img
                 onLoad={() => setLoaded(true)}
                 src={product?.coverImage?.[0]}
                 alt={product?.name}
-                width={300}
-                height={300}
-                className="hover:opacity-50 h-64 transition-all w-full"
+                width={200}
+                height={200}
+                className="h-64 transition-all w-full object-cover"
                 onClick={() => {
                     router.push(`/product/${product?.id}`);
                 }}
@@ -33,16 +40,31 @@ const ProductCard = ({ product }: any) => {
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
                     {product?.title}
                 </p>
-                <div className="flex items-center justify-between mt-4">
+                <div className="flex flex-wrap justify-between items-center gap-3">
                     <div className="flex gap-1">
                         <StarIcon className="w-5 h-5 fill-primary" />
                         <span className="text-sm text-gray-500 dark:text-gray-400">
                             {product?.rating?.toFixed(1)}
                         </span>
                     </div>
-                    <span className="font-semibold text-lg">
-                        ${product?.price.toFixed(2)}
-                    </span>
+                    {product?.discountPercent ? (
+                        <div className="flex">
+                            <span className="text-lg font-bold mr-2">
+                                $
+                                {(
+                                    ((100 - product?.discountPercent) / 100) *
+                                    product?.price
+                                ).toFixed(0)}
+                            </span>
+                            <span className="text-sm text-gray-500 line-through">
+                                ${product.price.toFixed(2)}
+                            </span>
+                        </div>
+                    ) : (
+                        <span className="text-lg font-bold mr-2">
+                            ${product.price.toFixed(2)}
+                        </span>
+                    )}
                     <AddtoCart currProduct={product} />
                 </div>
             </div>

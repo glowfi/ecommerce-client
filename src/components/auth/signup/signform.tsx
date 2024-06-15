@@ -110,7 +110,7 @@ const Signform = () => {
                 dob: data.dob
             }
         });
-        console.log(res);
+        
 
         if (res?.data?.createUser?.data) {
             toast({

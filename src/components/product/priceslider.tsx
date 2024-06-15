@@ -6,12 +6,12 @@ import { MAX_PRICE, MIN_PRICE, PRICE_STEP } from './constants';
 
 type SliderProps = React.ComponentProps<typeof Slider>;
 export function Priceslider({ className, ...props }: SliderProps) {
-    // console.log(props, 'PORPS');
+    // 
 
     const handlePriceChange = (values: any) => {
-        console.log(props);
+        
         //@ts-ignore
-        console.log(props.props.selectedFilters, 'CURR');
+        
         let [min, max] = values;
         // price: { min: 0, max: 100000 },
 
@@ -21,7 +21,7 @@ export function Priceslider({ className, ...props }: SliderProps) {
             ...props.props.selectedFilters,
             price: { min, max }
         });
-        // console.log(values);
+        // 
         // setPriceRange(values)
     };
 

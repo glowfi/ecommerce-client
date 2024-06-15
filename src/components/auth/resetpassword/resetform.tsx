@@ -55,7 +55,7 @@ const ResetForm = ({ ID }: any) => {
                 token: ID as string
             }
         });
-        console.log(res, ID);
+        
         if (res?.data?.resetPassword?.err) {
             toast({
                 variant: 'destructive',

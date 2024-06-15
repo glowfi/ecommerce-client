@@ -25,7 +25,7 @@ const Front = () => {
             let randomIdx: number = Math.floor(
                 Math.random() * Object.keys(hero_data).length
             );
-            console.log('Running');
+            
             setHeroimage(hero_data?.[randomIdx]);
         }, 3000);
 

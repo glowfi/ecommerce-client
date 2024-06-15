@@ -56,7 +56,7 @@ const Myaccount = () => {
                 userid: user.id
             }
         });
-        console.log(res);
+        
         if (res?.data?.resetPassword?.err) {
             toast({
                 variant: 'destructive',

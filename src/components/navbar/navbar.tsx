@@ -28,7 +28,7 @@ const Navbar = () => {
     const router = useRouter();
     const [hasHydrated, setHasHydrated] = useState(false);
 
-    // console.log(useTheme());
+    // );
     const { theme } = useTheme();
     useEffect(() => {
         setHasHydrated(!hasHydrated);

@@ -29,10 +29,10 @@ const loadData = async (ID: string) => {
         return;
     }
     if (lastIdx === -1) {
-        console.log('First!');
+        
         useusecurrProdStore.setState({ lastIdx: ID });
     } else if (lastIdx !== ID) {
-        console.log('reset');
+        
         useusecurrProdStore.setState({ lastIdx: ID });
         useusecurrProdStore.setState({ hasMore: true });
         useusecurrProdStore.setState({ pageIdx: 0 });
@@ -40,7 +40,7 @@ const loadData = async (ID: string) => {
     }
     if (hasMore) {
         useusecurrProdStore.setState({ isloading: true });
-        console.log('Get Back', ID);
+        
         const { data } = await getClient().query(
             Get_Reviews_PaginateDocument,
             {
@@ -59,7 +59,7 @@ const loadData = async (ID: string) => {
             let new_data = data?.getReviewsPaginate?.data;
             let newComments = {};
 
-            console.log(new_data);
+            
 
             for (let index = 0; index < new_data.length; index++) {
                 let currComment = new_data[index];

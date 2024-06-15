@@ -103,7 +103,7 @@ export function UserUpdate({ userdetails }: User) {
             userId: user.id
         });
 
-        console.log(res?.data?.updateUser);
+        
 
         if (res?.data?.updateUser?.data) {
             toast({

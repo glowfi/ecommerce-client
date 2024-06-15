@@ -68,6 +68,9 @@ export default function Autocomplete() {
                     onKeyDown={(event) => {
                         if (event.key == 'Enter') {
                             router.push(`/product/search/?q=${searchTerm}`);
+                            setIsopen(false);
+                            setSearchTerm('');
+                            useautoStore.setState({ searchProducts: [] });
                         }
                     }}
                 />

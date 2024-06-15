@@ -61,7 +61,7 @@ function CountrySelect({
             onValueChange={(value: string) => {
                 onChange(value);
                 onChangeCapture(value);
-                console.log(value);
+                
             }}
         >
             <SelectTrigger className={className}>

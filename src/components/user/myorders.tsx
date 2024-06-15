@@ -279,7 +279,7 @@ export function Side({ allOrders, idx }: any) {
 }
 
 const getData = async () => {
-    console.log('Enterd');
+    
     const userId = useuserStore.getState().user.id;
     const pageIdx_order = useuserinfo.getState().pageIdx_order;
     const hasMore_order = useuserinfo.getState().hasMore_order;
@@ -312,7 +312,7 @@ const getData = async () => {
                 newOrder[`${currOrder.id}`] = { ...currOrder };
             }
 
-            console.log(newOrder);
+            
 
             useuserinfo.setState({
                 allOrders: { ...allOrders, ...newOrder }
@@ -362,7 +362,7 @@ export function Myorders() {
         setFetching(true);
         getData()
             .then((data) => {
-                console.log('Resolved');
+                
                 //@ts-ignore
                 if (data?.data?.getOrdersByUserid?.data || data === -1) {
                     setFetching(false);
@@ -379,7 +379,7 @@ export function Myorders() {
     }, [pageIdx_order]);
 
     if (loading) {
-        console.log('Enter loading state');
+        
         return <LoadingSpinner name="user orders" />;
     }
 
@@ -404,7 +404,7 @@ export function Myorders() {
                                 className="mt-6 w-fit"
                                 loading={loading}
                                 onClick={() => {
-                                    console.log('clicked');
+                                    
                                     useuserinfo.setState({
                                         pageIdx_order: pageIdx_order + 1
                                     });

@@ -17,7 +17,6 @@ const CategoryCard = ({ categories }: any) => {
                     key={category.id}
                     href={`/product/bycategories?q=${category?.name}`}
                     className="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2"
-                    prefetch={false}
                 >
                     {!loaded && <SkeletonCard props={{ w: '300', h: '300' }} />}
                     <Image

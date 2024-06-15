@@ -30,7 +30,7 @@ const getData = async () => {
     const lastIdx_rev = useuserinfo.getState().lastIdx_rev;
     const allReviews = useuserinfo.getState().allReviews;
 
-    console.log('Enterd', userId, pageIdx);
+    
 
     if (lastIdx_rev === -1 || lastIdx_rev !== pageIdx) {
         useuserinfo.setState({ lastIdx_rev: pageIdx });
@@ -47,12 +47,12 @@ const getData = async () => {
             limit: TOTAL_ITEMS,
             skipping: pageIdx * TOTAL_ITEMS
         });
-        console.log('Getting Data', data);
+        
 
         let currData = data?.data?.getAllReviewsByUserId?.data;
 
         // if (currData) {
-        // console.log(currData);
+        // 
         // useuserinfo.setState({
         //     allReviews: [...allReviews, ...currData]
         // });
@@ -66,7 +66,7 @@ const getData = async () => {
                 newReview[`${currReview.id}`] = { ...currReview };
             }
 
-            console.log(newReview);
+            
 
             useuserinfo.setState({
                 allReviews: { ...allReviews, ...newReview }
@@ -97,11 +97,11 @@ const MyReviews = () => {
     useEffect(() => {
         setFetching(true);
         setLoading(true);
-        console.log('Before');
+        
 
         getData()
             .then((data) => {
-                console.log('Resolved');
+                
                 //@ts-ignore
                 if (data?.data?.getAllReviewsByUserId?.data || data === -1) {
                     setFetching(false);
@@ -116,11 +116,11 @@ const MyReviews = () => {
                 setFetching(false);
                 setLoading(false);
             });
-        console.log('After');
+        
     }, [pageIdx]);
 
     if (fetching) {
-        console.log('Got execurted');
+        
         return <LoadingSpinner name="user reviews" />;
     }
 

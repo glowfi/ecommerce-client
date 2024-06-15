@@ -30,7 +30,7 @@ const loadData = async (productId: string) => {
     });
 
     if (data?.data?.getReviewsPercentage?.data) {
-        console.log(data?.data?.getReviewsPercentage?.data);
+        
         useusecurrProdStore.setState({
             ratings: data?.data?.getReviewsPercentage?.data
         });

@@ -38,7 +38,7 @@ export interface User {
 }
 
 const getData = async () => {
-    console.log('Entred user Details');
+    
     const userId = useuserStore.getState().user.id;
 
     const data = await getClient().query(MequeryDocument, {
@@ -60,7 +60,7 @@ const MyDetails = () => {
                     //@ts-ignore
                     setUserData(data?.data?.getUserById?.data);
                 }
-                // console.log(data?.data?.getUserById?.data);
+                // 
                 setLoading(false);
             })
             .catch(() => {

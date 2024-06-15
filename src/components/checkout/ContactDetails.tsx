@@ -92,7 +92,7 @@ export function ContactDetails({ handleNext }: any) {
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         handleNext();
-        console.log(user.email);
+        
         let output = {
             name: user.name,
             email: user.email,
