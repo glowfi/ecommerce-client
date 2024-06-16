@@ -8,6 +8,7 @@ getProductById(productID: $productId) {
      rating
      description
      brand
+     discountPercent
      category {
          name
      }

@@ -9,6 +9,7 @@ query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!){
      categoryName
      images
      coverImage
+     discountPercent
    }
     err
   }
