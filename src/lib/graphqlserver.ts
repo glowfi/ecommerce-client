@@ -7,13 +7,15 @@ export const makeClient = (access_token?: string) => {
         url: process.env.GRAPHQL_API_ENDPOINT,
         exchanges: [cacheExchange, fetchExchange],
         fetchOptions: () => {
-            const headers = {};
+            const headers: any = {};
 
-            if (access_token) {
-                //@ts-ignore
+            headers['ngrok-skip-browser-warning'] = 1;
 
-                headers['Authorization'] = `Bearer ${access_token}`;
-            }
+            // if (access_token) {
+            //     //@ts-ignore
+
+            //     headers['Authorization'] = `Bearer ${access_token}`;
+            // }
 
             return { headers, credentials: 'include' };
         }

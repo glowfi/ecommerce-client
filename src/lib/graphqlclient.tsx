@@ -19,7 +19,9 @@ export default function Provider({ children }: React.PropsWithChildren) {
             url: process.env.GRAPHQL_API_ENDPOINT,
             exchanges: [cacheExchange, ssr, fetchExchange],
             fetchOptions: () => {
-                const headers = {};
+                const headers: any = {};
+
+                headers['ngrok-skip-browser-warning'] = 1;
 
                 // if (access_token) {
                 //     headers['Authorization'] = `Bearer ${access_token}`;
