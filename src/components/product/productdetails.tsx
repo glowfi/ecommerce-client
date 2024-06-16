@@ -13,7 +13,7 @@ import AddtoCart from './addtocart';
 
 const ProductDetails = ({ currProduct }: any) => {
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden w-fit">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
@@ -75,9 +75,7 @@ const ProductDetails = ({ currProduct }: any) => {
                     <div className="font-semibold">Seller Company address</div>
                     <dl className="grid gap-3">
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">
-                                Street Address
-                            </dt>
+                            <dt className="text-muted-foreground">Address</dt>
                             <dd>
                                 {
                                     currProduct?.seller?.companyAddress

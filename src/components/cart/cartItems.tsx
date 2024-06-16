@@ -18,7 +18,7 @@ const CartItems = ({ setSheetOpen }: any) => {
     const router = useRouter();
 
     return (
-        <ScrollArea className="h-[95vh] w-full  rounded-md p-4">
+        <ScrollArea className="h-[95vh] w-full">
             <div className="w-full">
                 <div className="grid gap-4 py-4">
                     {cart.map((p: any, idx: any) => {
@@ -39,9 +39,9 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     alt="Not Found"
                                     width={100}
                                     height={100}
-                                    className="rounded-md"
+                                    className="rounded-md w-fit"
                                 />
-                                <div className="grid gap-1">
+                                <div className="flex flex-col gap-1">
                                     <p className="text-sm font-medium leading-none">
                                         <Link
                                             href={`/product/${p?.id}`}
@@ -53,20 +53,33 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     <p className="text-sm text-muted-foreground">
                                         Quantity : x{p?.quantity}
                                     </p>
+                                    <p className="block md:hidden text-sm text-muted-foreground">
+                                        Price p/c : ${(p?.price).toFixed(2)}
+                                    </p>
+
+                                    <p className="block md:hidden text-sm text-muted-foreground">
+                                        Price : $
+                                        {(p?.price * p?.quantity).toFixed(2)}
+                                    </p>
 
                                     <div className="flex flex-col">
-                                        <Button
-                                            variant={'destructive'}
-                                            onClick={() => {
-                                                removeCart(p?.id);
-                                            }}
-                                        >
-                                            Remove
-                                        </Button>
-                                        <AddtoCart currProduct={p} />
+                                        <div className="flex flex-col">
+                                            <Button
+                                                variant={'destructive'}
+                                                onClick={() => {
+                                                    removeCart(p?.id);
+                                                }}
+                                                className="hidden md:block"
+                                            >
+                                                Remove
+                                            </Button>
+                                        </div>
+                                        <div className="flex ml-0">
+                                            <AddtoCart currProduct={p} />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="ml-auto font-medium">
+                                <div className="hidden md:flex-col items-center justify-center font-medium ml-auto">
                                     $
                                     {(
                                         ((100 - p?.discountPercent) / 100) *
@@ -86,6 +99,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                         </div>
                     </div>
                     <Button
+                        className="rounded-md"
                         type="button"
                         onClick={() => {
                             setSheetOpen(false);

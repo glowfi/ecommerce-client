@@ -18,7 +18,7 @@ const Itemcarousel = ({ currProduct }: any) => {
     const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
-        <Carousel className="w-full max-w-sm sm:max-w-xl">
+        <Carousel className="w-min md:w-full">
             <CarouselContent className="-ml-1">
                 {currProduct?.images?.map((p: any, index: number) => (
                     <CarouselItem

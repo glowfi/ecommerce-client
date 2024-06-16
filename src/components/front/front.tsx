@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import { SkeletonCard } from '../product/SkeletonCard';
 import { Button } from '../ui/button';
 import { hero_data } from './data';
+import { useuserStore } from '../auth/store';
+import Link from 'next/link';
 
 const Front = () => {
     const [heroimage, setHeroimage] = useState('');
     const [loaded, setLoaded] = useState<boolean>(false);
+    const currUser = useuserStore((state: any) => state.user);
 
     const scrollToHalfViewport = () => {
         // Calculate the scroll position to half of the viewport height
@@ -25,7 +28,7 @@ const Front = () => {
             let randomIdx: number = Math.floor(
                 Math.random() * Object.keys(hero_data).length
             );
-            
+
             setHeroimage(hero_data?.[randomIdx]);
         }, 3000);
 
@@ -48,6 +51,15 @@ const Front = () => {
                             <Button size="lg" onClick={scrollToHalfViewport}>
                                 Shop Now
                             </Button>
+                            {!currUser.email && (
+                                <Button
+                                    className="block sm:hidden text-center"
+                                    asChild
+                                    variant={'default'}
+                                >
+                                    <Link href="/auth/login">Login</Link>
+                                </Button>
+                            )}
                         </div>
                     </div>
                     {!loaded && <SkeletonCard props={{ w: '600', h: '400' }} />}

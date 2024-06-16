@@ -28,7 +28,7 @@ const Cart = () => {
                     <ShoppingCart />
                 </Button>
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="w-full">
                 <SheetHeader>
                     <SheetTitle>Your Cart</SheetTitle>
                 </SheetHeader>

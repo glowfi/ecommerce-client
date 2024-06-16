@@ -46,7 +46,7 @@ export default function Autocomplete() {
     }, [debouncedText]);
 
     return (
-        <div className="relative w-full max-w-md" ref={menuRef}>
+        <div className="relative w-full" ref={menuRef}>
             <div className="relative">
                 <Input
                     placeholder="Type to start searching for products..."
@@ -82,7 +82,7 @@ export default function Autocomplete() {
                     <LoadingSpinner name="results" />
                 </div>
             ) : (
-                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-primary-foreground">
+                <div className="absolute z-10 mt-2 w-fit rounded-md bg-white shadow-lg dark:bg-primary-foreground">
                     <ul
                         className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'}`}
                     >

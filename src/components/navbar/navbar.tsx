@@ -39,7 +39,7 @@ const Navbar = () => {
             <header
                 className={`sticky z-50 top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
             >
-                <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+                <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
                         href="/"
                         className="flex items-center text-lg font-semibold md:text-base hover:opacity-75 transition-all"
@@ -54,6 +54,7 @@ const Navbar = () => {
                             />
 
                             <p
+                                className="hidden md:block"
                                 onClick={() => {
                                     router.push('/');
                                 }}
@@ -65,21 +66,22 @@ const Navbar = () => {
                         </div>
                     </Link>
                 </nav>
-                <div className="flex justify-center items-center w-full gap-1.5">
+
+                <div className="flex justify-center items-center w-full">
                     <Autocomplete />
                 </div>
 
-                <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+                <div className="hidden md:flex justify-center items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
                     <div className="ml-auto flex flex-1 sm:flex-initial gap-3">
                         {!currUser.email && (
-                            <Button asChild variant={'secondary'}>
+                            <Button
+                                className="hidden md:block"
+                                asChild
+                                variant={'secondary'}
+                            >
                                 <Link href="/auth/login">Login</Link>
                             </Button>
                         )}
-                        <ModeToggle />
-                        <div className="flex">
-                            <CartIcon />
-                        </div>
                         {currUser?.email && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -130,6 +132,10 @@ const Navbar = () => {
                             </DropdownMenu>
                         )}
                     </div>
+                </div>
+                <div className="flex justify-center items-center gap-3">
+                    <ModeToggle />
+                    <CartIcon />
                 </div>
             </header>
         </>

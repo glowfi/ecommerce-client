@@ -54,7 +54,7 @@ export default function FinalCart() {
                                                         alt="Product Image"
                                                         width={100}
                                                         height={100}
-                                                        className="rounded-md"
+                                                        className="hidden md:block rounded-md"
                                                     />
                                                     <div className="flex flex-col justify-center items-start">
                                                         <Link
@@ -137,9 +137,9 @@ export default function FinalCart() {
                                         ).toFixed(0)}
                                     </span>
                                 </div>
-                                <div className="flex justify-center items-center">
+                                <div className="flex justify-center items-center mt-3">
                                     <Link
-                                        className="underline"
+                                        className="underline text-center"
                                         href={'/checkout'}
                                     >
                                         {`Proceed to Buy (${cart.length} items)`}
