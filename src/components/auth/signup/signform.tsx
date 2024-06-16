@@ -79,7 +79,7 @@ const Signform = () => {
             country: '',
             state: '',
             city: '',
-            zipCode: '',
+            zipCode: 0,
             dob: '',
             phoneNumber: '',
             streetAddress: ''
@@ -103,14 +103,13 @@ const Signform = () => {
                         ? lookup.byIso(data.country)?.country
                         : '',
                     state: data.state,
-                    zipCode: data.zipCode,
+                    zipCode: data.zipCode as any,
                     city: data.city
                 },
                 phoneNumber: data.phoneNumber,
                 dob: data.dob
             }
         });
-        
 
         if (res?.data?.createUser?.data) {
             toast({

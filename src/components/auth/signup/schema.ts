@@ -30,7 +30,7 @@ export const streetAddressSchema = z.string().or(z.literal(''));
 export const countrySchema = z.string().or(z.literal(''));
 export const stateSchema = z.string().or(z.literal(''));
 export const citySchema = z.string().or(z.literal(''));
-export const zipCodeSchema = z.string().or(z.literal(''));
+export const zipCodeSchema = z.number().or(z.literal(''));
 export const phoneNumbeSchema = z
     .string()
     .refine(
