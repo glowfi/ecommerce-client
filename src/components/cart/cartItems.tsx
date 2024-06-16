@@ -103,7 +103,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                         type="button"
                         onClick={() => {
                             setSheetOpen(false);
-                            router.push('/cart');
+                            router.push('/checkout');
                         }}
                     >
                         Checkout
