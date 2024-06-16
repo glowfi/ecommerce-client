@@ -15,6 +15,9 @@ const nextConfig = {
             },
             {
                 hostname: 'xsgames.co'
+            },
+            {
+                hostname: 'ui.shadcn.com'
             }
         ]
     }
