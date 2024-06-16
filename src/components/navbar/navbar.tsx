@@ -1,5 +1,6 @@
 'use client';
 
+import Logo from '@/app/icon.png';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -9,7 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { AvatarFallback } from '@radix-ui/react-avatar';
+import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -18,8 +19,6 @@ import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
-import { useTheme } from 'next-themes';
-import Logo from '@/app/icon.png';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -95,7 +94,9 @@ const Navbar = () => {
                                                 className="hover:opacity-75 transition-all"
                                             />
                                         ) : (
-                                            <AvatarFallback>CN</AvatarFallback>
+                                            <p className="leading-7 [&:not(:first-child)]:mt-6">
+                                                {currUser?.name}
+                                            </p>
                                         )}
                                         <span className="sr-only">
                                             Toggle user menu
