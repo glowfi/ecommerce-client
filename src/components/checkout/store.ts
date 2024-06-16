@@ -89,7 +89,7 @@ export const usecheckoutStore = create<checkoutStore>(
                     set({
                         contact: {
                             ...contact,
-                            [key]: value
+                            [key]: key == 'zipCode' ? parseInt(value) : value
                         }
                     });
                 } else {

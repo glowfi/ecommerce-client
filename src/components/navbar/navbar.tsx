@@ -70,7 +70,9 @@ const Navbar = () => {
                     <Autocomplete />
                 </div>
 
-                <div className="hidden md:flex justify-center items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+                {/* <div className="hidden md:flex justify-center items-center gap-4 md:ml-auto md:gap-2 lg:gap-4"> */}
+                {/* </div> */}
+                <div className="flex justify-center items-center gap-3">
                     <div className="ml-auto flex flex-1 sm:flex-initial gap-3">
                         {!currUser.email && (
                             <Button
@@ -133,8 +135,6 @@ const Navbar = () => {
                             </DropdownMenu>
                         )}
                     </div>
-                </div>
-                <div className="flex justify-center items-center gap-3">
                     <ModeToggle />
                     <CartIcon />
                 </div>

@@ -20,9 +20,8 @@ export const stateSchema = z.string().min(3, { message: 'No state provided!' });
 
 export const citySchema = z.string().min(3, 'No city provided!');
 
-export const zipCodeSchema = z
-    .number()
-    .min(4, { message: 'No zipcode provided!' });
+export const zipCodeSchema = z.any({ message: 'No zipcode provided!' });
+// .min(4, { message: 'No zipcode provided!' });
 
 export const phoneNumbeSchema = z
     .string()

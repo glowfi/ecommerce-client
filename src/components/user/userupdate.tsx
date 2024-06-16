@@ -75,7 +75,7 @@ export function UserUpdate({ userdetails }: User) {
             country: countryCode,
             state: state,
             city: userdetails?.address?.city,
-            zipCode: userdetails?.address?.zipCode,
+            zipCode: parseInt(userdetails?.address?.zipCode),
             phoneNumber: userdetails?.phoneNumber
         }
     });
@@ -86,6 +86,8 @@ export function UserUpdate({ userdetails }: User) {
         setLoading(true);
         data.state = state;
         data.country = countryCode;
+        // @ts-ignore
+        data.zipCode = parseInt(data.zipCode as number) as number;
         const res = await execUpdate({
             data: {
                 phoneNumber: data.phoneNumber,
@@ -102,8 +104,6 @@ export function UserUpdate({ userdetails }: User) {
             },
             userId: user.id
         });
-
-        
 
         if (res?.data?.updateUser?.data) {
             toast({
@@ -227,6 +227,7 @@ export function UserUpdate({ userdetails }: User) {
                                                     onChangeCapture={
                                                         setCountryCode
                                                     }
+                                                    {...field}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -246,6 +247,7 @@ export function UserUpdate({ userdetails }: User) {
                                                     countryCode={countryCode}
                                                     defaultValue={state}
                                                     onChangeCapture={setState}
+                                                    {...field}
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -303,7 +305,7 @@ export function UserUpdate({ userdetails }: User) {
                                         <FormControl>
                                             <PhoneInput
                                                 defaultValue={
-                                                    userdetails?.phoneNumber
+                                                    userdetails?.phoneNumber as number
                                                 }
                                                 placeholder="Enter a phone number"
                                                 {...field}
