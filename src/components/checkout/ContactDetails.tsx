@@ -110,7 +110,8 @@ export function ContactDetails({ handleNext }: any) {
                 // ? data.state : user.address.zipCode,
                 city: data.city,
                 // ? data.city : user.address.city,
-                zipCode: data.zipCode
+                // @ts-ignore
+                zipCode: parseInt(data.zipCode as number)
                 // ? data.zipCode : user.address.zipCode
             },
             phone_number: data.phoneNumber
