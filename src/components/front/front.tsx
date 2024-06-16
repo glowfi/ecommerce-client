@@ -41,7 +41,7 @@ const Front = () => {
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-4">
                         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                            Discover the Best Products for Your Lifestyle
+                            Welcome to {process.env.STORE_NAME}
                         </h1>
                         <p className="text-gray-500 dark:text-gray-400 md:text-xl">
                             Explore our wide range of high-quality products that

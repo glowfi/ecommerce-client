@@ -1,6 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
+import { titleCase } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -47,7 +48,7 @@ export default function Autocomplete() {
 
     return (
         <div className="relative w-full" ref={menuRef}>
-            <div className="relative">
+            <div className="relative flex justify-center">
                 <Input
                     placeholder="Type to start searching for products..."
                     value={searchTerm}
@@ -82,14 +83,14 @@ export default function Autocomplete() {
                     <LoadingSpinner name="results" />
                 </div>
             ) : (
-                <div className="absolute z-10 mt-2 w-fit rounded-md bg-white shadow-lg dark:bg-primary-foreground">
+                <div className="absolute z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-primary-foreground">
                     <ul
-                        className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'}`}
+                        className={`max-h-[300px] overflow-y-auto ${!isopen && 'hidden'} flex-col justify-center items-center`}
                     >
                         {searchedProducts?.map((product: any) => (
                             <li
                                 key={product.id}
-                                className="flex items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-black hover:cursor-pointer"
+                                className="flex justify-center items-center gap-4 border-b border-gray-200 px-4 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-black hover:cursor-pointer"
                                 onClick={() => {
                                     // router.push(`/product/${product?.id}`);
                                     useautoStore.setState({
@@ -101,7 +102,7 @@ export default function Autocomplete() {
                                     router.push(`/product/${product.id}`);
                                 }}
                             >
-                                <div className="flex gap-3 justify-around">
+                                <div className="flex justify-between items-center gap-3">
                                     {!loaded && (
                                         <SkeletonCard
                                             props={{
@@ -119,15 +120,21 @@ export default function Autocomplete() {
                                         height={100}
                                         className="rounded-md"
                                     />
-
-                                    <h3 className="font-medium">
-                                        {product.title.toLowerCase()}
-                                    </h3>
-                                    <h3 className="font-medium">
-                                        <Badge>
-                                            {product.categoryName.toLowerCase()}
-                                        </Badge>
-                                    </h3>
+                                    <div className="flex justify-center items-center gap-6">
+                                        <div className="flex flex-col">
+                                            <h3 className="font-semibold">
+                                                {titleCase(product.brand)}
+                                            </h3>
+                                            <h3 className="font-medium">
+                                                {titleCase(product.title)}
+                                            </h3>
+                                        </div>
+                                        <h3 className="font-medium">
+                                            <Badge>
+                                                {product.categoryName.toLowerCase()}
+                                            </Badge>
+                                        </h3>
+                                    </div>
                                 </div>
                                 {/* <div className="flex-1"> */}
                                 {/*     <h2 className="font-bold"> */}
