@@ -27,7 +27,7 @@ export default function Navbarsmall() {
 
     return (
         <header
-            className={`flex md:hidden justify-center items-center sticky z-50 top-0 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+            className={`flex md:hidden justify-center items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
         >
             <Link href="/" className="flex items-center gap-2" prefetch={false}>
                 <Image
@@ -105,7 +105,7 @@ export default function Navbarsmall() {
                                         )}
                                         <div className="flex flex-col gap-3 m-2">
                                             <Link
-                                                href={`/ user / ${userID}`}
+                                                href={`/user/${userID}`}
                                                 className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
                                                 prefetch={false}
                                                 onClick={() =>
