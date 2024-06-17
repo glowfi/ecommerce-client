@@ -72,8 +72,11 @@ function OrderTable({ allOrders, cidx, setIdx }: any) {
                                     onClick={() => setIdx(idx)}
                                 >
                                     <TableCell>
-                                        <div className="font-medium">
+                                        <div className="font-medium hidden md:block">
                                             {p?.id}
+                                        </div>
+                                        <div className="font-medium md:hidden">
+                                            {p?.id.slice(0, 8)}...
                                         </div>
                                     </TableCell>
                                     <TableCell className="hidden sm:table-cell">
@@ -279,7 +282,6 @@ export function Side({ allOrders, idx }: any) {
 }
 
 const getData = async () => {
-    
     const userId = useuserStore.getState().user.id;
     const pageIdx_order = useuserinfo.getState().pageIdx_order;
     const hasMore_order = useuserinfo.getState().hasMore_order;
@@ -311,8 +313,6 @@ const getData = async () => {
                 // @ts-ignore
                 newOrder[`${currOrder.id}`] = { ...currOrder };
             }
-
-            
 
             useuserinfo.setState({
                 allOrders: { ...allOrders, ...newOrder }
@@ -362,7 +362,6 @@ export function Myorders() {
         setFetching(true);
         getData()
             .then((data) => {
-                
                 //@ts-ignore
                 if (data?.data?.getOrdersByUserid?.data || data === -1) {
                     setFetching(false);
@@ -379,7 +378,6 @@ export function Myorders() {
     }, [pageIdx_order]);
 
     if (loading) {
-        
         return <LoadingSpinner name="user orders" />;
     }
 
@@ -404,7 +402,6 @@ export function Myorders() {
                                 className="mt-6 w-fit"
                                 loading={loading}
                                 onClick={() => {
-                                    
                                     useuserinfo.setState({
                                         pageIdx_order: pageIdx_order + 1
                                     });

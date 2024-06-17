@@ -19,9 +19,7 @@ import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
-import { Autocompletesmall } from './autocompletesmall';
-import { Input } from '../ui/input';
-import { useautoStore } from './autocompletestore';
+import Navbarsmall from './navbarsmall';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -29,7 +27,6 @@ const Navbar = () => {
     const userID = useuserStore((state: any) => state.user.id);
     const router = useRouter();
     const [hasHydrated, setHasHydrated] = useState(false);
-    const [open, setOpen] = useState(false);
 
     // );
     const { theme } = useTheme();
@@ -39,8 +36,9 @@ const Navbar = () => {
 
     return (
         <>
+            <Navbarsmall />
             <header
-                className={`sticky z-50 top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+                className={`hidden md:flex sticky z-50 top-0 h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
             >
                 <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
@@ -70,20 +68,6 @@ const Navbar = () => {
 
                 <div className="hidden md:flex justify-center items-center w-full">
                     <Autocomplete />
-                </div>
-
-                <div className="flex md:hidden justify-center items-center w-full">
-                    <Input
-                        type="text"
-                        id="text"
-                        placeholder="Click to start searching for products ..."
-                        className="text-center"
-                        onClick={() => {
-                            useautoStore.setState({ searchProducts: [] });
-                            setOpen(!open);
-                        }}
-                    />
-                    <Autocompletesmall open={open} setOpen={setOpen} />
                 </div>
 
                 <div className="flex justify-center items-center gap-3">
@@ -130,13 +114,6 @@ const Navbar = () => {
                                         }}
                                     >
                                         Account Settings
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        onClick={() => {
-                                            router.push('/cart');
-                                        }}
-                                    >
-                                        Cart
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
                                         onClick={() => {

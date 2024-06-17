@@ -61,21 +61,13 @@ const Productcontainer = () => {
     }
 
     return (
-        <div className="flex min-h-screen w-full flex-col">
-            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-                <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-                    <div className="grid auto-rows-max gap-4 md:gap-8 lg:col-span-2 justify-center items-center">
-                        <div className="col-span-6">
-                            <div className="flex flex-col justfy-center items-center gap-6 mt-6">
-                                <ItemPrev currProduct={currProd} />
-                                <Itemcarousel currProduct={currProd} />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <ProductDetails currProduct={currProd} />
-                    </div>
-                </main>
+        <div className="flex min-h-screen w-full flex-col mt-6 mb-12">
+            <div className="flex flex-col justify-center items-center gap-6">
+                <ItemPrev currProduct={currProd} />
+                <Itemcarousel currProduct={currProd} />
+                <div className="flex justify-center items-center">
+                    <ProductDetails currProduct={currProd} />
+                </div>
             </div>
             <ImagePreview />
         </div>

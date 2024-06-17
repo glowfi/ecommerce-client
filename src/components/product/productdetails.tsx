@@ -45,11 +45,15 @@ const ProductDetails = ({ currProduct }: any) => {
                     <div className="font-semibold">Seller Information</div>
                     <dl className="grid gap-3">
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Seller</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Seller
+                            </dt>
                             <dd>{currProduct?.seller?.sellerName}</dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Email</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Email
+                            </dt>
                             <dd>
                                 <a href="mailto:">
                                     {currProduct?.seller?.email}
@@ -57,7 +61,9 @@ const ProductDetails = ({ currProduct }: any) => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Phone</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Phone
+                            </dt>
                             <dd>
                                 <a href="tel:">
                                     {currProduct?.seller?.phoneNumber}
@@ -65,7 +71,9 @@ const ProductDetails = ({ currProduct }: any) => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Sold By</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Sold By
+                            </dt>
                             <dd>{currProduct?.seller?.companyName}</dd>
                         </div>
                     </dl>
@@ -75,7 +83,9 @@ const ProductDetails = ({ currProduct }: any) => {
                     <div className="font-semibold">Seller Company address</div>
                     <dl className="grid gap-3">
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Address</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Address
+                            </dt>
                             <dd>
                                 {
                                     currProduct?.seller?.companyAddress
@@ -84,7 +94,9 @@ const ProductDetails = ({ currProduct }: any) => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">City</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                City
+                            </dt>
                             <dd>
                                 <a href="mailto:">
                                     {currProduct?.seller?.companyAddress?.city}
@@ -92,7 +104,9 @@ const ProductDetails = ({ currProduct }: any) => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">State</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                State
+                            </dt>
                             <dd>
                                 <a href="tel:">
                                     {currProduct?.seller?.companyAddress?.state}
@@ -100,7 +114,9 @@ const ProductDetails = ({ currProduct }: any) => {
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Country</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                Country
+                            </dt>
                             <dd>
                                 <a href="tel:">
                                     {
@@ -112,7 +128,9 @@ const ProductDetails = ({ currProduct }: any) => {
                         </div>
 
                         <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">ZipCode</dt>
+                            <dt className="hidden md:block text-muted-foreground">
+                                ZipCode
+                            </dt>
                             <dd>
                                 <a href="tel:">
                                     {
