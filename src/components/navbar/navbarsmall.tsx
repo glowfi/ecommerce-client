@@ -1,38 +1,34 @@
-import Link from 'next/link';
+'use client';
+import Logo from '@/app/icon.png';
+import { Button } from '@/components/ui/button';
 import {
     Sheet,
-    SheetTrigger,
+    SheetClose,
     SheetContent,
-    SheetClose
+    SheetTrigger
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import Logo from '@/app/icon.png';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useuserStore } from '../auth/store';
+import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import { Input } from '../ui/input';
+import CartIcon from './CartIcon';
 import { Autocompletesmall } from './autocompletesmall';
 import { useautoStore } from './autocompletestore';
-import { useState } from 'react';
-import CartIcon from './CartIcon';
-import { ModeToggle } from '../toggletheme/ThemeSwitcher';
-import {
-    DropdownMenu,
-    DropdownMenuTrigger,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuItem
-} from '@radix-ui/react-dropdown-menu';
-import router from 'next/router';
-import { useuserStore } from '../auth/store';
+import { usePathname } from 'next/navigation';
 
 export default function Navbarsmall() {
     const [open, setOpen] = useState(false);
     const currUser = useuserStore((state: any) => state.user);
     const userID = useuserStore((state: any) => state.user.id);
     const [issheetopen, setIssheetopen] = useState(false);
+    const pathname = usePathname();
 
     return (
-        <header className="sticky z-50 top-0 border-b bg-background flex md:hidden h-16 w-full items-center justify-between px-4 md:px-6">
+        <header
+            className={`flex md:hidden justify-center items-center sticky z-50 top-0 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+        >
             <Link href="/" className="flex items-center gap-2" prefetch={false}>
                 <Image
                     src={Logo}
@@ -109,7 +105,7 @@ export default function Navbarsmall() {
                                         )}
                                         <div className="flex flex-col gap-3 m-2">
                                             <Link
-                                                href={`/user/${userID}`}
+                                                href={`/ user / ${userID}`}
                                                 className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
                                                 prefetch={false}
                                                 onClick={() =>
