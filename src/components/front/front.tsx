@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { hero_data } from './data';
 import { useuserStore } from '../auth/store';
 import Link from 'next/link';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const Front = () => {
     const [heroimage, setHeroimage] = useState('');
@@ -14,7 +15,7 @@ const Front = () => {
 
     const scrollToHalfViewport = () => {
         // Calculate the scroll position to half of the viewport height
-        const scrollPosition = window.innerHeight / 2;
+        const scrollPosition = window.innerHeight / 1.5;
 
         // Scroll to the calculated position
         window.scrollTo({
@@ -72,6 +73,7 @@ const Front = () => {
                             height={400}
                             alt="Hero Image"
                             className="mx-auto aspect-video overflow-hidden rounded-xl object-cover transition-all hover:opacity-75 cursor-pointer"
+                            priority
                         />
                     ) : (
                         ''

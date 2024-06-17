@@ -16,10 +16,9 @@ export const usesearchStore = create<searchStore>(
             lastIdx: -1,
             paginate: (data: any) => {
                 const { searchProducts } = get();
+                console.log(data);
                 if (searchProducts?.length > 0) {
-                    set((state: any) => ({
-                        searchProducts: [...searchProducts, ...data]
-                    }));
+                    set({ searchProducts: [...searchProducts, ...data] });
                 } else {
                     set({ searchProducts: data });
                 }

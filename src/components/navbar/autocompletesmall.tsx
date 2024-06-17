@@ -15,13 +15,15 @@ import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { useDebounce } from './hooks/useDebounce';
 import { useautoStore } from './autocompletestore';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 export function Autocompletesmall({ open, setOpen }: any) {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
     const searchedProducts = useautoStore((state: any) => state.searchProducts);
     const fetchProducts = useautoStore((state: any) => state.fetchProducts);
-
+    const [loaded, setLoaded] = useState<boolean>(false);
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
 
     // @ts-ignore
@@ -51,7 +53,7 @@ export function Autocompletesmall({ open, setOpen }: any) {
                     }}
                 />
                 {isloading ? (
-                    <h1 className="font-semibold text-center">Loading ...</h1>
+                    <LoadingSpinner name="results" />
                 ) : (
                     <CommandList>
                         <CommandEmpty>No results found.</CommandEmpty>
@@ -68,7 +70,17 @@ export function Autocompletesmall({ open, setOpen }: any) {
                                         }}
                                     >
                                         <CommandItem className="flex justify-between gap-6 m-6">
+                                            {!loaded && (
+                                                <SkeletonCard
+                                                    props={{
+                                                        w: '100',
+                                                        h: '100'
+                                                    }}
+                                                />
+                                            )}
+
                                             <Image
+                                                onLoad={() => setLoaded(true)}
                                                 src={p?.coverImage?.[1]}
                                                 width={100}
                                                 height={100}

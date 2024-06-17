@@ -7,6 +7,7 @@ import { SkeletonCard } from '../product/SkeletonCard';
 import AddtoCart from '../product/addtocart';
 import { StarIcon } from '../ui/staricon';
 import { Badge } from '../ui/badge';
+import Link from 'next/link';
 
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
@@ -36,12 +37,31 @@ const ProductCard = ({ product }: any) => {
             />
             <div className="p-4 bg-white dark:bg-muted">
                 <div className="flex flex-wrap gap-3">
-                    <h3 className="font-bold text-lg">{product?.brand}</h3>
-                    <Badge className="border-b">{product?.categoryName}</Badge>
+                    <h3
+                        className="font-bold text-lg hover:animate-in hover:cursor-pointer"
+                        onClick={() => {
+                            router.push(`product/search?q=${product?.brand}`);
+                        }}
+                    >
+                        {product?.brand}
+                    </h3>
+                    <Badge
+                        className="border-b hover:animate-in hover:cursor-pointer"
+                        onClick={() => {
+                            router.push(
+                                `product/bycategories?q=${product?.categoryName}`
+                            );
+                        }}
+                    >
+                        {product?.categoryName}
+                    </Badge>
                 </div>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <Link
+                    className="text-gray-500 dark:text-gray-400 text-sm mt-2 hover:underline transition-all hover:animate-in"
+                    href={`/product/${product?.id}`}
+                >
                     {product?.title}
-                </p>
+                </Link>
                 <div className="flex flex-wrap justify-between items-center mt-3 gap-3">
                     <div className="flex gap-1 justify-center items-center">
                         <StarIcon className="w-5 h-5 fill-primary" />

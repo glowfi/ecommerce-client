@@ -136,16 +136,6 @@ export default function Autocomplete() {
                                         </h3>
                                     </div>
                                 </div>
-                                {/* <div className="flex-1"> */}
-                                {/*     <h2 className="font-bold"> */}
-                                {/*         {product.brand} */}
-                                {/*     </h2> */}
-                                {/*     <Badge>{product.categoryName}</Badge> */}
-
-                                {/*     <p className="text-sm text-gray-500 dark:text-gray-400"> */}
-                                {/*         ${product.price} */}
-                                {/*     </p> */}
-                                {/* </div> */}
                             </li>
                         ))}
                     </ul>

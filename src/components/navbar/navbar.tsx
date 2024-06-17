@@ -21,6 +21,7 @@ import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
 import { Autocompletesmall } from './autocompletesmall';
 import { Input } from '../ui/input';
+import { useautoStore } from './autocompletestore';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -61,8 +62,6 @@ const Navbar = () => {
                                     router.push('/');
                                 }}
                             >
-                                {/* {process?.env?.STORE_NAME && */}
-                                {/*     process.env.STORE_NAME.split(' ')[0]} */}
                                 {process?.env?.STORE_NAME}
                             </p>
                         </div>
@@ -80,6 +79,7 @@ const Navbar = () => {
                         placeholder="Click to start searching for products ..."
                         className="text-center"
                         onClick={() => {
+                            useautoStore.setState({ searchProducts: [] });
                             setOpen(!open);
                         }}
                     />
