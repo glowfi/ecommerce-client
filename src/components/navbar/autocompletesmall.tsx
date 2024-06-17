@@ -33,7 +33,7 @@ export function Autocompletesmall({ open, setOpen }: any) {
         <>
             <CommandDialog open={open} onOpenChange={setOpen}>
                 <Input
-                    placeholder="Type a command or search..."
+                    placeholder="Start searching for products ..."
                     value={searchTerm}
                     onChange={(e: any) => {
                         setSearchTerm((curr) => e.target.value);
