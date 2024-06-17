@@ -19,6 +19,8 @@ import { useuserStore } from '../auth/store';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
+import { Autocompletesmall } from './autocompletesmall';
+import { Input } from '../ui/input';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -26,6 +28,7 @@ const Navbar = () => {
     const userID = useuserStore((state: any) => state.user.id);
     const router = useRouter();
     const [hasHydrated, setHasHydrated] = useState(false);
+    const [open, setOpen] = useState(false);
 
     // );
     const { theme } = useTheme();
@@ -66,12 +69,23 @@ const Navbar = () => {
                     </Link>
                 </nav>
 
-                <div className="flex justify-center items-center w-full">
+                <div className="hidden md:flex justify-center items-center w-full">
                     <Autocomplete />
                 </div>
 
-                {/* <div className="hidden md:flex justify-center items-center gap-4 md:ml-auto md:gap-2 lg:gap-4"> */}
-                {/* </div> */}
+                <div className="flex md:hidden justify-center items-center w-full">
+                    <Input
+                        type="text"
+                        id="text"
+                        placeholder="Click to start searching for products ..."
+                        className="text-center"
+                        onClick={() => {
+                            setOpen(!open);
+                        }}
+                    />
+                    <Autocompletesmall open={open} setOpen={setOpen} />
+                </div>
+
                 <div className="flex justify-center items-center gap-3">
                     <div className="ml-auto flex flex-1 sm:flex-initial gap-3">
                         {!currUser.email && (
