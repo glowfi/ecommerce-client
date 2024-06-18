@@ -29,7 +29,7 @@ export default function Navbarsmall() {
         <header
             className={`flex md:hidden justify-center items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
         >
-            <Link href="/" className="flex items-center gap-2" prefetch={false}>
+            <Link href="/" className="flex items-center gap-2">
                 <Image
                     src={Logo}
                     width={100}
@@ -75,11 +75,30 @@ export default function Navbarsmall() {
                             <Link
                                 href="/"
                                 className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
-                                prefetch={false}
                                 onClick={() => setIssheetopen(false)}
                             >
                                 Home
                             </Link>
+
+                            {!currUser?.email && (
+                                <>
+                                    <Link
+                                        href="/auth/login"
+                                        className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
+                                        onClick={() => setIssheetopen(false)}
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        href="/auth/signup"
+                                        className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
+                                        onClick={() => setIssheetopen(false)}
+                                    >
+                                        Signup
+                                    </Link>
+                                </>
+                            )}
+
                             <div className="flex justify-start items-center gap-3">
                                 <p>Change theme :</p>
                                 <ModeToggle />
@@ -107,7 +126,6 @@ export default function Navbarsmall() {
                                             <Link
                                                 href={`/user/${userID}`}
                                                 className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50"
-                                                prefetch={false}
                                                 onClick={() =>
                                                     setIssheetopen(false)
                                                 }
@@ -117,7 +135,6 @@ export default function Navbarsmall() {
                                             <Link
                                                 href="/auth/logout"
                                                 className="text-sm font-medium transition-colors hover:text-gray-900 dark:hover:text-gray-50 text-red-600"
-                                                prefetch={false}
                                                 onClick={() =>
                                                     setIssheetopen(false)
                                                 }
