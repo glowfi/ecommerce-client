@@ -24,7 +24,7 @@ const GoogleloginButton = () => {
                             credentialResponse?.credential as string
                         );
 
-                        console.log(decoded);
+                        
 
                         let name =
                             // @ts-ignore
@@ -49,8 +49,8 @@ const GoogleloginButton = () => {
                         let curr_data = res?.data?.loginGoogle?.data;
                         let curr_err = res?.data?.loginGoogle?.err;
 
-                        console.log(curr_data);
-                        console.log(curr_err);
+                        
+                        
 
                         if (curr_err) {
                             toast({
@@ -96,7 +96,7 @@ const GoogleloginButton = () => {
                         }
                     }}
                     onError={() => {
-                        console.log('Login Failed');
+                        
                     }}
                 />
             </div>

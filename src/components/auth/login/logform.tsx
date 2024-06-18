@@ -75,7 +75,7 @@ export function Logform() {
                 zipCode: res?.data?.login?.data?.address?.zipCode,
                 countryCode: res?.data?.login?.data?.address?.countryCode
             };
-            console.log(res?.data?.login?.data);
+            
 
             addUser({
                 email: res.data?.login?.data?.email,

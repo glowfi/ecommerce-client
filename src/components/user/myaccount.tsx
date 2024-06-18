@@ -56,7 +56,7 @@ const Myaccount = () => {
                 userid: user.id
             }
         });
-        
+
         if (res?.data?.resetPassword?.err) {
             toast({
                 variant: 'destructive',
@@ -104,6 +104,7 @@ const Myaccount = () => {
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
                                         <Input
+                                            type="password"
                                             placeholder="new password"
                                             {...field}
                                         />
