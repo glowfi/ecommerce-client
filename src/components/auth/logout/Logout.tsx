@@ -7,9 +7,13 @@ import { useMutation } from '@urql/next';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useuserStore } from '../store';
+import { googleLogout } from '@react-oauth/google';
 
 const LogoutForm = () => {
     const [, execLogout] = useMutation(LogoutDocument);
+    const isloggedinwithgoogle = useuserStore(
+        (state: any) => state.isloggedinwithgoogle
+    );
     const userID = useuserStore((state: any) => state.user.id);
     const router = useRouter();
 
@@ -46,6 +50,13 @@ const LogoutForm = () => {
                         await execLogout({
                             userID
                         });
+
+                        if (isloggedinwithgoogle) {
+                            useuserStore.setState({
+                                isloggedinwithgoogle: false
+                            });
+                            googleLogout();
+                        }
 
                         router.push('/');
                     }}

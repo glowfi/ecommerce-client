@@ -86,7 +86,7 @@ const Navbar = () => {
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon">
                                         {currUser?.profile_pic ? (
-                                            <Image
+                                            <img
                                                 src={currUser.profile_pic}
                                                 alt="Not Found"
                                                 width={100}

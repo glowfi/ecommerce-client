@@ -18,6 +18,9 @@ const nextConfig = {
             },
             {
                 hostname: 'ui.shadcn.com'
+            },
+            {
+                hostname: 'lh3.googleusercontent.com'
             }
         ]
     }

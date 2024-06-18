@@ -38,7 +38,6 @@ export interface User {
 }
 
 const getData = async () => {
-    
     const userId = useuserStore.getState().user.id;
 
     const data = await getClient().query(MequeryDocument, {
@@ -60,7 +59,7 @@ const MyDetails = () => {
                     //@ts-ignore
                     setUserData(data?.data?.getUserById?.data);
                 }
-                // 
+                //
                 setLoading(false);
             })
             .catch(() => {
@@ -86,7 +85,7 @@ const MyDetails = () => {
                 <div className="ml-auto flex items-center gap-1">
                     {!loaded && <Skeleton className="h-12 w-12 rounded-full" />}
 
-                    <Image
+                    <img
                         onLoad={() => setLoaded(true)}
                         // @ts-ignore
                         src={userData?.profilePic}

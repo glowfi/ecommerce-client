@@ -108,7 +108,7 @@ export default function Navbarsmall() {
                                     <div>
                                         {currUser?.profile_pic ? (
                                             <div className="flex justify-center items-center gap-6">
-                                                <Image
+                                                <img
                                                     src={currUser.profile_pic}
                                                     alt="Not Found"
                                                     width={50}

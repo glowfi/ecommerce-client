@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/navbar/navbar';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/toaster';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata: Metadata = {
     title: 'Nimbus Store',
@@ -26,10 +27,14 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <Toaster />
-                        <Navbar />
+                        <GoogleOAuthProvider
+                            clientId={`${process.env.GOOGLE_CLIENT_ID}`}
+                        >
+                            <Toaster />
+                            <Navbar />
 
-                        {children}
+                            {children}
+                        </GoogleOAuthProvider>
                     </ThemeProvider>
                 </body>
             </CustomProvider>

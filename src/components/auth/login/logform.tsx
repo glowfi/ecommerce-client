@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -17,13 +17,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { LoginDocument } from '@/gql/graphql';
+import { LoginDocument, LogingoogleDocument } from '@/gql/graphql';
 import { useMutation } from '@urql/next';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useuserStore } from '../store';
 import { emailSchema, passwordSchema } from './schema';
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
 
 const FormSchema = z.object({
     email: emailSchema,
@@ -32,6 +32,7 @@ const FormSchema = z.object({
 
 export function Logform() {
     const [, execLogin] = useMutation(LoginDocument);
+    const [, execGoogleLogin] = useMutation(LogingoogleDocument);
     const addUser = useuserStore((state: any) => state.addUser);
     const currUser = useuserStore((state: any) => state.user);
     const router = useRouter();

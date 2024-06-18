@@ -1,0 +1,22 @@
+mutation logingoogle($data: InputGoogleLogin!){
+  loginGoogle(data: $data) {
+    data{
+      userID
+      email
+      userType
+      accToken
+      profilePic
+      name
+      address{
+          streetAddress
+          country
+          countryCode
+          city
+          state
+          zipCode
+      }
+      phoneNumber
+    }
+    err
+  }
+}

@@ -14,6 +14,7 @@ export const useuserStore = create<userStore>(
                 address: null,
                 phone_number: null
             },
+            isloggedinwithgoogle: false,
             addUser: (newUser: any) => {
                 set((state: any) => ({
                     user: {
