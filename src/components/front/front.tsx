@@ -25,15 +25,15 @@ const Front = () => {
     };
 
     useEffect(() => {
-        const id = setInterval(() => {
-            let randomIdx: number = Math.floor(
-                Math.random() * Object.keys(hero_data).length
-            );
+        // const id = setInterval(() => {
+        // }, 3000);
+        let randomIdx: number = Math.floor(
+            Math.random() * Object.keys(hero_data).length
+        );
 
-            setHeroimage(hero_data?.[randomIdx]);
-        }, 3000);
+        setHeroimage(hero_data?.[randomIdx]);
 
-        return () => clearInterval(id);
+        // return () => clearInterval(id);
     }, []);
 
     return (

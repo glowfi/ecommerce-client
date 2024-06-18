@@ -21,10 +21,10 @@ const PaymentMethod = ({
     const contact = usecheckoutStore((state: any) => state.contact);
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Payment Options</CardTitle>
-            </CardHeader>
+        <Card className="border-transparent">
+            {/* <CardHeader> */}
+            {/* <CardTitle>Payment Options</CardTitle> */}
+            {/* </CardHeader> */}
             <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div

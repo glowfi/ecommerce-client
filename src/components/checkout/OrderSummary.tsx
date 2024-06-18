@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { SkeletonCard } from '../product/SkeletonCard';
 import { useuserinfo } from '../user/store';
 import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
+import Link from 'next/link';
 
 const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     const cart = usecartStore((state: any) => state.cart);
@@ -45,56 +46,91 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     }
 
     return (
-        <Card className="border-transparent">
-            <CardContent className="space-y-4 m-6">
-                <div className="grid gap-2">
-                    <div className="hidden sm:flex items-center justify-between">
-                        <h3 className="text-lg font-medium">Cart Items</h3>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {cart?.length} items
-                        </div>
-                    </div>
-                    <div className="grid gap-2">
+        <main className="container mx-auto py-8 md:py-12">
+            <div>
+                <div className="mt-6 rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-primary-foreground">
+                    <h2 className="text-lg font-semibold">Cart Items</h2>
+                    <div className="mt-4 space-y-4">
                         {cart.map((p: any, idx: any) => {
                             return (
                                 <div
-                                    className="flex items-center justify-between gap-3"
+                                    className="flex items-center justify-between"
                                     key={idx}
                                 >
-                                    <div className="flex items-center gap-2">
-                                        {!loaded && (
-                                            <SkeletonCard
-                                                props={{ w: '48', h: '48' }}
-                                            />
-                                        )}
-
+                                    <div className="flex items-center gap-4">
                                         <Image
-                                            onLoad={() => setLoaded(true)}
-                                            src={p?.coverImage[0]}
-                                            width="48"
-                                            height="48"
-                                            alt="Not Found"
-                                            className="rounded-md"
+                                            src={p?.coverImage?.[1]}
+                                            alt="Product Image"
+                                            width={100}
+                                            height={100}
+                                            className="hidden md:block rounded-md"
                                         />
-                                        <div>
-                                            <h4 className="font-medium">
+                                        <div className="flex flex-col justify-center items-start">
+                                            <Link
+                                                className="text-base font-medium underline hover:cursor-pointer"
+                                                href={`/product/${p?.id}`}
+                                            >
                                                 {p?.title}
-                                            </h4>
+                                            </Link>
                                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                ${p?.price} x {p?.quantity}
+                                                {p?.brand}
                                             </p>
-                                            <div className="text-sm font-medium sm:hidden">
-                                                ${p?.price * p?.quantity}
-                                            </div>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                x{p?.quantity}
+                                            </p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                ${p?.price} p/c
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="text-sm font-medium hidden sm:block">
-                                        ${p?.price * p?.quantity}
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-base font-semibold">
+                                            $
+                                            {(
+                                                ((100 - p?.discountPercent) /
+                                                    100) *
+                                                p?.price *
+                                                p?.quantity
+                                            ).toFixed(0)}
+                                        </span>
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
+                    <Separator className="my-6" />
+                    <div className="flex items-center justify-between">
+                        <span className="text-base  font-semibold">
+                            Subtotal
+                        </span>
+                        <span className="text-base font-semibold">
+                            ${amount.toFixed(0)}
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <span className="text-base font-semibold">
+                            Shipping
+                        </span>
+                        <span className="text-base font-semibold">
+                            ${TAX_AMOUNT}
+                        </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <span className="text-base font-semibold">Tax</span>
+                        <span className="text-base font-semibold">
+                            ${SHIPPING_AMOUNT}
+                        </span>
+                    </div>
+                    <Separator className="my-6" />
+                    <div className="flex items-center justify-between">
+                        <span className="text-lg font-semibold">Total</span>
+                        <span className="text-lg font-semibold">
+                            $
+                            {(amount + TAX_AMOUNT + SHIPPING_AMOUNT).toFixed(0)}
+                        </span>
+                    </div>
+
+                    <Separator />
                     <div className="grid gap-2">
                         <div className="flex items-center justify-between">
                             <h4 className="scroll-m-20 text-xl font-semibold tracking-tight mt-6">
@@ -132,105 +168,108 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                             </p>
                         </div>
                     </div>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Total</h3>
-                    <div className="text-2xl font-bold">
-                        ${amount.toFixed(2)}
+
+                    <div className="flex justify-between gap-2 mt-3">
+                        <Button variant="outline" onClick={handlePrevious}>
+                            Previous
+                        </Button>
+                        <LoadingButton
+                            loading={loading}
+                            onClick={async () => {
+                                setLoading(true);
+
+                                let newContact = { ...contact };
+                                let currVal = newContact.address.street_address;
+                                let currVal1 = newContact.phone_number;
+
+                                delete newContact.address.street_address;
+                                delete newContact.address.phoneNumber;
+
+                                newContact['address']['streetAddress'] =
+                                    currVal;
+                                newContact['phoneNumber'] = currVal1;
+
+                                let savedEmail = newContact.email;
+                                let savedName = newContact.name;
+                                let savedChecked = newContact.checked;
+
+                                let currVal2 = newContact.countryCode;
+                                delete newContact.countryCode;
+                                newContact['address']['countryCode'] = currVal2;
+                                delete newContact.phone_number;
+                                delete newContact.email;
+                                delete newContact.name;
+                                delete newContact.update_address;
+                                delete newContact.checked;
+
+                                let data = await execCreateOrder({
+                                    data: {
+                                        paymentBy: payment,
+                                        amount: parseInt(
+                                            parseFloat(
+                                                amount +
+                                                    TAX_AMOUNT +
+                                                    SHIPPING_AMOUNT
+                                            ).toFixed(2)
+                                        ),
+                                        productsOrdered,
+                                        userID: user.id,
+                                        userDetails: {
+                                            ...newContact
+                                        },
+                                        name: savedName,
+                                        email: savedEmail,
+                                        phoneNumber: newContact.phoneNumber,
+                                        address: newContact.address,
+                                        updateAddress: savedChecked
+                                            ? true
+                                            : false,
+                                        tax: TAX_AMOUNT,
+                                        shippingFee: SHIPPING_AMOUNT
+                                    }
+                                });
+
+                                let get_oder_id = data?.data?.createOrder;
+
+                                if (get_oder_id && payment == 'razorpay') {
+                                    setOrder_id_razor(get_oder_id[0]);
+                                    setOrder_id(get_oder_id[1]);
+                                } else {
+                                    if (get_oder_id) {
+                                        usecheckoutStore.setState({
+                                            step: 1
+                                        });
+                                        usecartStore.setState({ cart: [] });
+                                        usecartStore.setState({
+                                            amount: 0
+                                        });
+                                        router.push('/checkout/payment');
+                                    }
+                                }
+
+                                useuserinfo.setState({
+                                    pageIdx_order: 0,
+                                    hasMore_order: true,
+                                    lastIdx_order: -1,
+                                    allOrders: {}
+                                });
+                                setLoading(false);
+                            }}
+                        >
+                            Pay
+                        </LoadingButton>
+                        {order_id_razor && (
+                            <RazorPayModal
+                                order_id_razor={order_id_razor}
+                                setOrder_id_razor={setOrder_id_razor}
+                                order_id={order_id}
+                                setLoading={setLoading}
+                            />
+                        )}
                     </div>
                 </div>
-            </CardContent>
-            <CardFooter className="flex justify-between gap-2">
-                <Button variant="outline" onClick={handlePrevious}>
-                    Previous
-                </Button>
-                <LoadingButton
-                    loading={loading}
-                    onClick={async () => {
-                        setLoading(true);
-
-                        let newContact = { ...contact };
-                        let currVal = newContact.address.street_address;
-                        let currVal1 = newContact.phone_number;
-
-                        delete newContact.address.street_address;
-                        delete newContact.address.phoneNumber;
-
-                        newContact['address']['streetAddress'] = currVal;
-                        newContact['phoneNumber'] = currVal1;
-
-                        let savedEmail = newContact.email;
-                        let savedName = newContact.name;
-                        let savedChecked = newContact.checked;
-
-                        let currVal2 = newContact.countryCode;
-                        delete newContact.countryCode;
-                        newContact['address']['countryCode'] = currVal2;
-                        delete newContact.phone_number;
-                        delete newContact.email;
-                        delete newContact.name;
-                        delete newContact.update_address;
-                        delete newContact.checked;
-
-                        let data = await execCreateOrder({
-                            data: {
-                                paymentBy: payment,
-                                amount: parseInt(
-                                    parseFloat(
-                                        amount + TAX_AMOUNT + SHIPPING_AMOUNT
-                                    ).toFixed(2)
-                                ),
-                                productsOrdered,
-                                userID: user.id,
-                                userDetails: {
-                                    ...newContact
-                                },
-                                name: savedName,
-                                email: savedEmail,
-                                phoneNumber: newContact.phoneNumber,
-                                address: newContact.address,
-                                updateAddress: savedChecked ? true : false,
-                                tax: TAX_AMOUNT,
-                                shippingFee: SHIPPING_AMOUNT
-                            }
-                        });
-
-                        let get_oder_id = data?.data?.createOrder;
-
-                        if (get_oder_id && payment == 'razorpay') {
-                            setOrder_id_razor(get_oder_id[0]);
-                            setOrder_id(get_oder_id[1]);
-                        } else {
-                            if (get_oder_id) {
-                                usecheckoutStore.setState({ step: 1 });
-                                usecartStore.setState({ cart: [] });
-                                usecartStore.setState({ amount: 0 });
-                                router.push('/checkout/payment');
-                            }
-                        }
-
-                        useuserinfo.setState({
-                            pageIdx_order: 0,
-                            hasMore_order: true,
-                            lastIdx_order: -1,
-                            allOrders: {}
-                        });
-                        setLoading(false);
-                    }}
-                >
-                    Pay
-                </LoadingButton>
-                {order_id_razor && (
-                    <RazorPayModal
-                        order_id_razor={order_id_razor}
-                        setOrder_id_razor={setOrder_id_razor}
-                        order_id={order_id}
-                        setLoading={setLoading}
-                    />
-                )}
-            </CardFooter>
-        </Card>
+            </div>
+        </main>
     );
 };
 

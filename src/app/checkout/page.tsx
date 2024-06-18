@@ -3,7 +3,7 @@ import React from 'react';
 
 const Checkout = () => {
     return (
-        <div className="flex flex-col justify-center items-center h-dvh container">
+        <div className="container">
             <CheckoutStepper />
         </div>
     );

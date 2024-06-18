@@ -45,13 +45,13 @@ export default function CheckoutStepper() {
     }, [cart, user]);
 
     return (
-        <div className="w-full max-w-3xl mx-auto p-4 md:p-8">
+        <div>
             {cart.length === 0 ? (
                 <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
                     Cart Empty!
                 </h2>
             ) : (
-                <div className="mb-8">
+                <div>
                     <h1 className="mt-16 sm:mt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center mb-6">
                         Checkout
                     </h1>
@@ -68,8 +68,8 @@ export default function CheckoutStepper() {
 
                     {step === 2 && (
                         <div>
-                            <div className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center">
-                                Payment
+                            <div className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center mb-6">
+                                Choose Payment Method
                             </div>
                             <PaymentMethod
                                 handleNext={handleNext}

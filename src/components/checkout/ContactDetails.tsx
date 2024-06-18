@@ -266,6 +266,10 @@ export function ContactDetails({ handleNext }: any) {
                                             <RegionSelect
                                                 countryCode={
                                                     contact.address.countryCode
+                                                        ? contact.address
+                                                              .countryCode
+                                                        : user?.address
+                                                              ?.countryCode
                                                 }
                                                 {...field}
                                                 defaultValue={

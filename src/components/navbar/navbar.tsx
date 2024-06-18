@@ -38,7 +38,7 @@ const Navbar = () => {
         <>
             <Navbarsmall />
             <header
-                className={`hidden md:flex sticky z-50 top-0 h-16 items-center gap-4 border-b bg-background px-4 md:px-6 ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+                className={`hidden ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : 'md:flex'} sticky z-50 top-0 h-16 items-center gap-4 border-b bg-background px-4 md:px-6`}
             >
                 <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
