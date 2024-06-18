@@ -37,7 +37,9 @@ export const useautoStore = create<IautoStore>()(
         }),
         {
             name: 'autocomplete',
-            storage: createJSONStorage(() => SecureStorage)
+            storage: createJSONStorage(() =>
+                process.env.STAGE === 'local' ? localStorage : SecureStorage
+            )
         }
     )
 );

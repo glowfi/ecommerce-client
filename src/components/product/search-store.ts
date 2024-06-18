@@ -1,3 +1,4 @@
+import { SecureStorage } from '@/lib/utils';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -16,7 +17,7 @@ export const usesearchStore = create<searchStore>(
             lastIdx: -1,
             paginate: (data: any) => {
                 const { searchProducts } = get();
-                
+
                 if (searchProducts?.length > 0) {
                     set({ searchProducts: [...searchProducts, ...data] });
                 } else {
@@ -38,7 +39,9 @@ export const usesearchStore = create<searchStore>(
         }),
         {
             name: 'search-bar-storage',
-            storage: createJSONStorage(() => localStorage)
+            storage: createJSONStorage(() =>
+                process.env.STAGE === 'local' ? localStorage : SecureStorage
+            )
         }
     )
 );

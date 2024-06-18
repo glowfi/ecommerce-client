@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import lookup from 'country-code-lookup';
 import { redirect } from 'next/navigation';
 import { useuserStore } from '../auth/store';
+import { SecureStorage } from '@/lib/utils';
 
 type checkoutStore = any;
 
@@ -111,7 +112,9 @@ export const usecheckoutStore = create<checkoutStore>(
         }),
         {
             name: 'checkout-storage',
-            storage: createJSONStorage(() => localStorage)
+            storage: createJSONStorage(() =>
+                process.env.STAGE === 'local' ? localStorage : SecureStorage
+            )
         }
     )
 );

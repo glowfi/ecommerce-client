@@ -1,3 +1,4 @@
+import { SecureStorage } from '@/lib/utils';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -30,7 +31,9 @@ export const useuserStore = create<userStore>(
         }),
         {
             name: 'user-storage',
-            storage: createJSONStorage(() => localStorage)
+            storage: createJSONStorage(() =>
+                process.env.STAGE === 'local' ? localStorage : SecureStorage
+            )
         }
     )
 );
