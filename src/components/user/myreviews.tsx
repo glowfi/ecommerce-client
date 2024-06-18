@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/table';
 import { GetrevuseridDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import Link from 'next/link';
@@ -19,18 +20,6 @@ import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
-import { Badge } from '../ui/badge';
-import {
-    Dialog,
-    DialogTrigger,
-    DialogContent,
-    DialogTitle,
-    DialogDescription
-} from '@radix-ui/react-dialog';
-import { Label } from '@radix-ui/react-dropdown-menu';
-import { Button } from '../ui/button';
-import { DialogHeader, DialogFooter } from '../ui/dialog';
-import { Input } from '../ui/input';
 TimeAgo.addDefaultLocale(en);
 
 function convert(html: string) {

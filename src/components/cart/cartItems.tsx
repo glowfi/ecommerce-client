@@ -74,7 +74,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                                             Remove
                                         </Button>
                                     </div>
-                                    <div className="flex ml-0">
+                                    <div className="flex mt-3">
                                         <AddtoCart currProduct={p} />
                                     </div>
                                 </div>

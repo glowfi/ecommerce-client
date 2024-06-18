@@ -16,6 +16,7 @@ import { usecheckoutStore } from './store';
 import Link from 'next/link';
 import { SHIPPING_AMOUNT, TAX_AMOUNT } from '../cart/constants';
 import { useuserinfo } from '../user/store';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const OrderSummary = ({ handlePrevious }: any) => {
     const cart = usecartStore((state: any) => state.cart);
@@ -50,7 +51,18 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                     key={idx}
                                 >
                                     <div className="flex items-center gap-4">
+                                        <div className="hidden md:block rounded-md">
+                                            {!loaded && (
+                                                <SkeletonCard
+                                                    props={{
+                                                        w: '200',
+                                                        h: '200'
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
                                         <Image
+                                            onLoad={() => setLoaded(true)}
                                             src={p?.coverImage?.[1]}
                                             alt="Product Image"
                                             width={100}
@@ -223,9 +235,18 @@ const OrderSummary = ({ handlePrevious }: any) => {
 
                                 let get_oder_id = data?.data?.createOrder;
 
+                                console.log(get_oder_id);
+
                                 if (get_oder_id && payment == 'razorpay') {
-                                    setOrder_id_razor(get_oder_id[0]);
-                                    setOrder_id(get_oder_id[1]);
+                                    console.log('Enterd!');
+                                    setOrder_id_razor((curr) => {
+                                        curr = get_oder_id[0];
+                                        return curr;
+                                    });
+                                    setOrder_id((curr) => {
+                                        curr = get_oder_id[1];
+                                        return curr;
+                                    });
                                 } else {
                                     if (get_oder_id) {
                                         usecheckoutStore.setState({

@@ -74,6 +74,7 @@ const ForgetPasswordForm = () => {
                                         userType: 'user'
                                     }
                                 });
+                                setEmail('');
                                 toast({
                                     title: 'Notification',
                                     description:

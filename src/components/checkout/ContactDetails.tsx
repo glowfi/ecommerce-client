@@ -213,6 +213,10 @@ export function ContactDetails({ handleNext }: any) {
                                     <FormControl>
                                         <Input
                                             placeholder="Enter streetAddress"
+                                            defaultValue={
+                                                user?.address?.street_address ||
+                                                contact?.address?.street_address
+                                            }
                                             {...field}
                                             onChangeCapture={() => {
                                                 updateContacts(

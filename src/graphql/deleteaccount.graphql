@@ -1,0 +1,8 @@
+mutation deleteacc($userId: String!) {
+  deleteUser(userID: $userId) {
+    data {
+      name
+    }
+    err
+  }
+}

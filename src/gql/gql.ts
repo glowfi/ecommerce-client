@@ -20,6 +20,7 @@ const documents = {
     "query confirmacc($token: String!) {\n  confirmAccount(token: $token) {\n    data\n    err\n  }\n}": types.ConfirmaccDocument,
     "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n      reviewedAt\n      rating\n      userReviewed {\n        name\n        profilePic\n      }\n    }\n    err\n  }\n}": types.Create_ReviewDocument,
     "mutation createorder($data: InputOrders!) {\n  createOrder(data: $data)\n}": types.CreateorderDocument,
+    "mutation deleteacc($userId: String!) {\n  deleteUser(userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}": types.DeleteaccDocument,
     "mutation forgpass($data: InputForgotPassword!) {\n  forgotPassword(data: $data) {\n    data {\n      email\n      token\n    }\n    err\n  }\n}": types.ForgpassDocument,
     "query searchTermPaginate($term: String!, $skipping: Int!, $limit: Int!) {\n  getProductsBySearchTermPaginate(term: $term, skipping: $skipping, limit: $limit) {\n    data {\n      id\n      title\n      rating\n      price\n      brand\n      categoryName\n      images\n      coverImage\n      discountPercent\n    }\n    err\n  }\n}": types.SearchTermPaginateDocument,
     "query getProductById($productId: String!) {\n  getProductById(productID: $productId) {\n    data {\n      id\n      title\n      stock\n      price\n      rating\n      description\n      brand\n      discountPercent\n      category {\n        name\n      }\n      images\n      dateCreated\n      dateCreatedHuman\n      coverImage\n      seller {\n        email\n        sellerName\n        companyName\n        phoneNumber\n        companyAddress {\n          country\n          streetAddress\n          state\n          city\n          zipCode\n          countryCode\n        }\n      }\n    }\n    err\n  }\n}": types.GetProductByIdDocument,
@@ -79,6 +80,10 @@ export function graphql(source: "mutation create_review($data: InputReviews!) {\
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "mutation createorder($data: InputOrders!) {\n  createOrder(data: $data)\n}"): (typeof documents)["mutation createorder($data: InputOrders!) {\n  createOrder(data: $data)\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation deleteacc($userId: String!) {\n  deleteUser(userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}"): (typeof documents)["mutation deleteacc($userId: String!) {\n  deleteUser(userID: $userId) {\n    data {\n      name\n    }\n    err\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

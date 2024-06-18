@@ -19,6 +19,7 @@ export default function RazorPayModal({
     email,
     phone_number
 }: any) {
+    console.log('Modal');
     const [Razorpay, isLoaded] = useRazorpay();
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
     const { toast } = useToast();
@@ -35,19 +36,23 @@ export default function RazorPayModal({
                 image: process.env.LOGO_URL,
                 order_id: order_id_razor,
                 handler: async (res) => {
+                    console.log('Entred order!');
                     setOrder_id_razor('');
-                    await execUpdateOrder({
-                        data: {
-                            orderID: order_id,
-                            hasFailed: false,
-                            isPending: false,
-                            razorpayDetails: {
-                                razorpayOrderId: res.razorpay_order_id,
-                                razorpayPaymentId: res.razorpay_payment_id,
-                                razorpaySignature: res.razorpay_signature
+                    await execUpdateOrder(
+                        {
+                            data: {
+                                orderID: order_id,
+                                hasFailed: false,
+                                isPending: false,
+                                razorpayDetails: {
+                                    razorpayOrderId: res.razorpay_order_id,
+                                    razorpayPaymentId: res.razorpay_payment_id,
+                                    razorpaySignature: res.razorpay_signature
+                                }
                             }
-                        }
-                    });
+                        },
+                        { requestPolicy: 'network-only' }
+                    );
 
                     usecheckoutStore.setState({ step: 1 });
                     usecartStore.setState({ cart: [] });
@@ -74,6 +79,7 @@ export default function RazorPayModal({
 
             const rzpay = new Razorpay(options);
             rzpay.on('payment.failed', async function (res: any) {
+                console.log('Order Failed!');
                 await execUpdateOrder({
                     data: {
                         orderID: order_id,
@@ -89,14 +95,15 @@ export default function RazorPayModal({
             });
             rzpay.open();
         },
-        [Razorpay]
+        [Razorpay, order_id, order_id_razor]
     );
 
     useEffect(() => {
-        if (isLoaded) {
-            handlePayment(setOrder_id_razor, setLoading);
-        }
-    }, [isLoaded, handlePayment]);
+        // if (isLoaded) {
+        // console.log('Payment Entered!');
+        handlePayment(setOrder_id_razor, setLoading);
+        // }
+    }, [isLoaded, handlePayment, order_id_razor, order_id]);
 
     return (
         <div className="App hidden">

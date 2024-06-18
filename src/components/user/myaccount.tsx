@@ -22,6 +22,7 @@ import React, { useState } from 'react';
 import { useuserStore } from '../auth/store';
 import { useToast } from '../ui/use-toast';
 import { confirmpasswordSchema, passwordSchema } from './schema';
+import DeleteAccount from './deleteaccount';
 
 const Myaccount = () => {
     const { toast } = useToast();
@@ -151,9 +152,10 @@ const Myaccount = () => {
                 <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                     Delete Account
                 </h2>
-                <Button variant={'destructive'} className="w-fit">
-                    Delete Account
-                </Button>
+                <DeleteAccount />
+                {/* <Button variant={'destructive'} className="w-fit"> */}
+                {/*     Delete Account */}
+                {/* </Button> */}
             </div>
         </div>
     );
