@@ -19,6 +19,18 @@ import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
+import { Badge } from '../ui/badge';
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogTitle,
+    DialogDescription
+} from '@radix-ui/react-dialog';
+import { Label } from '@radix-ui/react-dropdown-menu';
+import { Button } from '../ui/button';
+import { DialogHeader, DialogFooter } from '../ui/dialog';
+import { Input } from '../ui/input';
 TimeAgo.addDefaultLocale(en);
 
 function convert(html: string) {
@@ -88,6 +100,25 @@ const getData = async () => {
     return [];
     // }
 };
+
+const ShowComment = ({ content }: any) => {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Link
+                    className="underline ml-3 hover:animate-in hover:opacity-75"
+                    href="#"
+                >
+                    Read Full Comment
+                </Link>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+                <div className="grid gap-4 m-6 py-4">{convert(content)}</div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 const MyReviews = () => {
     const [loading, setLoading] = useState(true);
     const [fetching, setFetching] = useState(true);
@@ -158,6 +189,7 @@ const MyReviews = () => {
                                                 0,
                                                 35
                                             ) + '...'}
+                                            <ShowComment content={p?.comment} />
                                         </TableCell>
                                         <TableCell>
                                             <ReactTimeAgo

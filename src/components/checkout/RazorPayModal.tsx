@@ -14,7 +14,10 @@ export default function RazorPayModal({
     order_id_razor,
     order_id,
     setOrder_id_razor,
-    setLoading
+    setLoading,
+    name,
+    email,
+    phone_number
 }: any) {
     const [Razorpay, isLoaded] = useRazorpay();
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
@@ -57,9 +60,9 @@ export default function RazorPayModal({
                     router.push('/checkout/payment');
                 },
                 prefill: {
-                    name: '',
-                    email: '',
-                    contact: ''
+                    name: name,
+                    email: email,
+                    contact: phone_number
                 },
                 notes: {
                     address: 'Razorpay Corporate Office'

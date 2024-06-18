@@ -1,31 +1,23 @@
 'use client';
 
-import { Separator } from '@radix-ui/react-dropdown-menu';
-import { Button } from '../ui/button';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from '../ui/card';
-import { usecartStore } from '../cart/store';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { usecheckoutStore } from './store';
-import { useuserStore } from '../auth/store';
-import { useMutation } from '@urql/next';
 import { CreateorderDocument } from '@/gql/graphql';
-import RazorPayModal from './RazorPayModal';
-import { LoadingButton } from '../ui/loading-button';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { useMutation } from '@urql/next';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useuserStore } from '../auth/store';
+import { usecartStore } from '../cart/store';
+import { Button } from '../ui/button';
+import { LoadingButton } from '../ui/loading-button';
+import RazorPayModal from './RazorPayModal';
+import { usecheckoutStore } from './store';
 
-import { SkeletonCard } from '../product/SkeletonCard';
-import { useuserinfo } from '../user/store';
-import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
 import Link from 'next/link';
+import { SHIPPING_AMOUNT, TAX_AMOUNT } from '../cart/constants';
+import { useuserinfo } from '../user/store';
 
-const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
+const OrderSummary = ({ handlePrevious }: any) => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
     const contact = usecheckoutStore((state: any) => state.contact);
@@ -48,7 +40,7 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
     return (
         <main className="container mx-auto py-8 md:py-12">
             <div>
-                <div className="mt-6 rounded-lg border bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-primary-foreground">
+                <div className="mt-6 rounded-lg border bg-white p-6 shadow-sm dark:bg-primary-foreground">
                     <h2 className="text-lg font-semibold">Cart Items</h2>
                     <div className="mt-4 space-y-4">
                         {cart.map((p: any, idx: any) => {
@@ -264,6 +256,9 @@ const OrderSummary = ({ handlePrevious, handleSubmit }: any) => {
                                 setOrder_id_razor={setOrder_id_razor}
                                 order_id={order_id}
                                 setLoading={setLoading}
+                                email={user?.email}
+                                name={user?.name}
+                                phone_number={user?.phone_number}
                             />
                         )}
                     </div>

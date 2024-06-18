@@ -39,8 +39,8 @@ function OrderTable({ allOrders, cidx, setIdx }: any) {
     return (
         <div>
             <div className="px-7">
-                <h1 className="text-center font-semibold mb-6">Orders</h1>
-                <p className="text-center mb-6">
+                <h1 className="text-center font-semibold mb-3">Orders</h1>
+                <p className="text-center mb-3">
                     Your recent orders from our store.
                 </p>
             </div>
@@ -111,7 +111,7 @@ export function Side({ allOrders, idx }: any) {
     const { toast } = useToast();
 
     return (
-        <Card className="overflow-hidden max-w-fit max-h-fit">
+        <Card className="overflow-hidden max-w-full max-h-full">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
@@ -160,7 +160,7 @@ export function Side({ allOrders, idx }: any) {
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent className="p-6 text-sm">
+            <CardContent className="p-6 text-sm w-full">
                 <div className="grid gap-3">
                     <div className="font-semibold">Order Details</div>
                     <ul className="grid gap-3">
@@ -172,8 +172,10 @@ export function Side({ allOrders, idx }: any) {
                                         key={id}
                                     >
                                         <span className="text-muted-foreground">
-                                            {p?.title} x{' '}
-                                            <span>{p?.quantity}</span>
+                                            {p?.title}
+                                            <span className="ml-3">
+                                                x{p?.quantity}
+                                            </span>
                                         </span>
                                         <span>${p?.price}</span>
                                     </li>
@@ -198,11 +200,11 @@ export function Side({ allOrders, idx }: any) {
                             <span className="text-muted-foreground">
                                 Shipping
                             </span>
-                            <span>$5.00</span>
+                            <span>${SHIPPING_AMOUNT}</span>
                         </li>
                         <li className="flex items-center justify-between">
                             <span className="text-muted-foreground">Tax</span>
-                            <span>$15.00</span>
+                            <span>${TAX_AMOUNT}</span>
                         </li>
                         <li className="flex items-center justify-between font-semibold">
                             <span className="text-muted-foreground">Total</span>
@@ -415,7 +417,7 @@ export function Myorders() {
 
             {flattened.length > 0 && (
                 <>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col justify-center items-center">
                         <OrderTable
                             allOrders={flattened}
                             cidx={idx}
@@ -439,7 +441,7 @@ export function Myorders() {
                         )}
                     </div>
 
-                    <div className="hidden xl:block">
+                    <div className="hidden xl:block w-full">
                         <Side allOrders={flattened} idx={idx} />
                     </div>
                 </>
