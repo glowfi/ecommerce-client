@@ -29,10 +29,8 @@ const loadData = async (ID: string) => {
         return;
     }
     if (lastIdx === -1) {
-        
         useusecurrProdStore.setState({ lastIdx: ID });
     } else if (lastIdx !== ID) {
-        
         useusecurrProdStore.setState({ lastIdx: ID });
         useusecurrProdStore.setState({ hasMore: true });
         useusecurrProdStore.setState({ pageIdx: 0 });
@@ -40,7 +38,7 @@ const loadData = async (ID: string) => {
     }
     if (hasMore) {
         useusecurrProdStore.setState({ isloading: true });
-        
+
         const { data } = await getClient().query(
             Get_Reviews_PaginateDocument,
             {
@@ -58,8 +56,6 @@ const loadData = async (ID: string) => {
         if (data?.getReviewsPaginate?.data && hasMore) {
             let new_data = data?.getReviewsPaginate?.data;
             let newComments = {};
-
-            
 
             for (let index = 0; index < new_data.length; index++) {
                 let currComment = new_data[index];

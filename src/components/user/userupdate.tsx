@@ -137,7 +137,7 @@ export function UserUpdate({ userdetails }: User) {
             <DialogTrigger asChild>
                 <Button>Edit Profile</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-fit overflow-scroll">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>

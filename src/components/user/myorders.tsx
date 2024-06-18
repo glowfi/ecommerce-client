@@ -33,6 +33,7 @@ import en from 'javascript-time-ago/locale/en';
 TimeAgo.addDefaultLocale(en);
 import ReactTimeAgo from 'react-time-ago';
 import { OrderDetailsModal } from './orderinfo';
+import { useToast } from '@/components/ui/use-toast';
 
 function OrderTable({ allOrders, cidx, setIdx }: any) {
     return (
@@ -107,28 +108,51 @@ function OrderTable({ allOrders, cidx, setIdx }: any) {
 }
 
 export function Side({ allOrders, idx }: any) {
-    const user = useuserStore((state: any) => state.user);
+    const { toast } = useToast();
+
     return (
         <Card className="overflow-hidden max-w-fit max-h-fit">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
-                        #{allOrders[idx]?.id}
+                        Order Details
                         <Button
                             size="icon"
                             variant="outline"
                             className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
                         >
-                            <Copy className="h-3 w-3" />
+                            <Copy
+                                className="h-3 w-3 visible"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(
+                                        allOrders[idx]?.id
+                                    );
+
+                                    toast({
+                                        variant: 'default',
+                                        description: `Order ID copied to clipboard !`
+                                    });
+                                }}
+                            />
                             <span className="sr-only">Copy Order ID</span>
                         </Button>
                     </CardTitle>
                     <CardDescription>
-                        Date: {getDateHumanReadable(allOrders[idx]?.orderedAt)}
+                        <div className="flex flex-col justify-start gap-1">
+                            <span>Order ID : #{allOrders[idx]?.id}</span>
+                            {/* <span> */}
+                            {/*     Date:{' '} */}
+                            {/*     {getDateHumanReadable( */}
+                            {/*         allOrders[idx]?.orderedAt */}
+                            {/*     )} */}
+                            {/* </span> */}
+                        </div>
                     </CardDescription>
-                </div>
-                <div className="ml-auto flex items-center gap-1">
-                    <Button size="sm" variant="outline" className="h-8 gap-1">
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1 mt-3 w-fit"
+                    >
                         <Truck className="h-3.5 w-3.5" />
                         <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
                             Track Order
@@ -188,7 +212,7 @@ export function Side({ allOrders, idx }: any) {
                             <span className="text-muted-foreground">
                                 Payment By
                             </span>
-                            <span>
+                            <span className="font-semibold">
                                 {allOrders[idx]?.paymentBy.toUpperCase()}
                             </span>
                         </li>
@@ -197,7 +221,7 @@ export function Side({ allOrders, idx }: any) {
                                 Order Time
                             </span>
 
-                            <span>
+                            <span className="font-semibold">
                                 {getDateHumanReadable(
                                     allOrders[idx]?.orderedAt
                                 )}

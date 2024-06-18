@@ -9,19 +9,28 @@ import {
 } from '@/components/ui/table';
 import { GetrevuseridDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import ReactTimeAgo from 'react-time-ago';
 import { useuserStore } from '../auth/store';
-import { Button } from '../ui/button';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
-import { getDateHumanReadable } from '@/lib/utils';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 TimeAgo.addDefaultLocale(en);
-import ReactTimeAgo from 'react-time-ago';
+
+function convert(html: string) {
+    // Create a new div element
+    var tempDivElement = document.createElement('div');
+
+    // Set the HTML content with the given value
+    tempDivElement.innerHTML = html;
+
+    // Retrieve the text property of the element
+    return tempDivElement.textContent || tempDivElement.innerText || '';
+}
 
 const getData = async () => {
     const userId = useuserStore.getState().user.id;
@@ -29,8 +38,6 @@ const getData = async () => {
     const hasMore = useuserinfo.getState().hasMore;
     const lastIdx_rev = useuserinfo.getState().lastIdx_rev;
     const allReviews = useuserinfo.getState().allReviews;
-
-    
 
     if (lastIdx_rev === -1 || lastIdx_rev !== pageIdx) {
         useuserinfo.setState({ lastIdx_rev: pageIdx });
@@ -47,12 +54,11 @@ const getData = async () => {
             limit: TOTAL_ITEMS,
             skipping: pageIdx * TOTAL_ITEMS
         });
-        
 
         let currData = data?.data?.getAllReviewsByUserId?.data;
 
         // if (currData) {
-        // 
+        //
         // useuserinfo.setState({
         //     allReviews: [...allReviews, ...currData]
         // });
@@ -65,8 +71,6 @@ const getData = async () => {
                 // @ts-ignore
                 newReview[`${currReview.id}`] = { ...currReview };
             }
-
-            
 
             useuserinfo.setState({
                 allReviews: { ...allReviews, ...newReview }
@@ -97,11 +101,9 @@ const MyReviews = () => {
     useEffect(() => {
         setFetching(true);
         setLoading(true);
-        
 
         getData()
             .then((data) => {
-                
                 //@ts-ignore
                 if (data?.data?.getAllReviewsByUserId?.data || data === -1) {
                     setFetching(false);
@@ -116,11 +118,9 @@ const MyReviews = () => {
                 setFetching(false);
                 setLoading(false);
             });
-        
     }, [pageIdx]);
 
     if (fetching) {
-        
         return <LoadingSpinner name="user reviews" />;
     }
 
@@ -154,7 +154,10 @@ const MyReviews = () => {
                                         {/*     {p?.id} */}
                                         {/* </TableCell> */}
                                         <TableCell>
-                                            {p?.comment?.slice(0, 35) + '...'}
+                                            {convert(`${p?.comment}`).slice(
+                                                0,
+                                                35
+                                            ) + '...'}
                                         </TableCell>
                                         <TableCell>
                                             <ReactTimeAgo
