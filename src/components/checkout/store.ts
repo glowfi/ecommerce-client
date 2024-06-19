@@ -58,7 +58,7 @@ export const usecheckoutStore = create<checkoutStore>(
             },
             setCountryCode: (value: any) => {
                 const { contact } = get();
-                let newobj = { ...contact };
+                let newobj = JSON.parse(JSON.stringify(contact));
 
                 newobj['address']['countryCode'] = value;
                 newobj['address']['country'] = lookup.byIso(value)?.country;
@@ -71,7 +71,7 @@ export const usecheckoutStore = create<checkoutStore>(
             },
             setRegion: (value: any) => {
                 const { contact } = get();
-                let newobj = { ...contact };
+                let newobj = JSON.parse(JSON.stringify(contact));
 
                 newobj['address']['state'] = value;
                 set({

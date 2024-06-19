@@ -100,7 +100,6 @@ export default function RazorPayModal({
 
     useEffect(() => {
         // if (isLoaded) {
-        // console.log('Payment Entered!');
         handlePayment(setOrder_id_razor, setLoading);
         // }
     }, [isLoaded, handlePayment, order_id_razor, order_id]);

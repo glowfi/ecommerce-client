@@ -182,7 +182,9 @@ const OrderSummary = ({ handlePrevious }: any) => {
                             onClick={async () => {
                                 setLoading(true);
 
-                                let newContact = { ...contact };
+                                let newContact = JSON.parse(
+                                    JSON.stringify(contact)
+                                );
                                 let currVal = newContact.address.street_address;
                                 let currVal1 = newContact.phone_number;
 

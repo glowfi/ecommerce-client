@@ -36,7 +36,8 @@ const Paymentstatus = () => {
                 </Link>
             </p>
             <p className="leading-7 [&:not(:first-child)]:mt-6">
-                Please check your email for order status and receipt.
+                Please check your email for receipt and go to orders in account
+                settings for more details.
             </p>
         </div>
     );
