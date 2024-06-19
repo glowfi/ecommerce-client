@@ -47,13 +47,15 @@ export function ImagePreview() {
                                 alt="Not Found"
                             />
                             {loaded && (
-                                <Link
-                                    href={currImage}
-                                    target="_blank"
-                                    className="hover:opacity-75 transition-all"
-                                >
-                                    Watch in full resolution
-                                </Link>
+                                <div className="flex justify-center items-center">
+                                    <Link
+                                        href={currImage}
+                                        target="_blank"
+                                        className="hover:opacity-75 transition-all"
+                                    >
+                                        Watch in full resolution
+                                    </Link>
+                                </div>
                             )}
                         </>
                     )}

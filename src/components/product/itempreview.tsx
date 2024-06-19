@@ -8,7 +8,11 @@ const ItemPrev = ({ currProduct }: any) => {
     const [loaded, setLoaded] = useState<boolean>(false);
     return (
         <div className="hidden md:flex justify-center items-center">
-            {!loaded && <SkeletonCard props={{ w: '500', h: '500' }} />}
+            {!loaded && (
+                <div className="flex justify-center items-center">
+                    <SkeletonCard props={{ w: '500', h: '500' }} />
+                </div>
+            )}
             {currProduct?.coverImage?.length > 0 && (
                 <Image
                     onLoad={() => setLoaded(true)}

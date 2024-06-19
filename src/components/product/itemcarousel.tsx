@@ -29,9 +29,11 @@ const Itemcarousel = ({ currProduct }: any) => {
                             <Card>
                                 <CardContent className="flex  items-center justify-center p-6">
                                     {!loaded && (
-                                        <SkeletonCard
-                                            props={{ w: '200', h: '200' }}
-                                        />
+                                        <div className="flex justify-center items-center">
+                                            <SkeletonCard
+                                                props={{ w: '200', h: '200' }}
+                                            />
+                                        </div>
                                     )}
 
                                     {p?.length > 0 && (
