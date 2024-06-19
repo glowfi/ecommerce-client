@@ -48,6 +48,7 @@ export const checkIsAuth = () => {
     } else if (cart.length === 0) {
         return 'cart';
     }
+    return 'isauth';
 };
 
 export const getNameInitials = (name: string) => {

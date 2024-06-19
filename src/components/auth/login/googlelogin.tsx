@@ -7,12 +7,23 @@ import { useMutation } from '@urql/next';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { useuserStore } from '../store';
+import { useEffect, useState } from 'react';
+import LoadingSpinner from '@/components/loadingspinners/loadingspinner';
 
 const GoogleloginButton = () => {
+    const [isloading, setIsloading] = useState(true);
     const [, execGoogleLogin] = useMutation(LogingoogleDocument);
     const addUser = useuserStore((state: any) => state.addUser);
     const router = useRouter();
     const { toast } = useToast();
+
+    useEffect(() => {
+        setIsloading(false);
+    }, []);
+
+    if (isloading) {
+        return <LoadingSpinner name="google" />;
+    }
 
     return (
         <>
@@ -23,8 +34,6 @@ const GoogleloginButton = () => {
                         let decoded = jwtDecode(
                             credentialResponse?.credential as string
                         );
-
-                        
 
                         let name =
                             // @ts-ignore
@@ -48,9 +57,6 @@ const GoogleloginButton = () => {
 
                         let curr_data = res?.data?.loginGoogle?.data;
                         let curr_err = res?.data?.loginGoogle?.err;
-
-                        
-                        
 
                         if (curr_err) {
                             toast({
@@ -95,9 +101,7 @@ const GoogleloginButton = () => {
                             });
                         }
                     }}
-                    onError={() => {
-                        
-                    }}
+                    onError={() => {}}
                 />
             </div>
         </>

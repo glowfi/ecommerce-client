@@ -80,39 +80,42 @@ export default function RazorPayModal({
             const rzpay = new Razorpay(options);
             rzpay.on('payment.failed', async function (res: any) {
                 console.log('Order Failed!');
-                await execUpdateOrder({
-                    data: {
-                        orderID: order_id,
-                        hasFailed: true,
-                        isPending: false,
-                        razorpayDetails: {
-                            razorpayOrderId: '',
-                            razorpayPaymentId: '',
-                            razorpaySignature: ''
+                await execUpdateOrder(
+                    {
+                        data: {
+                            orderID: order_id,
+                            hasFailed: true,
+                            isPending: false,
+                            razorpayDetails: {
+                                razorpayOrderId: '',
+                                razorpayPaymentId: '',
+                                razorpaySignature: ''
+                            }
                         }
-                    }
-                });
+                    },
+                    { requestPolicy: 'network-only' }
+                );
             });
             rzpay.open();
         },
         [Razorpay, order_id, order_id_razor]
     );
 
-    useEffect(() => {
-        // if (isLoaded) {
-        handlePayment(setOrder_id_razor, setLoading);
-        // }
-    }, [isLoaded, handlePayment, order_id_razor, order_id]);
+    // useEffect(() => {
+    //     if (isLoaded) {
+    //         handlePayment(setOrder_id_razor, setLoading);
+    //     }
+    // }, [isLoaded, handlePayment, order_id_razor, order_id]);
 
     return (
-        <div className="App hidden">
+        <div className="App">
             <Button
                 variant={'secondary'}
                 onClick={() => {
                     handlePayment(setOrder_id_razor, setLoading);
                 }}
             >
-                Pay with razorpay
+                Pay
             </Button>
         </div>
     );

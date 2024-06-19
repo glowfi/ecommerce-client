@@ -9,8 +9,19 @@ import {
 } from '@/components/ui/card';
 import GoogleloginButton from './googlelogin';
 import { Logform } from './logform';
+import { checkIsAuth } from '@/lib/utils';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+    const router = useRouter();
+
+    useEffect(() => {
+        const data = checkIsAuth();
+        if (data === 'isauth') {
+            router.push('/');
+        }
+    }, []);
     return (
         <Card className="mx-auto max-w-sm">
             <CardHeader>

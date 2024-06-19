@@ -32,6 +32,8 @@ const OrderSummary = ({ handlePrevious }: any) => {
     const [order_id_razor, setOrder_id_razor] = useState('');
     const [order_id, setOrder_id] = useState('');
 
+    const [shouldbedisabled, setShouldbedisabled] = useState(false);
+
     let productsOrdered = [];
     for (let index = 0; index < cart.length; index++) {
         let currProd = cart[index];
@@ -179,6 +181,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                         </Button>
                         <LoadingButton
                             loading={loading}
+                            className={`${shouldbedisabled ? 'hidden' : 'block'}`}
                             onClick={async () => {
                                 setLoading(true);
 
@@ -249,6 +252,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                         curr = get_oder_id[1];
                                         return curr;
                                     });
+                                    setShouldbedisabled(true);
                                 } else {
                                     if (get_oder_id) {
                                         usecheckoutStore.setState({
@@ -271,7 +275,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                 setLoading(false);
                             }}
                         >
-                            Pay
+                            Create Order
                         </LoadingButton>
                         {order_id_razor && (
                             <RazorPayModal
