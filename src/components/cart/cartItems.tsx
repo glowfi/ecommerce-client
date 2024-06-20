@@ -50,15 +50,24 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     </Link>
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                    Quantity : x{p?.quantity}
+                                    $
+                                    {(
+                                        ((100 - p?.discountPercent) / 100) *
+                                        p?.price
+                                    ).toFixed(0)}{' '}
+                                    x{p?.quantity}
                                 </p>
-                                <p className="flex text-sm text-muted-foreground">
-                                    Price p/c : ${(p?.price).toFixed(2)}
-                                </p>
+                                {/* <p className="flex text-sm text-muted-foreground"> */}
+                                {/*     Price p/c : ${(p?.price).toFixed(2)} */}
+                                {/* </p> */}
 
                                 <p className="flex text-sm text-muted-foreground">
                                     Price : $
-                                    {(p?.price * p?.quantity).toFixed(2)}
+                                    {(
+                                        ((100 - p?.discountPercent) / 100) *
+                                        p?.price *
+                                        p?.quantity
+                                    ).toFixed(0)}
                                 </p>
 
                                 <div className="flex flex-col">
@@ -79,12 +88,11 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="hidden md:flex-col items-center justify-center font-medium ml-auto">
+                            <div className="hidden md:flex items-center justify-center font-medium ml-auto">
                                 $
                                 {(
                                     ((100 - p?.discountPercent) / 100) *
-                                    p?.price *
-                                    p?.quantity
+                                    (p?.price * p?.quantity)
                                 ).toFixed(0)}
                             </div>
                         </div>
@@ -92,9 +100,14 @@ const CartItems = ({ setSheetOpen }: any) => {
                 })}
 
                 <div className="flex items-center gap-4">
-                    <span>Amount to be paid :</span>
+                    <div className="flex flex-col gap-1">
+                        <span>Amount to be paid :</span>
+                        <small className="font-semibold">
+                            Incl. of shipping fee and tax
+                        </small>
+                    </div>
                     <div className="ml-auto font-medium">
-                        ${(amount + TAX_AMOUNT + SHIPPING_AMOUNT).toFixed(2)}
+                        ${(amount + SHIPPING_AMOUNT + TAX_AMOUNT).toFixed(0)}
                     </div>
                 </div>
                 <Button

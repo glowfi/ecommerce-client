@@ -54,7 +54,6 @@ export default function Navbarsmall() {
             </div>
 
             <div className="flex justify-end gap-1 m-1">
-                <CartIcon />
                 <Sheet open={issheetopen} onOpenChange={setIssheetopen}>
                     <SheetTrigger asChild>
                         <Button
@@ -148,6 +147,7 @@ export default function Navbarsmall() {
                         </div>
                     </SheetContent>
                 </Sheet>
+                <CartIcon />
             </div>
         </header>
     );

@@ -54,13 +54,12 @@ export const usecartStore = create<cartStore>(
                         } else {
                             currProduct['quantity'] += 1;
                             let newPrice = currProduct?.price;
-                            if (currProduct?.discountPercent !== 0) {
-                                newPrice = (
-                                    ((100 - currProduct?.discountPercent) /
-                                        100) *
-                                    currProduct?.price
-                                ).toFixed(0);
-                            }
+                            // if (currProduct?.discountPercent !== 0) {
+                            newPrice = (
+                                ((100 - currProduct?.discountPercent) / 100) *
+                                currProduct?.price
+                            ).toFixed(0);
+                            // }
                             set((state: any) => ({
                                 amount: state.amount + parseFloat(newPrice)
                             }));
@@ -73,12 +72,12 @@ export const usecartStore = create<cartStore>(
                     set({ cart: [...cart, { ...product, quantity: 1 }] });
 
                     let newPrice = product?.price;
-                    if (product?.discountPercent !== 0) {
-                        newPrice = (
-                            ((100 - product?.discountPercent) / 100) *
-                            product?.price
-                        ).toFixed(0);
-                    }
+                    // if (product?.discountPercent !== 0) {
+                    newPrice = (
+                        ((100 - product?.discountPercent) / 100) *
+                        product?.price
+                    ).toFixed(0);
+                    // }
 
                     set((state: any) => ({
                         amount: state.amount + parseFloat(newPrice)
@@ -98,18 +97,19 @@ export const usecartStore = create<cartStore>(
                         if (currProduct['quantity'] - 1 === 0) {
                             const { removeCart } = get();
                             removeCart(currProduct['id']);
+                            return;
                         } else {
                             currProduct['quantity'] -= 1;
                             set({ cart: [...cart] });
                         }
 
                         let newPrice = currProduct?.price;
-                        if (currProduct?.discountPercent !== 0) {
-                            newPrice = (
-                                ((100 - currProduct?.discountPercent) / 100) *
-                                currProduct?.price
-                            ).toFixed(0);
-                        }
+                        // if (currProduct?.discountPercent !== 0) {
+                        newPrice = (
+                            ((100 - currProduct?.discountPercent) / 100) *
+                            currProduct?.price
+                        ).toFixed(0);
+                        // }
 
                         set((state: any) => ({
                             amount: state.amount - parseFloat(newPrice)
@@ -119,6 +119,17 @@ export const usecartStore = create<cartStore>(
             },
             removeCart: (id: string) => {
                 const { cart } = get();
+                let currProduct = cart.find((p: any) => p.id == id);
+                console.log(currProduct);
+                let newPrice = (
+                    ((100 - currProduct?.discountPercent) / 100) *
+                    (currProduct?.price * currProduct?.quantity)
+                ).toFixed(0);
+                console.log(newPrice);
+                set((state: any) => ({
+                    amount: state.amount - parseFloat(newPrice)
+                }));
+
                 let newCart = cart.filter((p: any) => p.id != id);
                 set({
                     cart: [...newCart]
@@ -132,7 +143,7 @@ export const usecartStore = create<cartStore>(
         {
             name: 'cart-storage',
             storage: createJSONStorage(() =>
-                process.env.STAGE === 'local' ? localStorage : localStorage
+                process.env.STAGE === 'local' ? localStorage : SecureStorage
             )
         }
     )
