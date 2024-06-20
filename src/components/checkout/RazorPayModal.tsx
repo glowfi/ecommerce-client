@@ -19,7 +19,7 @@ export default function RazorPayModal({
     email,
     phone_number
 }: any) {
-    console.log('Modal');
+    
     const [Razorpay, isLoaded] = useRazorpay();
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
     const { toast } = useToast();
@@ -36,7 +36,7 @@ export default function RazorPayModal({
                 image: process.env.LOGO_URL,
                 order_id: order_id_razor,
                 handler: async (res) => {
-                    console.log('Entred order!');
+                    
                     setOrder_id_razor('');
                     await execUpdateOrder(
                         {
@@ -79,7 +79,7 @@ export default function RazorPayModal({
 
             const rzpay = new Razorpay(options);
             rzpay.on('payment.failed', async function (res: any) {
-                console.log('Order Failed!');
+                
                 await execUpdateOrder(
                     {
                         data: {

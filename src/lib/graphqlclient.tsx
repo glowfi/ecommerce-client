@@ -9,6 +9,7 @@ import {
 } from '@urql/next';
 
 import { useMemo } from 'react';
+import customFetch from './customfetch';
 
 export default function Provider({ children }: React.PropsWithChildren) {
     const [client, ssr] = useMemo(() => {
@@ -18,17 +19,8 @@ export default function Provider({ children }: React.PropsWithChildren) {
             //@ts-ignore
             url: process.env.GRAPHQL_API_ENDPOINT,
             exchanges: [cacheExchange, ssr, fetchExchange],
-            fetchOptions: () => {
-                const headers: any = {};
-
-                headers['ngrok-skip-browser-warning'] = 1;
-
-                // if (access_token) {
-                //     headers['Authorization'] = `Bearer ${access_token}`;
-                // }
-
-                return { headers, credentials: 'include' };
-            },
+            //@ts-ignore
+            fetch: customFetch,
             suspense: true
         });
 

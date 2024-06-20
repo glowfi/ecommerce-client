@@ -240,10 +240,10 @@ const OrderSummary = ({ handlePrevious }: any) => {
 
                                 let get_oder_id = data?.data?.createOrder;
 
-                                console.log(get_oder_id);
+                                
 
                                 if (get_oder_id && payment == 'razorpay') {
-                                    console.log('Enterd!');
+                                    
                                     setOrder_id_razor((curr) => {
                                         curr = get_oder_id[0];
                                         return curr;
