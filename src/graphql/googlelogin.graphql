@@ -5,6 +5,7 @@ mutation logingoogle($data: InputGoogleLogin!){
       email
       userType
       accToken
+      refToken
       profilePic
       name
       address{

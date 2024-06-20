@@ -5,6 +5,7 @@ mutation login($data: InputLogin!){
       email
       userType
       accToken
+      refToken
       profilePic
       name
       address{

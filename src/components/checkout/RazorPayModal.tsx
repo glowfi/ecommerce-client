@@ -9,6 +9,7 @@ import { Button } from '../ui/button';
 import { useToast } from '../ui/use-toast';
 import { usecheckoutStore } from './store';
 import { usecartStore } from '../cart/store';
+import Payup from './payup';
 
 export default function RazorPayModal({
     order_id_razor,
@@ -19,7 +20,6 @@ export default function RazorPayModal({
     email,
     phone_number
 }: any) {
-    
     const [Razorpay, isLoaded] = useRazorpay();
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
     const { toast } = useToast();
@@ -36,7 +36,6 @@ export default function RazorPayModal({
                 image: process.env.LOGO_URL,
                 order_id: order_id_razor,
                 handler: async (res) => {
-                    
                     setOrder_id_razor('');
                     await execUpdateOrder(
                         {
@@ -79,7 +78,6 @@ export default function RazorPayModal({
 
             const rzpay = new Razorpay(options);
             rzpay.on('payment.failed', async function (res: any) {
-                
                 await execUpdateOrder(
                     {
                         data: {
@@ -109,14 +107,15 @@ export default function RazorPayModal({
 
     return (
         <div className="App">
-            <Button
-                variant={'secondary'}
-                onClick={() => {
-                    handlePayment(setOrder_id_razor, setLoading);
-                }}
-            >
-                Pay
-            </Button>
+            <Payup />
+            {/* <Button */}
+            {/*     variant={'secondary'} */}
+            {/*     onClick={() => { */}
+            {/*         handlePayment(setOrder_id_razor, setLoading); */}
+            {/*     }} */}
+            {/* > */}
+            {/*     Pay */}
+            {/* </Button> */}
         </div>
     );
 }

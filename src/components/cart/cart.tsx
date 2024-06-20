@@ -1,25 +1,38 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
     Sheet,
-    SheetClose,
     SheetContent,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger
 } from '@/components/ui/sheet';
 import { ShoppingCart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import CartItems from './cartItems';
 import { usecartStore } from './store';
-import { useRouter } from 'next/navigation';
+
+const setCart = () => {
+    if (
+        usecartStore.getState().cart.length === 0 &&
+        !usecartStore.getState().isinitialized
+    ) {
+        
+        usecartStore.setState({ cart: [] });
+        usecartStore.setState({ isinitialized: true });
+    }
+};
 
 const Cart = () => {
     const cart = usecartStore((state: any) => state.cart);
     const router = useRouter();
     const [sheetOpen, setSheetOpen] = useState(false);
+
+    useEffect(() => {
+        setCart();
+    }, []);
 
     return (
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>

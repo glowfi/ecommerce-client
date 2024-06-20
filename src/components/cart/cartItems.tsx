@@ -52,11 +52,11 @@ const CartItems = ({ setSheetOpen }: any) => {
                                 <p className="text-sm text-muted-foreground">
                                     Quantity : x{p?.quantity}
                                 </p>
-                                <p className="block md:hidden text-sm text-muted-foreground">
+                                <p className="flex text-sm text-muted-foreground">
                                     Price p/c : ${(p?.price).toFixed(2)}
                                 </p>
 
-                                <p className="block md:hidden text-sm text-muted-foreground">
+                                <p className="flex text-sm text-muted-foreground">
                                     Price : $
                                     {(p?.price * p?.quantity).toFixed(2)}
                                 </p>

@@ -181,7 +181,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                         </Button>
                         <LoadingButton
                             loading={loading}
-                            className={`${shouldbedisabled ? 'hidden' : 'block'}`}
+                            className={`${shouldbedisabled ? 'hidden' : 'flex text-center justify-center items-center'}`}
                             onClick={async () => {
                                 setLoading(true);
 
@@ -240,10 +240,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
 
                                 let get_oder_id = data?.data?.createOrder;
 
-                                
-
                                 if (get_oder_id && payment == 'razorpay') {
-                                    
                                     setOrder_id_razor((curr) => {
                                         curr = get_oder_id[0];
                                         return curr;
