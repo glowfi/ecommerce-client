@@ -1,10 +1,10 @@
-import CustomProvider from '@/lib/graphqlclient';
-import type { Metadata } from 'next';
-import './globals.css';
 import Navbar from '@/components/navbar/navbar';
-import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/toaster';
+import CustomProvider from '@/lib/graphqlclient';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+import './globals.css';
 
 export const metadata: Metadata = {
     title: 'Nimbus Store',

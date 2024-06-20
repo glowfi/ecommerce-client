@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { LogoutDocument } from '@/gql/graphql';
 import { checkIsAuth } from '@/lib/utils';
+import { googleLogout } from '@react-oauth/google';
 import { useMutation } from '@urql/next';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useuserStore } from '../store';
-import { googleLogout } from '@react-oauth/google';
 
 const LogoutForm = () => {
     const [, execLogout] = useMutation(LogoutDocument);
@@ -57,6 +57,16 @@ const LogoutForm = () => {
                             });
                             googleLogout();
                         }
+
+                        // console.log(Cookies.get(), 'DAGTA');
+                        let name = 'accessToken';
+                        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+
+                        // Cookies.remove('accessToken');
+                        // Cookies.remove('refreshToken');
+
+                        // deleteCookie('accessToken');
+                        // deleteCookie('refreshToken');
 
                         router.push('/');
                     }}

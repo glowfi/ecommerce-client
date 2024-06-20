@@ -107,7 +107,11 @@ export default function RazorPayModal({
 
     return (
         <div className="App">
-            <Payup />
+            <Payup
+                handlePayment={handlePayment}
+                setOrder_id_razor={setOrder_id_razor}
+                setLoading={setLoading}
+            />
             {/* <Button */}
             {/*     variant={'secondary'} */}
             {/*     onClick={() => { */}

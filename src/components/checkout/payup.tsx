@@ -7,12 +7,18 @@ import {
 import React from 'react';
 import { Button } from '../ui/button';
 
-const Payup = () => {
+const Payup = ({ handlePayment, setOrder_id_razor, setLoading }: any) => {
     return (
         <TooltipProvider>
             <Tooltip open={true}>
                 <TooltipTrigger asChild>
-                    <Button>Pay</Button>
+                    <Button
+                        onClick={() => {
+                            handlePayment(setOrder_id_razor, setLoading);
+                        }}
+                    >
+                        Pay
+                    </Button>
                 </TooltipTrigger>
                 <TooltipContent>
                     <p className="mt-3">Pay with razorpay</p>
