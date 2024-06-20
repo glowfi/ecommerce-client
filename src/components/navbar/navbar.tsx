@@ -20,21 +20,6 @@ import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
 import Navbarsmall from './navbarsmall';
-import { usecartStore } from '../cart/store';
-
-// const setCart_setUser = async () => {
-//     usecartStore.setState({ cart: [] });
-//     useuserStore.setState({
-//         user: {
-//             email: null,
-//             profile_pic: null,
-//             name: null,
-//             id: null,
-//             address: null,
-//             phone_number: null
-//         }
-//     });
-// };
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -45,13 +30,6 @@ const Navbar = () => {
 
     const { theme } = useTheme();
     useEffect(() => {
-        // setCart_setUser()
-        //     .then((d) => {
-        //         
-        //     })
-        //     .catch((e) => {
-        //         
-        //     });
         setHasHydrated(!hasHydrated);
     }, [theme]);
 
