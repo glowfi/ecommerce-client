@@ -120,12 +120,12 @@ export const usecartStore = create<cartStore>(
             removeCart: (id: string) => {
                 const { cart } = get();
                 let currProduct = cart.find((p: any) => p.id == id);
-                console.log(currProduct);
+                
                 let newPrice = (
                     ((100 - currProduct?.discountPercent) / 100) *
                     (currProduct?.price * currProduct?.quantity)
                 ).toFixed(0);
-                console.log(newPrice);
+                
                 set((state: any) => ({
                     amount: state.amount - parseFloat(newPrice)
                 }));

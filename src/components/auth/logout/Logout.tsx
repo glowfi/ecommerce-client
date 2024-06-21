@@ -58,7 +58,7 @@ const LogoutForm = () => {
                             googleLogout();
                         }
 
-                        // console.log(Cookies.get(), 'DAGTA');
+                        // , 'DAGTA');
                         let name = 'accessToken';
                         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
 
