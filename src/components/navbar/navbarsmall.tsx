@@ -27,7 +27,7 @@ export default function Navbarsmall() {
 
     return (
         <header
-            className={`flex md:hidden justify-center items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
+            className={`flex sm:hidden justify-between w-full items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
         >
             <Link href="/" className="flex items-center gap-2">
                 <Image
@@ -39,7 +39,7 @@ export default function Navbarsmall() {
                 />
                 <span className="sr-only">Nimbus Store</span>
             </Link>
-            <div className="flex md:hidden justify-center items-center w-fit">
+            <div className="flex md:hidden justify-center items-center w-full">
                 <Input
                     type="text"
                     id="text"

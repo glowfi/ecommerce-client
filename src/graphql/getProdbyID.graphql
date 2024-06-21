@@ -9,9 +9,7 @@ getProductById(productID: $productId) {
      description
      brand
      discountPercent
-     category {
-         name
-     }
+     categoryName
      images
      dateCreated
      dateCreatedHuman

@@ -37,7 +37,7 @@ const Navbar = () => {
         <>
             <Navbarsmall />
             <header
-                className={`hidden ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : 'md:flex'} sticky z-50 top-0 h-16 items-center gap-4 border-b bg-background px-4 md:px-6`}
+                className={`hidden ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : 'sm:flex'} sticky z-50 top-0 h-16 items-center gap-4 border-b bg-background px-4 md:px-6`}
             >
                 <nav className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                     <Link
@@ -65,7 +65,7 @@ const Navbar = () => {
                     </Link>
                 </nav>
 
-                <div className="hidden md:flex justify-center items-center w-full">
+                <div className="hidden sm:flex justify-center items-center w-full">
                     <Autocomplete />
                 </div>
 
