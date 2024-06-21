@@ -28,7 +28,7 @@ export default function RazorPayModal({
     const handlePayment = useCallback(
         (setOrder_id_razor: any, setLoading: any) => {
             const options: RazorpayOptions = {
-                key: process.env.RAZER_KEY_ID as string,
+                key: process.env.RAZORPAY_KEY_ID as string,
                 amount: '',
                 currency: 'INR',
                 name: 'Nimbus Store',

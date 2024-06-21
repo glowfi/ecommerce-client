@@ -20,9 +20,12 @@ pnpm run dev
 Add the below fields with your values in the `.env` file
 
 ```sh
+GOOGLE_CLIENT_ID=""
 GRAPHQL_API_ENDPOINT=""
-STORE_NAME=""
-RAZER_KEY_ID=""
 LOGO_URL=""
+RAZER_KEY_ID=""
+SECRET_REQ_RES=""
+STAGE=""
+STORE_NAME=""
 STORE_NONCE=""
 ```
