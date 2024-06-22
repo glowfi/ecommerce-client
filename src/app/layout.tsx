@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
+import { Greet } from '@/lib/greet';
 
 export const metadata: Metadata = {
     title: 'Nimbus Store',
@@ -32,6 +33,7 @@ export default function RootLayout({
                         >
                             <Toaster />
                             <Navbar />
+                            <Greet />
 
                             {children}
                         </GoogleOAuthProvider>

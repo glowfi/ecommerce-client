@@ -24,8 +24,9 @@ const ProductCard = ({ product }: any) => {
                     onLoad={() => setLoaded(true)}
                     src={product?.coverImage?.[0]}
                     alt={'Not Found!'}
-                    layout="fill"
-                    objectFit="cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    fill={true}
+                    style={{ objectFit: 'cover' }}
                     className="h-64 transition-all hover:opacity-70"
                     onClick={() => {
                         router.push(`/product/${product?.id}`);

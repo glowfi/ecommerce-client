@@ -1,13 +1,10 @@
 'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { SkeletonCard } from '../product/SkeletonCard';
 import Link from 'next/link';
+import React, { useState } from 'react';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const CategoryCard = ({ categories }: any) => {
-    const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
 
     return (
