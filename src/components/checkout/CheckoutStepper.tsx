@@ -45,32 +45,28 @@ export default function CheckoutStepper() {
     }, [cart, user]);
 
     return (
-        <div>
+        <div className="flex justify-center items-center h-dvh mt-10">
             {cart.length === 0 ? (
                 <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
                     Cart Empty!
                 </h2>
             ) : (
                 <div>
-                    <h1 className="mt-16 sm:mt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center mb-6">
-                        Checkout
-                    </h1>
-
                     {step === 1 && (
-                        <div>
-                            <div className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center">
+                        <div className="container mt-6 mb-6">
+                            <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center mb-6">
                                 Address and Contact
-                            </div>
+                            </p>
 
                             <ContactDetails handleNext={handleNext} />
                         </div>
                     )}
 
                     {step === 2 && (
-                        <div>
-                            <div className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center mb-6">
+                        <div className="container mt-6 mb-6">
+                            <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center mb-6">
                                 Choose Payment Method
-                            </div>
+                            </p>
                             <PaymentMethod
                                 handleNext={handleNext}
                                 handlePrevious={handlePrevious}
@@ -82,23 +78,23 @@ export default function CheckoutStepper() {
                     )}
 
                     {step === 3 && (
-                        <div>
-                            <div className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center">
+                        <div className="container mt-10 mb-6">
+                            <p className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 text-center mb-6 mt-6">
                                 Order Summary
-                            </div>
+                            </p>
                             <OrderSummary handlePrevious={handlePrevious} />
                         </div>
                     )}
                 </div>
             )}
 
-            {step <= 2 && (
-                <div className="flex justify-center items-center">
-                    <Link href="/" className="my-6 underline">
-                        Go to Home
-                    </Link>
-                </div>
-            )}
+            {/* {step <= 2 && ( */}
+            {/*     <div className="flex justify-center items-center"> */}
+            {/*         <Link href="/" className="my-6 underline"> */}
+            {/*             Go to Home */}
+            {/*         </Link> */}
+            {/*     </div> */}
+            {/* )} */}
         </div>
     );
 }

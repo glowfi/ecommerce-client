@@ -18,7 +18,8 @@ export default function RazorPayModal({
     setLoading,
     name,
     email,
-    phone_number
+    phone_number,
+    setIspaymentprocessing
 }: any) {
     const [Razorpay, isLoaded] = useRazorpay();
     const [, execUpdateOrder] = useMutation(UpdateordersDocument);
@@ -36,7 +37,9 @@ export default function RazorPayModal({
                 image: process.env.LOGO_URL,
                 order_id: order_id_razor,
                 handler: async (res) => {
+                    setIspaymentprocessing(true);
                     setOrder_id_razor('');
+
                     await execUpdateOrder(
                         {
                             data: {
@@ -62,6 +65,7 @@ export default function RazorPayModal({
                         description: 'Payment Success!'
                     });
                     router.push('/checkout/payment');
+                    setIspaymentprocessing(false);
                 },
                 prefill: {
                     name: name,

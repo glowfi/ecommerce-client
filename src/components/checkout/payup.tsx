@@ -13,6 +13,8 @@ const Payup = ({ handlePayment, setOrder_id_razor, setLoading }: any) => {
             <Tooltip open={true}>
                 <TooltipTrigger asChild>
                     <Button
+                        className="p-3"
+                        size={'sm'}
                         onClick={() => {
                             handlePayment(setOrder_id_razor, setLoading);
                         }}

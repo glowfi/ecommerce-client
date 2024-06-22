@@ -1,9 +1,12 @@
 'use client';
-import { BaggageClaim, Minus, Plus } from 'lucide-react';
+import { Product_StockDocument } from '@/gql/graphql';
+import { getClient } from '@/lib/graphqlserver';
+import { Minus, Plus } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { usecartStore } from '../cart/store';
 import { Button } from '../ui/button';
-import { useToast } from '../ui/use-toast';
+import { LoadingButton } from '../ui/loading-button';
+import { useToast } from '@/components/ui/use-toast';
 
 const AddtoCart = ({ currProduct }: any) => {
     const [qty, setQty] = useState(0);
@@ -12,6 +15,7 @@ const AddtoCart = ({ currProduct }: any) => {
     const increaseCart = usecartStore((state: any) => state.increaseCart);
     const decreaseCart = usecartStore((state: any) => state.decreaseCart);
     const { toast } = useToast();
+    const [isbuttonloading, setIsbuttonloading] = useState(false);
 
     const isPresent = useCallback(() => {
         return cart.filter((p: any) => p.id == currProduct.id)[0];
@@ -35,7 +39,7 @@ const AddtoCart = ({ currProduct }: any) => {
                     <Button
                         size={'sm'}
                         variant={'ghost'}
-                        onClick={() => {
+                        onClick={async () => {
                             decreaseCart(currProduct.id, currProduct);
                             setQty(cart[idx]['quantity']);
                         }}
@@ -43,39 +47,71 @@ const AddtoCart = ({ currProduct }: any) => {
                         <Minus />
                     </Button>
                     <span>{qty}</span>
-                    <Button
+                    <LoadingButton
+                        loading={isbuttonloading}
                         size={'sm'}
                         variant={'ghost'}
-                        onClick={() => {
-                            let res = increaseCart(currProduct.id, currProduct);
-                            if (res) {
+                        onClick={async () => {
+                            setIsbuttonloading(true);
+
+                            const data = await getClient().query(
+                                Product_StockDocument,
+                                {
+                                    productId: currProduct.id,
+                                    quantity: cart[idx]['quantity'] + 1
+                                }
+                            );
+                            console.log(data?.data?.checkStockByProductId);
+                            if (data?.data?.checkStockByProductId) {
+                                increaseCart(currProduct.id, currProduct);
+                                setQty((curr) => cart[idx]['quantity']);
+                            } else {
+                                console.log('Exec');
                                 toast({
                                     variant: 'destructive',
-                                    title: 'OVER PRODUCT STOCK LIMIT!',
-                                    description:
-                                        'Only Few items left for this Product.'
+                                    title: 'Very Limited Stock for this product!'
                                 });
                             }
-                            setQty((curr) => cart[idx]['quantity']);
+                            setIsbuttonloading(false);
                         }}
                     >
                         <Plus />
-                    </Button>
+                    </LoadingButton>
                 </div>
             ) : (
-                <Button
+                <LoadingButton
+                    loading={isbuttonloading}
                     size="sm"
                     variant="outline"
                     className="h-8 gap-1"
-                    onClick={() => {
-                        let res = increaseCart(currProduct?.id, currProduct);
+                    onClick={async () => {
+                        setIsbuttonloading(true);
+
+                        const data = await getClient().query(
+                            Product_StockDocument,
+                            {
+                                productId: currProduct.id,
+                                quantity: 1
+                            }
+                        );
+
+                        if (data?.data?.checkStockByProductId) {
+                            console.log(data);
+                            increaseCart(currProduct?.id, currProduct);
+                        } else {
+                            toast({
+                                variant: 'destructive',
+                                title: 'Very Limited Stock for this product!'
+                            });
+                        }
+
+                        setIsbuttonloading(false);
                     }}
                 >
-                    <BaggageClaim className="h-3.5 w-3.5" />
                     <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
                         Add to Cart
                     </span>
-                </Button>
+                </LoadingButton>
             )}
         </>
     );

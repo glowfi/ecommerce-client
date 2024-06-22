@@ -17,6 +17,7 @@ const documents = {
     "mutation login($data: InputLogin!) {\n  login(data: $data) {\n    data {\n      userID\n      email\n      userType\n      accToken\n      refToken\n      profilePic\n      name\n      address {\n        streetAddress\n        country\n        countryCode\n        city\n        state\n        zipCode\n      }\n      phoneNumber\n    }\n    err\n  }\n}": types.LoginDocument,
     "mutation signup($data: InputUser!) {\n  createUser(data: $data) {\n    data {\n      email\n    }\n    err\n  }\n}": types.SignupDocument,
     "query otpexpired($data: OTPInput!) {\n  checkOtpExpired(data: $data) {\n    data {\n      hasExpired\n    }\n    err\n  }\n}": types.OtpexpiredDocument,
+    "query product_stock($productId: String!, $quantity: Int!) {\n  checkStockByProductId(productID: $productId, quantity: $quantity)\n}": types.Product_StockDocument,
     "query confirmacc($token: String!) {\n  confirmAccount(token: $token) {\n    data\n    err\n  }\n}": types.ConfirmaccDocument,
     "mutation create_review($data: InputReviews!) {\n  createReview(data: $data) {\n    data {\n      id\n      comment\n      reviewedAt\n      rating\n      userReviewed {\n        name\n        profilePic\n      }\n    }\n    err\n  }\n}": types.Create_ReviewDocument,
     "mutation createorder($data: InputOrders!) {\n  createOrder(data: $data)\n}": types.CreateorderDocument,
@@ -68,6 +69,10 @@ export function graphql(source: "mutation signup($data: InputUser!) {\n  createU
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query otpexpired($data: OTPInput!) {\n  checkOtpExpired(data: $data) {\n    data {\n      hasExpired\n    }\n    err\n  }\n}"): (typeof documents)["query otpexpired($data: OTPInput!) {\n  checkOtpExpired(data: $data) {\n    data {\n      hasExpired\n    }\n    err\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query product_stock($productId: String!, $quantity: Int!) {\n  checkStockByProductId(productID: $productId, quantity: $quantity)\n}"): (typeof documents)["query product_stock($productId: String!, $quantity: Int!) {\n  checkStockByProductId(productID: $productId, quantity: $quantity)\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

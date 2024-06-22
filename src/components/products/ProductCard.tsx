@@ -44,6 +44,12 @@ const ProductCard = ({ product }: any) => {
                         {product?.brand}
                     </h3>
 
+                    {product?.stock === 0 && (
+                        <div className="absolute top-4 left-4  px-3 py-1 rounded-full text-xs font-medium">
+                            <Badge variant={'destructive'}>Out of Stock</Badge>
+                        </div>
+                    )}
+
                     <div className="flex gap-1">
                         {product?.discountPercent !== 0 && (
                             <Badge>{product?.discountPercent}% Off</Badge>
@@ -93,7 +99,9 @@ const ProductCard = ({ product }: any) => {
                             ${product.price.toFixed(2)}
                         </span>
                     )}
-                    <AddtoCart currProduct={product} />
+                    {product?.stock !== 0 && (
+                        <AddtoCart currProduct={product} />
+                    )}
                 </div>
             </div>
         </div>

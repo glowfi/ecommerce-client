@@ -10,6 +10,7 @@ import {
     CardTitle
 } from '../ui/card';
 import AddtoCart from './addtocart';
+import { Badge } from '../ui/badge';
 
 const ProductDetails = ({ currProduct }: any) => {
     return (
@@ -21,9 +22,21 @@ const ProductDetails = ({ currProduct }: any) => {
                     </CardTitle>
                     <CardDescription>{currProduct?.title}</CardDescription>
                 </div>
-                <div className="ml-auto flex items-center gap-1">
-                    <AddtoCart currProduct={currProduct} />
-                </div>
+
+                {currProduct?.stock === 0 ? (
+                    <div className="ml-auto">
+                        <Badge
+                            className="w-fit text-center"
+                            variant={'destructive'}
+                        >
+                            Out of Stock
+                        </Badge>
+                    </div>
+                ) : (
+                    <div className="ml-auto flex items-center gap-1">
+                        <AddtoCart currProduct={currProduct} />
+                    </div>
+                )}
             </CardHeader>
             <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">

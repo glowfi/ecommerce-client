@@ -1,0 +1,3 @@
+query product_stock($productId: String!, $quantity: Int!){
+  checkStockByProductId(productID: $productId, quantity: $quantity)
+}

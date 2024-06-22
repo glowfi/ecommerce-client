@@ -1,15 +1,9 @@
 'use client';
 
 import { CreditCardIcon, IndianRupee } from 'lucide-react';
-import { Button } from '../ui/button';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from '../ui/card';
 import React from 'react';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardFooter } from '../ui/card';
 import { usecheckoutStore } from './store';
 
 const PaymentMethod = ({

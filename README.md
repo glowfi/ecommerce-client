@@ -23,7 +23,7 @@ Add the below fields with your values in the `.env` file
 GOOGLE_CLIENT_ID=""
 GRAPHQL_API_ENDPOINT=""
 LOGO_URL=""
-RAZER_KEY_ID=""
+RAZORPAY_KEY_ID=""
 SECRET_REQ_RES=""
 STAGE=""
 STORE_NAME=""
