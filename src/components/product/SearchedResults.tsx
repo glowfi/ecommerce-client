@@ -20,7 +20,6 @@ import { StarIcon } from '../ui/staricon';
 import { MAX_PRICE, MIN_PRICE, TOTAL_ITEMS } from './constants';
 import { Priceslider } from './priceslider';
 import { usesearchStore } from './search-store';
-import Rating from '../ui/rating';
 
 const loadCategories = async () => {
     const allCat = usecategoryStore.getState().allCategories;
@@ -213,6 +212,7 @@ export default function SearchedResults() {
                                                 <Checkbox
                                                     //@ts-ignore
                                                     checked={selectedFilters?.category?.includes(
+                                                        //@ts-ignore
                                                         name
                                                     )}
                                                     onCheckedChange={() =>
@@ -250,9 +250,12 @@ export default function SearchedResults() {
                             </AccordionTrigger>
                             <AccordionContent className="w-full">
                                 <div className="flex flex-col gap-2">
-                                    {[1, 2, 3, 4, 5].map((p) => {
+                                    {[1, 2, 3, 4, 5].map((p, idx) => {
                                         return (
-                                            <Label className="flex gap-2 font-normal">
+                                            <Label
+                                                className="flex gap-2 font-normal"
+                                                key={idx}
+                                            >
                                                 <RadioGroup
                                                     className="flex"
                                                     // @ts-ignore

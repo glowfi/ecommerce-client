@@ -34,7 +34,9 @@ const FileUpload = ({ userId }: any) => {
         }
         try {
             const formData = new FormData();
+            //@ts-ignore
             formData.append('file', selectedFile);
+            //@ts-ignore
             formData.append('api_key', process.env.CLOUDINARY_API_KEY);
             formData.append('upload_preset', 'w9fvdkls');
             const data = await axios.post(
