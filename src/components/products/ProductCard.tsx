@@ -16,9 +16,9 @@ const ProductCard = ({ product }: any) => {
     return (
         <div
             key={product?.id}
-            className="relative group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2"
+            className="relative flex flex-col justify-between group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2 dark:bg-muted"
         >
-            <div className="flex justify-center items-center relative w-full h-[200px]">
+            <div className="flex justify-center items-center relative w-full h-[200px] bg-muted">
                 {!loaded && <SkeletonCard props={{ w: '200', h: '200' }} />}
                 <Image
                     onLoad={() => setLoaded(true)}
@@ -52,10 +52,13 @@ const ProductCard = ({ product }: any) => {
 
                     <div className="flex gap-1">
                         {product?.discountPercent !== 0 && (
-                            <Badge>{product?.discountPercent}% Off</Badge>
+                            <Badge style={{ backgroundColor: '#00AFD7' }}>
+                                {product?.discountPercent}% Off
+                            </Badge>
                         )}
 
                         <Badge
+                            style={{ backgroundColor: '#b47743' }}
                             className="hover:animate-in hover:cursor-pointer"
                             onClick={() => {
                                 router.push(
@@ -74,31 +77,36 @@ const ProductCard = ({ product }: any) => {
                     {product?.title}
                 </Link>
                 <div className="flex flex-wrap justify-between items-center mt-3 gap-3">
-                    <div className="flex gap-1 justify-center items-center">
-                        <StarIcon className="w-5 h-5 fill-primary" />
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                            {product?.rating?.toFixed(1)}
-                        </span>
-                    </div>
-
-                    {product?.discountPercent ? (
-                        <div className="flex">
-                            <span className="text-lg font-bold mr-2">
-                                $
-                                {(
-                                    ((100 - product?.discountPercent) / 100) *
-                                    product?.price
-                                ).toFixed(0)}
-                            </span>
-                            <span className="text-sm text-gray-500 line-through">
-                                ${product.price.toFixed(2)}
+                    <div className="flex justify-start items-center gap-3">
+                        <div className="flex justify-start gap-1">
+                            <StarIcon className="w-5 h-5 fill-primary" />
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {product?.rating?.toFixed(1)}
                             </span>
                         </div>
-                    ) : (
-                        <span className="text-lg font-bold mr-2">
-                            ${product.price.toFixed(2)}
-                        </span>
-                    )}
+                        <div>
+                            {product?.discountPercent ? (
+                                <div className="flex">
+                                    <span className="text-lg font-bold mr-2">
+                                        $
+                                        {(
+                                            ((100 - product?.discountPercent) /
+                                                100) *
+                                            product?.price
+                                        ).toFixed(0)}
+                                    </span>
+                                    <span className="text-sm text-gray-500 line-through">
+                                        ${product.price.toFixed(2)}
+                                    </span>
+                                </div>
+                            ) : (
+                                <span className="text-lg font-bold mr-2">
+                                    ${product.price.toFixed(2)}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
                     {product?.stock !== 0 && (
                         <AddtoCart currProduct={product} />
                     )}

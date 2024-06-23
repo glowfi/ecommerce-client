@@ -1,4 +1,4 @@
-import { CreditCard } from 'lucide-react';
+'use client';
 
 import {
     Card,
@@ -14,9 +14,12 @@ import { getClient } from '@/lib/graphqlserver';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import { Skeleton } from '../ui/skeleton';
 import { UserUpdate } from './userupdate';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
+import FileUpload from './FileUpload';
 
 export interface Address {
     city: string;
@@ -50,6 +53,7 @@ const MyDetails = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [userData, setUserData] = useState<User | null>(null);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -79,13 +83,12 @@ const MyDetails = () => {
                         {userData?.name}
                     </CardTitle>
                     <CardDescription>
-                        Date of Birth : {userData?.dob}
+                        {userData?.dob && `Date of Birth : ${userData?.dob}`}
                     </CardDescription>
                 </div>
-                <div className="ml-auto flex items-center gap-1">
-                    {!loaded && <Skeleton className="h-12 w-12 rounded-full" />}
-
-                    <img
+                <div className="ml-auto flex flex-col items-center justify-center gap-1">
+                    {!loaded && <LoadingSpinner name="pic" />}
+                    <Image
                         onLoad={() => setLoaded(true)}
                         // @ts-ignore
                         src={userData?.profilePic}
@@ -94,6 +97,9 @@ const MyDetails = () => {
                         height={50}
                         className="hover:opacity-75 transition-all"
                     />
+                    {userData && userData?.id && (
+                        <FileUpload userId={userData?.id} />
+                    )}
                 </div>
             </CardHeader>
             <CardContent className="p-6 text-sm">

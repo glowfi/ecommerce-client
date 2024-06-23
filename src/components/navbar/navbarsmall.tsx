@@ -17,6 +17,7 @@ import CartIcon from './CartIcon';
 import { Autocompletesmall } from './autocompletesmall';
 import { useautoStore } from './autocompletestore';
 import { usePathname } from 'next/navigation';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 export default function Navbarsmall() {
     const [open, setOpen] = useState(false);
@@ -24,13 +25,17 @@ export default function Navbarsmall() {
     const userID = useuserStore((state: any) => state.user.id);
     const [issheetopen, setIssheetopen] = useState(false);
     const pathname = usePathname();
+    const [loaded, setLoaded] = useState(false);
 
     return (
         <header
             className={`flex sm:hidden justify-between w-full items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
         >
             <Link href="/" className="flex items-center gap-2">
+                {!loaded && <LoadingSpinner name="pic" />}
+
                 <Image
+                    onLoad={() => setLoaded(true)}
                     src={Logo}
                     width={100}
                     height={100}
@@ -107,7 +112,7 @@ export default function Navbarsmall() {
                                     <div>
                                         {currUser?.profile_pic ? (
                                             <div className="flex justify-center items-center gap-6">
-                                                <img
+                                                <Image
                                                     src={currUser.profile_pic}
                                                     alt="Not Found"
                                                     width={50}

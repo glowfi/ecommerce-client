@@ -20,6 +20,7 @@ import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { useuserinfo } from './store';
+import { Heading, RefetchButton } from './reuseComponents';
 TimeAgo.addDefaultLocale(en);
 
 function convert(html: string) {
@@ -116,6 +117,7 @@ const MyReviews = () => {
     const allReviews = useuserinfo((state: any) => state.allReviews);
     const pageIdx = useuserinfo((state: any) => state.pageIdx);
     const hasMore = useuserinfo((state: any) => state.hasMore);
+    const reset_rev = useuserinfo((state: any) => state.reset_rev);
     const flattened = Object.values(allReviews);
 
     useEffect(() => {
@@ -140,7 +142,7 @@ const MyReviews = () => {
             });
     }, [pageIdx]);
 
-    if (fetching) {
+    if (loading || fetching) {
         return <LoadingSpinner name="user reviews" />;
     }
 
@@ -151,72 +153,77 @@ const MyReviews = () => {
                     No products reviewed yet!
                 </h2>
             ) : (
-                <div className="flex flex-col justify-center items-center">
-                    <Table>
-                        <TableCaption>
-                            A list of your recent reviews.
-                        </TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                {/* <TableHead className="w-[100px]"> */}
-                                {/*     ReviewID */}
-                                {/* </TableHead> */}
-                                <TableHead>Comment</TableHead>
-                                <TableHead>Date reviewed</TableHead>
-                                <TableHead>Link to product</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {flattened?.map((p: any, idx: number) => {
-                                return (
-                                    <TableRow key={idx}>
-                                        {/* <TableCell className="font-medium"> */}
-                                        {/*     {p?.id} */}
-                                        {/* </TableCell> */}
-                                        <TableCell>
-                                            {convert(`${p?.comment}`).slice(
-                                                0,
-                                                35
-                                            ) + '...'}
-                                            <ShowComment content={p?.comment} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <ReactTimeAgo
-                                                date={p?.reviewedAt}
-                                                locale="en-US"
-                                            />
+                <>
+                    <div className="flex flex-col justify-center items-center">
+                        <Heading name={'reviews'} />
 
-                                            {/* {getDateHumanReadable( */}
-                                            {/*     p?.reviewedAt */}
-                                            {/* )} */}
-                                        </TableCell>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Comment</TableHead>
+                                    <TableHead>Date reviewed</TableHead>
+                                    <TableHead>Link to product</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {flattened?.map((p: any, idx: number) => {
+                                    return (
+                                        <TableRow key={idx}>
+                                            <TableCell>
+                                                {convert(`${p?.comment}`).slice(
+                                                    0,
+                                                    35
+                                                ) + '...'}
+                                                <ShowComment
+                                                    content={p?.comment}
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <ReactTimeAgo
+                                                    date={p?.reviewedAt}
+                                                    locale="en-US"
+                                                />
+                                            </TableCell>
 
-                                        <TableCell>
-                                            <Link
-                                                className="underline"
-                                                href={`/product/${p?.productReviewed?.id}`}
-                                            >
-                                                Product Link
-                                            </Link>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                    {hasMore && (
-                        <LoadingButton
-                            className="mt-6"
-                            loading={loading}
-                            onClick={() => {
-                                useuserinfo.setState({ pageIdx: pageIdx + 1 });
-                                // useuserinfo.setState({ loading: true });
-                            }}
-                        >
-                            Load more Reviews
-                        </LoadingButton>
-                    )}
-                </div>
+                                            <TableCell>
+                                                <Link
+                                                    className="underline"
+                                                    href={`/product/${p?.productReviewed?.id}`}
+                                                >
+                                                    Product Link
+                                                </Link>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+
+                        <div className="flex flex-col justify-center items-center mt-6">
+                            <RefetchButton
+                                loading={loading}
+                                setLoading={setLoading}
+                                getData={getData}
+                                name="reviews"
+                                reset_order={reset_rev}
+                            />
+
+                            {hasMore && (
+                                <LoadingButton
+                                    className="mt-6"
+                                    loading={loading}
+                                    onClick={() => {
+                                        useuserinfo.setState({
+                                            pageIdx: pageIdx + 1
+                                        });
+                                    }}
+                                >
+                                    Load more Reviews
+                                </LoadingButton>
+                            )}
+                        </div>
+                    </div>
+                </>
             )}
         </>
     );

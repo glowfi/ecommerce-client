@@ -9,7 +9,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Search_AtlasDocument } from '@/gql/graphql';
+import { CategoriesDocument, Search_AtlasDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -20,6 +20,23 @@ import { StarIcon } from '../ui/staricon';
 import { MAX_PRICE, MIN_PRICE, TOTAL_ITEMS } from './constants';
 import { Priceslider } from './priceslider';
 import { usesearchStore } from './search-store';
+import Rating from '../ui/rating';
+
+const loadCategories = async () => {
+    const allCat = usecategoryStore.getState().allCategories;
+
+    if (allCat.length === 0) {
+        const data = await getClient().query(CategoriesDocument, {});
+
+        if (data?.data?.getAllCategories?.data) {
+            usecategoryStore.setState({
+                allCategories: data?.data?.getAllCategories?.data
+            });
+        }
+        return data;
+    }
+    return null;
+};
 
 async function fetchProducts(query: string) {
     const lastquery = usesearchStore.getState().lastquery;
@@ -133,8 +150,18 @@ export default function SearchedResults() {
                     return false;
                 }
                 if (
-                    product.price < selectedFilters.price.min ||
-                    product.price > selectedFilters.price.max
+                    parseInt(
+                        (
+                            ((100 - product?.discountPercent) / 100) *
+                            product?.price
+                        ).toFixed(0)
+                    ) < selectedFilters.price.min ||
+                    parseFloat(
+                        (
+                            ((100 - product?.discountPercent) / 100) *
+                            product?.price
+                        ).toFixed(0)
+                    ) > selectedFilters.price.max
                 ) {
                     return false;
                 }
@@ -143,8 +170,24 @@ export default function SearchedResults() {
                 }
                 return true;
             })
-            .sort((a: any, b: any) => b.rating - a.rating);
+            .sort(
+                (a: any, b: any) =>
+                    parseInt(
+                        (((100 - a?.discountPercent) / 100) * a?.price).toFixed(
+                            0
+                        )
+                    ) -
+                    parseInt(
+                        (((100 - b?.discountPercent) / 100) * b?.price).toFixed(
+                            0
+                        )
+                    )
+            );
     }, [selectedFilters, products, page, query]);
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
 
     useEffect(() => {
         fetchProducts(query as string);
@@ -168,6 +211,10 @@ export default function SearchedResults() {
                                                 key={id}
                                             >
                                                 <Checkbox
+                                                    //@ts-ignore
+                                                    checked={selectedFilters?.category?.includes(
+                                                        name
+                                                    )}
                                                     onCheckedChange={() =>
                                                         handleFilterChange(
                                                             'category',
@@ -201,118 +248,34 @@ export default function SearchedResults() {
                             <AccordionTrigger className="text-base">
                                 Rating
                             </AccordionTrigger>
-                            <AccordionContent>
-                                <div className="grid gap-2">
-                                    <Label className="flex items-center gap-2 font-normal">
-                                        <RadioGroup
-                                            // @ts-ignore
-                                            value={selectedFilters.rating}
-                                            onValueChange={(value) =>
-                                                handleFilterChange(
-                                                    'rating',
-                                                    value
-                                                )
-                                            }
-                                        >
-                                            {/* @ts-ignore */}
-                                            <RadioGroupItem value={5} />
-                                            <span className="flex items-center gap-1">
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                            </span>
-                                        </RadioGroup>
-                                    </Label>
-                                    <Label className="flex items-center gap-2 font-normal">
-                                        <RadioGroup
-                                            //@ts-ignore
-                                            value={selectedFilters.rating}
-                                            onValueChange={(value) =>
-                                                handleFilterChange(
-                                                    'rating',
-                                                    value
-                                                )
-                                            }
-                                        >
-                                            {/* @ts-ignore */}
-                                            <RadioGroupItem value={4} />
-                                            <span className="flex items-center gap-1">
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                            </span>
-                                        </RadioGroup>
-                                    </Label>
-                                    <Label className="flex items-center gap-2 font-normal">
-                                        <RadioGroup
-                                            // @ts-ignore
-                                            value={selectedFilters.rating}
-                                            onValueChange={(value) =>
-                                                handleFilterChange(
-                                                    'rating',
-                                                    value
-                                                )
-                                            }
-                                        >
-                                            {/* @ts-ignore */}
-                                            <RadioGroupItem value={3} />
-                                            <span className="flex items-center gap-1">
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                            </span>
-                                        </RadioGroup>
-                                    </Label>
-                                    <Label className="flex items-center gap-2 font-normal">
-                                        <RadioGroup
-                                            // @ts-ignore
-                                            value={selectedFilters.rating}
-                                            onValueChange={(value) =>
-                                                handleFilterChange(
-                                                    'rating',
-                                                    value
-                                                )
-                                            }
-                                        >
-                                            {/* @ts-ignore */}
-                                            <RadioGroupItem value={2} />
-                                            <span className="flex items-center gap-1">
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                            </span>
-                                        </RadioGroup>
-                                    </Label>
-                                    <Label className="flex items-center gap-2 font-normal">
-                                        <RadioGroup
-                                            //@ts-ignore
-                                            value={selectedFilters.rating}
-                                            onValueChange={(value) =>
-                                                handleFilterChange(
-                                                    'rating',
-                                                    value
-                                                )
-                                            }
-                                        >
-                                            {/* @ts-ignore  */}
-                                            <RadioGroupItem value={1} />
-                                            <span className="flex items-center gap-1">
-                                                <StarIcon className="w-5 h-5 fill-primary" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                                <StarIcon className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                                            </span>
-                                        </RadioGroup>
-                                    </Label>
+                            <AccordionContent className="w-full">
+                                <div className="flex flex-col gap-2">
+                                    {[1, 2, 3, 4, 5].map((p) => {
+                                        return (
+                                            <Label className="flex gap-2 font-normal">
+                                                <RadioGroup
+                                                    className="flex"
+                                                    // @ts-ignore
+                                                    value={
+                                                        selectedFilters.rating
+                                                    }
+                                                    onValueChange={(value) =>
+                                                        handleFilterChange(
+                                                            'rating',
+                                                            value
+                                                        )
+                                                    }
+                                                >
+                                                    {/* @ts-ignore */}
+                                                    <RadioGroupItem value={p} />
+                                                    <span className="flex justify-center items-center gap-1">
+                                                        {p}{' '}
+                                                        <StarIcon className="w-5 h-5 fill-primary" />
+                                                    </span>
+                                                </RadioGroup>
+                                            </Label>
+                                        );
+                                    })}
                                 </div>
                             </AccordionContent>
                         </AccordionItem>
@@ -329,29 +292,41 @@ export default function SearchedResults() {
                             </p>
                         </div>
                     </div>
-                    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 justify-center items-center">
-                        {filteredProducts?.map((product: any, idx: any) => (
-                            <div key={idx}>
-                                <ProductCard product={product} />
-                            </div>
-                        ))}
-                    </div>
-                    {hasMore && (
-                        <div className="flex justify-center items-center">
-                            <LoadingButton
-                                loading={loading}
-                                className="w-fit"
-                                onClick={() => {
-                                    usesearchStore.setState({
-                                        pageIdx: page + 1
-                                    });
-                                }}
-                            >
-                                Load more
-                            </LoadingButton>
+                    {filteredProducts.length === 0 ? (
+                        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 justify-center items-center">
+                            <h4 className="scroll-m-20 pb-2 text-xl font-semibold tracking-tight first:mt-0 text-center">
+                                No matching products found!
+                            </h4>
                         </div>
+                    ) : (
+                        <>
+                            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 justify-center items-center">
+                                {filteredProducts?.map(
+                                    (product: any, idx: any) => (
+                                        <div key={idx}>
+                                            <ProductCard product={product} />
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                            {hasMore && (
+                                <div className="flex justify-center items-center">
+                                    <LoadingButton
+                                        loading={loading}
+                                        className="w-fit"
+                                        onClick={() => {
+                                            usesearchStore.setState({
+                                                pageIdx: page + 1
+                                            });
+                                        }}
+                                    >
+                                        Load more
+                                    </LoadingButton>
+                                </div>
+                            )}
+                            <div ref={bottom} />
+                        </>
                     )}
-                    <div ref={bottom} />
                 </div>
             </div>
         </section>

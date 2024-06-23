@@ -9,7 +9,8 @@ const nextConfig = {
         STORE_NONCE: process.env.STORE_NONCE,
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
         STAGE: process.env.STAGE,
-        SECRET_REQ_RES: process.env.SECRET_REQ_RES
+        SECRET_REQ_RES: process.env.SECRET_REQ_RES,
+        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY
     },
     images: {
         remotePatterns: [

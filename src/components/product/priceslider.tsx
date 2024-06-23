@@ -1,17 +1,16 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { Slider } from '@/components/ui/slider';
+// import { Slider } from '@/components/ui/slider';
+import { DualRangeSlider } from '../ui/dual-range-slider';
 import { MAX_PRICE, MIN_PRICE, PRICE_STEP } from './constants';
 
-type SliderProps = React.ComponentProps<typeof Slider>;
-export function Priceslider({ className, ...props }: SliderProps) {
-    // 
+// type SliderProps = React.ComponentProps<typeof Slider>;
+export function Priceslider({ className, ...props }: any) {
+    let values = [props.props.min, props.props.max];
 
     const handlePriceChange = (values: any) => {
-        
         //@ts-ignore
-        
+
         let [min, max] = values;
         // price: { min: 0, max: 100000 },
 
@@ -21,7 +20,7 @@ export function Priceslider({ className, ...props }: SliderProps) {
             ...props.props.selectedFilters,
             price: { min, max }
         });
-        // 
+        //
         // setPriceRange(values)
     };
 
@@ -36,21 +35,16 @@ export function Priceslider({ className, ...props }: SliderProps) {
                     {/* prettier-ignore */}${props.props.min}-${props.props.max}
                 </span>
             </div>
-            <Slider
-                min={MIN_PRICE}
-                max={MAX_PRICE}
-                step={PRICE_STEP}
-                //@ts-ignore
-                defaultValue={[props.props.min, props.props.max]}
-                onValueChange={handlePriceChange}
-                className="w-full"
-            >
-                <div className="bg-gray-200 dark:bg-gray-700 h-3 rounded-full">
-                    <div className="bg-primary h-3 rounded-full" />
-                </div>
-                <div className="bg-white dark:bg-gray-900 w-5 h-5 rounded-full shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75" />
-                <div className="bg-white dark:bg-gray-900 w-5 h-5 rounded-full shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75" />
-            </Slider>
+            <div className="w-full space-y-5 px-10 mt-6">
+                <DualRangeSlider
+                    label={(value) => <span>{value}$</span>}
+                    value={values}
+                    onValueChange={handlePriceChange}
+                    min={MIN_PRICE}
+                    max={MAX_PRICE}
+                    step={PRICE_STEP}
+                />
+            </div>
         </div>
     );
 }

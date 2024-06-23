@@ -18,11 +18,14 @@ const CartItems = ({ setSheetOpen }: any) => {
     const router = useRouter();
 
     return (
-        <ScrollArea className="h-[95vh] w-fit">
-            <div className="grid gap-4 py-4">
+        <ScrollArea className="h-[95vh] w-full">
+            <div className="flex flex-col justify-center items-start gap-4 p-3 w-full sm:w-fit">
                 {cart.map((p: any, idx: any) => {
                     return (
-                        <div className="flex items-center gap-4" key={idx}>
+                        <div
+                            className="flex justify-start items-center gap-4 mr-3"
+                            key={idx}
+                        >
                             {!loaded && (
                                 <SkeletonCard
                                     props={{
@@ -40,28 +43,23 @@ const CartItems = ({ setSheetOpen }: any) => {
                                 height={100}
                                 className="rounded-md w-fit"
                             />
-                            <div className="flex flex-col gap-1">
+                            <div className="flex  flex-col justify-start gap-1 w-full">
                                 <p className="text-sm font-medium leading-none">
                                     <Link
                                         href={`/product/${p?.id}`}
-                                        className="underline hover:opacity-75 transition-all"
+                                        className="hover:underline transition-all font-bold"
                                     >
                                         {p?.title}
                                     </Link>
                                 </p>
-                                <p className="text-sm text-muted-foreground">
-                                    $
-                                    {(
-                                        ((100 - p?.discountPercent) / 100) *
-                                        p?.price
-                                    ).toFixed(0)}{' '}
-                                    x{p?.quantity}
+                                <p className="text-sm text-muted-foreground font-bold">
+                                    Quantity : x{p?.quantity}
                                 </p>
                                 {/* <p className="flex text-sm text-muted-foreground"> */}
                                 {/*     Price p/c : ${(p?.price).toFixed(2)} */}
                                 {/* </p> */}
 
-                                <p className="flex text-sm text-muted-foreground">
+                                <p className="flex text-sm text-muted-foreground font-bold">
                                     Price : $
                                     {(
                                         ((100 - p?.discountPercent) / 100) *
@@ -78,7 +76,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                                             onClick={() => {
                                                 removeCart(p?.id);
                                             }}
-                                            className="hidden md:block"
+                                            className="hidden sm:block"
                                         >
                                             Remove
                                         </Button>
@@ -88,7 +86,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="hidden md:flex items-center justify-center font-medium ml-auto">
+                            <div className="items-center justify-end ml-auto font-bold w-full">
                                 $
                                 {(
                                     ((100 - p?.discountPercent) / 100) *
@@ -99,19 +97,19 @@ const CartItems = ({ setSheetOpen }: any) => {
                     );
                 })}
 
-                <div className="flex items-center gap-4">
-                    <div className="flex flex-col gap-1">
+                <div className="flex items-start justify-around sm:justify-between gap-3 w-fit sm:w-full">
+                    <div className="flex flex-col justify-start items-center gap-1 w-full">
                         <span>Amount to be paid :</span>
-                        <small className="font-semibold">
-                            Incl. of shipping fee and tax
+                        <small className="font-semibold text-wrap text-center">
+                            (Inclusive of shipping fee and tax)
                         </small>
                     </div>
-                    <div className="ml-auto font-medium">
+                    <span className="font-bold">
                         ${(amount + SHIPPING_AMOUNT + TAX_AMOUNT).toFixed(0)}
-                    </div>
+                    </span>
                 </div>
                 <Button
-                    className="rounded-md"
+                    className="rounded-md w-full"
                     type="button"
                     onClick={() => {
                         setSheetOpen(false);

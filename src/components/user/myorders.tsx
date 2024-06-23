@@ -34,16 +34,14 @@ TimeAgo.addDefaultLocale(en);
 import ReactTimeAgo from 'react-time-ago';
 import { OrderDetailsModal } from './orderinfo';
 import { useToast } from '@/components/ui/use-toast';
+import { Heading, RefetchButton } from './reuseComponents';
 
-function OrderTable({ allOrders, cidx, setIdx }: any) {
+function OrderTable({ allOrders, cidx, setIdx, loading, setLoading }: any) {
+    const reset_order = useuserinfo((state: any) => state.reset_order);
+    // const [loading, setLoading] = useState(false);
     return (
         <div>
-            <div className="px-7">
-                <h1 className="text-center font-semibold mb-3">Orders</h1>
-                <p className="text-center mb-3">
-                    Your recent orders from our store.
-                </p>
-            </div>
+            <Heading name="orders" />
             <div>
                 <Table>
                     <TableHeader>
@@ -102,6 +100,15 @@ function OrderTable({ allOrders, cidx, setIdx }: any) {
                         })}
                     </TableBody>
                 </Table>
+            </div>
+            <div className="flex flex-col justify-center items-center mt-6">
+                <RefetchButton
+                    loading={loading}
+                    setLoading={setLoading}
+                    getData={getData}
+                    name="orders"
+                    reset_order={reset_order}
+                />
             </div>
         </div>
     );
@@ -422,8 +429,10 @@ export function Myorders() {
                             allOrders={flattened}
                             cidx={idx}
                             setIdx={setIdx}
+                            loading={loading}
+                            setLoading={setLoading}
                         />
-                        {hasMore_order && (
+                        {!loading && hasMore_order && (
                             <LoadingButton
                                 className="mt-6 w-fit"
                                 loading={loading}

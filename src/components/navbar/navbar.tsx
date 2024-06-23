@@ -20,6 +20,7 @@ import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
 import Navbarsmall from './navbarsmall';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -27,6 +28,7 @@ const Navbar = () => {
     const userID = useuserStore((state: any) => state.user.id);
     const router = useRouter();
     const [hasHydrated, setHasHydrated] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
     const { theme } = useTheme();
     useEffect(() => {
@@ -45,7 +47,10 @@ const Navbar = () => {
                         className="flex items-center text-lg font-semibold md:text-base hover:opacity-75 transition-all"
                     >
                         <div className="flex gap-1 justify-between items-center">
+                            {!loaded && <LoadingSpinner name="pic" />}
+
                             <Image
+                                onLoad={() => setLoaded(true)}
                                 src={Logo}
                                 width={100}
                                 height={100}
@@ -85,7 +90,7 @@ const Navbar = () => {
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon">
                                         {currUser?.profile_pic ? (
-                                            <img
+                                            <Image
                                                 src={currUser.profile_pic}
                                                 alt="Not Found"
                                                 width={100}

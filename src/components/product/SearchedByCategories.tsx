@@ -71,31 +71,36 @@ const SearchedByCategories = () => {
     };
 
     return (
-        <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-            {searchProducts?.map((p: any, idx: any) => {
-                return (
-                    <ProductCard
-                        key={idx}
-                        product={{
-                            ...p,
-                            category: p?.categoryName
-                        }}
-                    />
-                );
-            })}
+        <div>
+            <h2 className="scroll-m-20 border-b-gray-400 border-b-4 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center w-fit">
+                {query}
+            </h2>
+            <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                {searchProducts?.map((p: any, idx: any) => {
+                    return (
+                        <ProductCard
+                            key={idx}
+                            product={{
+                                ...p,
+                                category: p?.categoryName
+                            }}
+                        />
+                    );
+                })}
 
-            <InfiniteScroll
-                hasMore={hasMore}
-                isLoading={loading}
-                next={next}
-                threshold={1}
-            >
-                {hasMore && (
-                    <div className="m-auto flex justify-center items-center justify-items-center">
-                        <LoadingSpinner name="results" />
-                    </div>
-                )}
-            </InfiniteScroll>
+                <InfiniteScroll
+                    hasMore={hasMore}
+                    isLoading={loading}
+                    next={next}
+                    threshold={1}
+                >
+                    {hasMore && (
+                        <div className="m-auto flex justify-center items-center justify-items-center">
+                            <LoadingSpinner name="results" />
+                        </div>
+                    )}
+                </InfiniteScroll>
+            </div>
         </div>
     );
 };

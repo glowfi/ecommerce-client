@@ -16,7 +16,18 @@ export const useuserinfo = create<userinfo>(
             hasMore: true,
             hasMore_order: true,
             lastIdx_rev: -1,
-            lastIdx_order: -1
+            lastIdx_order: -1,
+            reset_rev: () => {
+                useuserinfo.setState({ pageIdx: 0 });
+                useuserinfo.setState({ hasMore: true });
+                useuserinfo.setState({ lastIdx_rev: -1 });
+            },
+
+            reset_order: () => {
+                useuserinfo.setState({ pageIdx_order: 0 });
+                useuserinfo.setState({ hasMore_order: true });
+                useuserinfo.setState({ lastIdx_order: -1 });
+            }
         }),
         {
             name: 'userinfo-storage',

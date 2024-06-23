@@ -29,7 +29,7 @@ import { useForm } from 'react-hook-form';
 import {
     citySchema,
     countrySchema,
-    emailSchema,
+    // emailSchema,
     nameSchema,
     phoneNumbeSchema,
     stateSchema,
@@ -43,12 +43,13 @@ import lookup from 'country-code-lookup';
 import { useuserStore } from '../auth/store';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { LoadingButton } from '../ui/loading-button';
 
 // @ts-ignore
 export function UserUpdate({ userdetails }: User) {
     const FormSchema = z.object({
         name: nameSchema,
-        email: emailSchema,
+        // email: emailSchema,
         streetAddress: streetAddressSchema,
         country: countrySchema,
         state: stateSchema,
@@ -70,7 +71,7 @@ export function UserUpdate({ userdetails }: User) {
         resolver: zodResolver(FormSchema),
         defaultValues: {
             name: userdetails?.name,
-            email: userdetails?.email,
+            // email: userdetails?.email,
             streetAddress: userdetails?.address?.streetAddress,
             country: countryCode,
             state: state,
@@ -99,8 +100,8 @@ export function UserUpdate({ userdetails }: User) {
                     zipCode: data.zipCode,
                     streetAddress: data.streetAddress
                 },
-                name: data.name,
-                email: data.email
+                name: data.name
+                // email: data.email
             },
             userId: user.id
         });
@@ -114,6 +115,8 @@ export function UserUpdate({ userdetails }: User) {
             // router.push(`/user/${user?.id}`);
         } else if (res?.data?.updateUser?.err) {
             toast({
+                variant: 'destructive',
+
                 title: 'Error!',
                 description: res?.data?.updateUser?.err
             });
@@ -137,7 +140,7 @@ export function UserUpdate({ userdetails }: User) {
             <DialogTrigger asChild>
                 <Button>Edit Profile</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-fit overflow-scroll">
+            <DialogContent className="sm:max-w-fit overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Edit profile</DialogTitle>
                     <DialogDescription>
@@ -171,28 +174,28 @@ export function UserUpdate({ userdetails }: User) {
                             />
                         </div>
                         <div className="grid gap-4 py-4">
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                defaultValue={
-                                                    userdetails?.email
-                                                }
-                                                placeholder="Email"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription>
-                                            Enter your email address.
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            {/* <FormField */}
+                            {/*     control={form.control} */}
+                            {/*     name="email" */}
+                            {/*     render={({ field }) => ( */}
+                            {/*         <FormItem> */}
+                            {/*             <FormLabel>Email</FormLabel> */}
+                            {/*             <FormControl> */}
+                            {/*                 <Input */}
+                            {/*                     defaultValue={ */}
+                            {/*                         userdetails?.email */}
+                            {/*                     } */}
+                            {/*                     placeholder="Email" */}
+                            {/*                     {...field} */}
+                            {/*                 /> */}
+                            {/*             </FormControl> */}
+                            {/*             <FormDescription> */}
+                            {/*                 Enter your email address. */}
+                            {/*             </FormDescription> */}
+                            {/*             <FormMessage /> */}
+                            {/*         </FormItem> */}
+                            {/*     )} */}
+                            {/* /> */}
                         </div>
                         <div className="grid gap-2 mb-2">
                             <FormField
@@ -316,16 +319,13 @@ export function UserUpdate({ userdetails }: User) {
                                 )}
                             />
                         </div>
-                        {loading ? (
-                            <Button disabled>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin mt-6" />
-                                Please wait
-                            </Button>
-                        ) : (
-                            <Button type="submit" className="mt-6">
-                                Save Changes
-                            </Button>
-                        )}
+                        <LoadingButton
+                            loading={loading}
+                            type="submit"
+                            className="mt-6 w-full"
+                        >
+                            Save Changes
+                        </LoadingButton>
                     </form>
                 </Form>
             </DialogContent>

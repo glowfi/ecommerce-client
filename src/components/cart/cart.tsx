@@ -10,20 +10,18 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet';
 import { ShoppingCart } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import CartItems from './cartItems';
 import { usecartStore } from './store';
 
 const Cart = () => {
     const cart = usecartStore((state: any) => state.cart);
-    const router = useRouter();
     const [sheetOpen, setSheetOpen] = useState(false);
 
     return (
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
                 <Button variant="outline">
-                    <ShoppingCart />
+                    <ShoppingCart className="h-[1.2rem] w-[1.2rem] transition-all" />
                 </Button>
             </SheetTrigger>
             <SheetContent className="w-full">
