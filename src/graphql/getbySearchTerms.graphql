@@ -15,6 +15,7 @@ query search_atlas($term: String!, $limit: Int!, $lastTokensaved: String!) {
       sellerName
       title
       rating
+      stock
       discountPercent
     }
     lastToken
