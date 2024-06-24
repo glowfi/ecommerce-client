@@ -38,7 +38,7 @@ export default function RazorPayModal({
                 handler: async (res) => {
                     setIspaymentprocessing(true);
                     setOrder_id_razor('');
-                    
+
                     await execUpdateOrder(
                         {
                             data: {
@@ -109,20 +109,12 @@ export default function RazorPayModal({
     // }, [isLoaded, handlePayment, order_id_razor, order_id]);
 
     return (
-        <div className="App">
+        <div className="mt-3">
             <Payup
                 handlePayment={handlePayment}
                 setOrder_id_razor={setOrder_id_razor}
                 setLoading={setLoading}
             />
-            {/* <Button */}
-            {/*     variant={'secondary'} */}
-            {/*     onClick={() => { */}
-            {/*         handlePayment(setOrder_id_razor, setLoading); */}
-            {/*     }} */}
-            {/* > */}
-            {/*     Pay */}
-            {/* </Button> */}
         </div>
     );
 }
