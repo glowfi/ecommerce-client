@@ -8,7 +8,7 @@ import './globals.css';
 import { Greet } from '@/lib/greet';
 
 export const metadata: Metadata = {
-    title: 'Nimbus Store',
+    title: process.env.STORE_NAME,
     description:
         'Ecommerce Webiste using FastAPI,MongoDB,GraphQL,NextJS,Redis,Apache Kafka'
 };

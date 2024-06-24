@@ -42,7 +42,7 @@ export default function Navbarsmall() {
                     alt="Not Found"
                     className="h-10 w-14"
                 />
-                <span className="sr-only">Nimbus Store</span>
+                <span className="sr-only">{process.env.STORE_NAME}</span>
             </Link>
             <div className="flex md:hidden justify-center items-center w-full">
                 <Input

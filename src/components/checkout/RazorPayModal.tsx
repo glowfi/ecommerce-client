@@ -31,7 +31,7 @@ export default function RazorPayModal({
                 key: process.env.RAZORPAY_KEY_ID as string,
                 amount: '',
                 currency: 'INR',
-                name: 'Nimbus Store',
+                name: process.env.STORE_NAME as string,
                 description: 'Transaction',
                 image: process.env.LOGO_URL,
                 order_id: order_id_razor,
