@@ -32,6 +32,8 @@ export const usesearchStore = create<searchStore>(
                 set({ lastToken: '' });
                 set({ lastIdx: -1 });
             },
+            filterRating: () => {},
+            filterPrice: () => {},
             isEmpty: () => {
                 const { filteredProducts } = get();
                 return filteredProducts.length === 0;

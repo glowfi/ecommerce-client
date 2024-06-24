@@ -10,7 +10,8 @@ const nextConfig = {
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
         STAGE: process.env.STAGE,
         SECRET_REQ_RES: process.env.SECRET_REQ_RES,
-        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY
+        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+        RECOMMENDATION_APP_URL: process.env.RECOMMENDATION_APP_URL
     },
     images: {
         remotePatterns: [

@@ -20,6 +20,7 @@ import { StarIcon } from '../ui/staricon';
 import { MAX_PRICE, MIN_PRICE, TOTAL_ITEMS } from './constants';
 import { Priceslider } from './priceslider';
 import { usesearchStore } from './search-store';
+import { SortDropdown } from './sortdropdown';
 
 const loadCategories = async () => {
     const allCat = usecategoryStore.getState().allCategories;
@@ -115,6 +116,7 @@ export default function SearchedResults() {
         price: { min: MIN_PRICE, max: MAX_PRICE },
         rating: 0
     });
+
     const handleFilterChange = (type: any, value: any) => {
         if (type === 'category') {
             setSelectedFilters({
@@ -138,39 +140,61 @@ export default function SearchedResults() {
             });
         }
     };
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
-    const filteredProducts = useMemo(() => {
-        return products
-            .filter((product: any) => {
-                if (
-                    selectedFilters?.category?.length > 0 &&
-                    //@ts-ignore
-                    !selectedFilters?.category?.includes(product?.categoryName)
-                ) {
-                    return false;
-                }
-                if (
-                    parseInt(
-                        (
-                            ((100 - product?.discountPercent) / 100) *
-                            product?.price
-                        ).toFixed(0)
-                    ) < selectedFilters.price.min ||
-                    parseFloat(
-                        (
-                            ((100 - product?.discountPercent) / 100) *
-                            product?.price
-                        ).toFixed(0)
-                    ) > selectedFilters.price.max
-                ) {
-                    return false;
-                }
-                if (product.rating < selectedFilters.rating) {
-                    return false;
-                }
-                return true;
-            })
-            .sort(
+    useEffect(() => {
+        console.log('Ran');
+        let newData = products.filter((product: any) => {
+            if (
+                selectedFilters?.category?.length > 0 &&
+                //@ts-ignore
+                !selectedFilters?.category?.includes(product?.categoryName)
+            ) {
+                return false;
+            }
+            if (
+                parseInt(
+                    (
+                        ((100 - product?.discountPercent) / 100) *
+                        product?.price
+                    ).toFixed(0)
+                ) < selectedFilters.price.min ||
+                parseFloat(
+                    (
+                        ((100 - product?.discountPercent) / 100) *
+                        product?.price
+                    ).toFixed(0)
+                ) > selectedFilters.price.max
+            ) {
+                return false;
+            }
+            if (product.rating < selectedFilters.rating) {
+                return false;
+            }
+            return true;
+        });
+
+        setFilteredProducts(newData);
+    }, [selectedFilters, products, page, query]);
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
+
+    useEffect(() => {
+        fetchProducts(query as string);
+    }, [page, query]);
+
+    useEffect(() => {
+        return () => {
+            reset();
+        };
+    }, []);
+
+    const sortbyPrice = (direction: any) => {
+        console.log('Entered');
+        if (direction === 'asc') {
+            let newData = filteredProducts.sort(
                 (a: any, b: any) =>
                     parseInt(
                         (((100 - a?.discountPercent) / 100) * a?.price).toFixed(
@@ -183,24 +207,38 @@ export default function SearchedResults() {
                         )
                     )
             );
-    }, [selectedFilters, products, page, query]);
+            setFilteredProducts(() => [...newData]);
+        } else {
+            let newData = filteredProducts.sort(
+                (a: any, b: any) =>
+                    parseInt(
+                        (((100 - b?.discountPercent) / 100) * b?.price).toFixed(
+                            0
+                        )
+                    ) -
+                    parseInt(
+                        (((100 - a?.discountPercent) / 100) * a?.price).toFixed(
+                            0
+                        )
+                    )
+            );
+            setFilteredProducts(() => [...newData]);
+        }
+    };
 
-    useEffect(() => {
-        loadCategories();
-    }, []);
-
-    useEffect(() => {
-        fetchProducts(query as string);
-    }, [page, query]);
-
-    useEffect(() => {
-        
-
-        return () => {
-            reset();
-            
-        };
-    }, []);
+    const sortbyRating = (direction: any) => {
+        if (direction === 'asc') {
+            let newData = filteredProducts.sort(
+                (a: any, b: any) => a.rating - b.rating
+            );
+            setFilteredProducts(() => [...newData]);
+        } else {
+            let newData = filteredProducts.sort(
+                (a: any, b: any) => b.rating - a.rating
+            );
+            setFilteredProducts(() => [...newData]);
+        }
+    };
 
     return (
         <section>
@@ -296,13 +334,19 @@ export default function SearchedResults() {
                 </div>
                 <div className="grid gap-6 md:gap-8">
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
-                        <div className="grid gap-1">
-                            <h1 className="text-2xl font-bold tracking-tight">
-                                Search Results
-                            </h1>
-                            <p className="text-gray-500 dark:text-gray-400">
-                                Showing search results for {query}
-                            </p>
+                        <div className="flex gap-6 justify-between items-center w-full">
+                            <div className="flex flex-col">
+                                <h1 className="text-2xl font-bold tracking-tight">
+                                    Search Results
+                                </h1>
+                                <p className="text-gray-500 dark:text-gray-400">
+                                    Showing search results for {query}
+                                </p>
+                            </div>
+                            <SortDropdown
+                                sortbyRating={sortbyRating}
+                                sortbyPrice={sortbyPrice}
+                            />
                         </div>
                     </div>
                     {filteredProducts.length === 0 ? (

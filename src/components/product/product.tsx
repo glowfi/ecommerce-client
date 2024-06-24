@@ -13,6 +13,7 @@ import CommentSection from './commentsection';
 import { useusecurrProdStore } from './product-store';
 import Productcontainer from './productcontainer';
 import Reviewpercentage from './reviewpercentage';
+import Suggestions from './sugggestions';
 
 const Product = () => {
     const pathname = usePathname();
@@ -120,6 +121,7 @@ const Product = () => {
                         Add Review
                     </LoadingButton>
                 </div>
+                <Suggestions />
             </div>
             <Reviewpercentage />
             <CommentSection />

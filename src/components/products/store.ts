@@ -20,21 +20,23 @@ export const useProductsStore = create<ProductsStore>(
             paginate: (data: any) => {
                 const { allProducts } = get();
                 if (allProducts.length >= 0) {
-                    let newData = [...allProducts, ...data].sort(
-                        (a: any, b: any) =>
-                            parseInt(
-                                (
-                                    ((100 - a?.discountPercent) / 100) *
-                                    a?.price
-                                ).toFixed(0)
-                            ) -
-                            parseInt(
-                                (
-                                    ((100 - b?.discountPercent) / 100) *
-                                    b?.price
-                                ).toFixed(0)
-                            )
-                    );
+                    let newData = [...allProducts, ...data];
+
+                    // .sort(
+                    //     (a: any, b: any) =>
+                    //         parseInt(
+                    //             (
+                    //                 ((100 - a?.discountPercent) / 100) *
+                    //                 a?.price
+                    //             ).toFixed(0)
+                    //         ) -
+                    //         parseInt(
+                    //             (
+                    //                 ((100 - b?.discountPercent) / 100) *
+                    //                 b?.price
+                    //             ).toFixed(0)
+                    //         )
+                    // );
 
                     set((state: any) => ({
                         allProducts: [...newData]
