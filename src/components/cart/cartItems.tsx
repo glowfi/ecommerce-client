@@ -86,7 +86,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="items-center justify-end ml-auto font-bold w-full">
+                            <div className="hidden sm:flex items-center justify-end ml-auto font-bold w-full">
                                 $
                                 {(
                                     ((100 - p?.discountPercent) / 100) *

@@ -23,7 +23,7 @@ const Payup = ({ handlePayment, setOrder_id_razor, setLoading }: any) => {
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p className="mt-3">Pay with razorpay</p>
+                    <p className="m-3 animate-pulse">Pay with razorpay</p>
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>
