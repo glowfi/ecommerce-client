@@ -82,7 +82,7 @@ const UserUpdate = ({ userdetails }: User) => {
     const user = useuserStore.getState().user;
     const router = useRouter();
 
-    console.log('render');
+    
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         setLoading(true);

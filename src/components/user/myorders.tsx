@@ -399,8 +399,8 @@ export function Myorders() {
     const flattened = Object.values(allOrders);
     const reset_order = useuserinfo((state: any) => state.reset_order);
 
-    console.log('Render');
-    console.log(loading);
+    
+    
 
     useEffect(() => {
         setLoading(true);
