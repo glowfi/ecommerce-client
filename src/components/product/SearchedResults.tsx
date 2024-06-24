@@ -108,6 +108,7 @@ export default function SearchedResults() {
     const loading = usesearchStore((state: any) => state.loading);
     const hasMore = usesearchStore((state: any) => state.hasMore);
     const allCat = usecategoryStore((state: any) => state.allCategories);
+    const reset = usesearchStore.getState().reset;
 
     const [selectedFilters, setSelectedFilters] = useState({
         category: [],
@@ -191,6 +192,15 @@ export default function SearchedResults() {
     useEffect(() => {
         fetchProducts(query as string);
     }, [page, query]);
+
+    useEffect(() => {
+        
+
+        return () => {
+            reset();
+            
+        };
+    }, []);
 
     return (
         <section>

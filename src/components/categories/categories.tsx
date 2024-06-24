@@ -7,7 +7,6 @@ import { usecategoryStore } from './store';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 const loadData = async () => {
-    
     const data = await getClient().query(CategoriesDocument, {});
 
     if (data?.data?.getAllCategories?.data) {

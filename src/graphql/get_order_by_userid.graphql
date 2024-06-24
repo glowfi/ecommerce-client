@@ -7,6 +7,7 @@ query get_order_by_userid($userId: String!, $skipping: Int!, $limit: Int!) {
       phoneNumber
       paymentBy
       isPending
+      hasFailed
       amount
       address {
         city
@@ -20,6 +21,7 @@ query get_order_by_userid($userId: String!, $skipping: Int!, $limit: Int!) {
         quantity
         sellerName
         price
+        discountPercent
       }
       orderedAt
     }

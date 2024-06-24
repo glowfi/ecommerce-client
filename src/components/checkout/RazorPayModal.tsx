@@ -3,13 +3,12 @@
 import { UpdateordersDocument } from '@/gql/graphql';
 import { useMutation } from '@urql/next';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import useRazorpay, { RazorpayOptions } from 'react-razorpay';
-import { Button } from '../ui/button';
-import { useToast } from '../ui/use-toast';
-import { usecheckoutStore } from './store';
 import { usecartStore } from '../cart/store';
+import { useToast } from '../ui/use-toast';
 import Payup from './payup';
+import { usecheckoutStore } from './store';
 
 export default function RazorPayModal({
     order_id_razor,
@@ -39,7 +38,7 @@ export default function RazorPayModal({
                 handler: async (res) => {
                     setIspaymentprocessing(true);
                     setOrder_id_razor('');
-
+                    
                     await execUpdateOrder(
                         {
                             data: {

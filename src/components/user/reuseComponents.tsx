@@ -1,13 +1,9 @@
 import { titleCase } from '@/lib/utils';
-import React, { SetStateAction } from 'react';
-import { LoadingButton } from '../ui/loading-button';
 import { RefreshCw } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface Refetch {
     name: string;
-    loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    getData: () => Promise<any>;
     reset_order?: any;
     reset_rev?: any;
 }
@@ -31,21 +27,21 @@ export const RefetchButton = (props: Refetch) => {
                 clicking the button below.
             </span>
 
-            <LoadingButton
-                loading={props.loading}
+            <Button
                 variant={'link'}
-                onClick={async () => {
-                    props.setLoading(true);
-                    props.reset_order();
-                    await props.getData();
-                    props.setLoading(false);
+                onClick={() => {
+                    if (props.reset_order) {
+                        props.reset_order();
+                    } else {
+                        props.reset_rev();
+                    }
                 }}
             >
                 <div className="flex gap-3 justify-center items-center">
                     <RefreshCw />
                     Refetch {props.name} from server
                 </div>
-            </LoadingButton>
+            </Button>
         </div>
     );
 };

@@ -43,7 +43,7 @@ const FileUpload = ({ userId }: any) => {
                 `https://api.cloudinary.com/v1_1/diwstgzd0/image/upload`,
                 formData
             );
-            // console.log(data.data.secure_url);
+            // 
 
             const res = await execUpdate({
                 data: {
@@ -72,7 +72,7 @@ const FileUpload = ({ userId }: any) => {
                 });
             }
         } catch (error) {
-            console.log(error);
+            
         }
         setSelectedFile(null);
         setLoading(false);

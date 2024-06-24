@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-
+import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -45,7 +45,7 @@ const FormSchema = z.object({
     checked: updateAddressSchema
 });
 
-export function ContactDetails({ handleNext }: any) {
+const ContactDetails = ({ handleNext }: any) => {
     const contact = usecheckoutStore((state: any) => state.contact);
     // const [countryCode, setCountryCode] = useState('');
     const user = useuserStore((state: any) => state.user);
@@ -423,4 +423,6 @@ export function ContactDetails({ handleNext }: any) {
             </Form>
         </div>
     );
-}
+};
+
+export default React.memo(ContactDetails);

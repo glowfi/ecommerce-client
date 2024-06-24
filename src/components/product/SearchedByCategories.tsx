@@ -2,7 +2,7 @@
 import { SearchTermPaginateDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
 import ProductCard from '../products/ProductCard';
 import InfiniteScroll from '../ui/InfinteScroll';
@@ -25,6 +25,7 @@ const SearchedByCategories = () => {
     const page = usesearchStore((state: any) => state.pageIdx);
     const loading = usesearchStore((state: any) => state.loading);
     const hasMore = usesearchStore((state: any) => state.hasMore);
+    const reset = usesearchStore((state: any) => state.reset);
 
     // if query firsttime
     if (!storeQuery && !oldquery) {
@@ -69,6 +70,15 @@ const SearchedByCategories = () => {
             usesearchStore.setState({ loading: false });
         }, 0);
     };
+
+    useEffect(() => {
+        
+
+        return () => {
+            reset();
+            
+        };
+    }, []);
 
     return (
         <div>

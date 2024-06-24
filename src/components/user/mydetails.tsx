@@ -15,11 +15,8 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useuserStore } from '../auth/store';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Skeleton } from '../ui/skeleton';
-import { UserUpdate } from './userupdate';
 import FileUpload from './FileUpload';
+import Userupdate from './userupdate';
 
 export interface Address {
     city: string;
@@ -167,7 +164,7 @@ const MyDetails = () => {
                     Proud Member of {process.env.STORE_NAME}
                 </div>
                 {/* @ts-ignore */}
-                {userData?.email && <UserUpdate userdetails={userData} />}
+                {userData?.email && <Userupdate userdetails={userData} />}
             </CardFooter>
         </Card>
     );

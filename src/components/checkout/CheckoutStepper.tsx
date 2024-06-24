@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { ContactDetails } from './ContactDetails';
+import { checkIsAuth } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useuserStore } from '../auth/store';
+import { usecartStore } from '../cart/store';
+import { useToast } from '../ui/use-toast';
+import ContactDetails from './ContactDetails';
 import OrderSummary from './OrderSummary';
 import PaymentMethod from './PaymentMethod';
 import { usecheckoutStore } from './store';
-import { useuserStore } from '../auth/store';
-import { useRouter } from 'next/navigation';
-import { useToast } from '../ui/use-toast';
-import { usecartStore } from '../cart/store';
-import { checkIsAuth } from '@/lib/utils';
-import Link from 'next/link';
 
 export default function CheckoutStepper() {
     const router = useRouter();

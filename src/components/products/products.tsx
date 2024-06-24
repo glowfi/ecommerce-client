@@ -3,7 +3,7 @@
 import { PaginateProdDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { Loader2 } from 'lucide-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { useProductsStore } from './store';
 import InfiniteScroll from '../ui/InfinteScroll';
@@ -16,6 +16,16 @@ const Products = () => {
     const page = useProductsStore((state: any) => state.pageIdx);
     const loading = useProductsStore((state: any) => state.loading);
     const hasMore = useProductsStore((state: any) => state.hasMore);
+    const reset = useProductsStore((state: any) => state.reset);
+
+    useEffect(() => {
+        
+
+        return () => {
+            reset();
+            
+        };
+    }, []);
 
     const next = async () => {
         useProductsStore.setState({ loading: true });

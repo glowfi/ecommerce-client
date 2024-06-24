@@ -11,6 +11,12 @@ export const useProductsStore = create<ProductsStore>(
             pageIdx: 0,
             loading: false,
             hasMore: true,
+            reset: () => {
+                useProductsStore.setState({ allProducts: [] });
+                useProductsStore.setState({ pageIdx: 0 });
+                useProductsStore.setState({ loading: false });
+                useProductsStore.setState({ hasMore: true });
+            },
             paginate: (data: any) => {
                 const { allProducts } = get();
                 if (allProducts.length >= 0) {
@@ -29,7 +35,7 @@ export const useProductsStore = create<ProductsStore>(
                                 ).toFixed(0)
                             )
                     );
-                    console.log(newData);
+
                     set((state: any) => ({
                         allProducts: [...newData]
                     }));

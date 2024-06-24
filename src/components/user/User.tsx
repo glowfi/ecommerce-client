@@ -1,14 +1,14 @@
 'use client';
 import Link from 'next/link';
 
-import { useEffect, useState } from 'react';
-import Myaccount from './myaccount';
-import MyDetails from './mydetails';
-import MyReviews from './myreviews';
 import { checkIsAuth } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { toast } from '../ui/use-toast';
+import Myaccount from './myaccount';
+import MyDetails from './mydetails';
 import { Myorders } from './myorders';
+import MyReviews from './myreviews';
 import { useuserinfo } from './store';
 
 export function User() {

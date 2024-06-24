@@ -1,7 +1,7 @@
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -9,18 +9,17 @@ import {
 } from '@/components/ui/table';
 import { GetrevuseridDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactTimeAgo from 'react-time-ago';
 import { useuserStore } from '../auth/store';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
 import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
-import { useuserinfo } from './store';
 import { Heading, RefetchButton } from './reuseComponents';
+import { useuserinfo } from './store';
 TimeAgo.addDefaultLocale(en);
 
 function convert(html: string) {
@@ -51,11 +50,15 @@ const getData = async () => {
 
     if (hasMore) {
         // useuserinfo.setState({ loading: true });
-        const data = await getClient().query(GetrevuseridDocument, {
-            userId: userId,
-            limit: TOTAL_ITEMS,
-            skipping: pageIdx * TOTAL_ITEMS
-        });
+        const data = await getClient().query(
+            GetrevuseridDocument,
+            {
+                userId: userId,
+                limit: TOTAL_ITEMS,
+                skipping: pageIdx * TOTAL_ITEMS
+            },
+            { requestPolicy: 'network-only' }
+        );
 
         let currData = data?.data?.getAllReviewsByUserId?.data;
 
@@ -110,9 +113,8 @@ const ShowComment = ({ content }: any) => {
 };
 
 const MyReviews = () => {
-    const [loading, setLoading] = useState(true);
-    const [fetching, setFetching] = useState(true);
-    // const loading = useuserinfo((state: any) => state.loading);
+    const loading = useuserinfo((state: any) => state.loading);
+    const setLoading = useuserinfo((state: any) => state.setLoading);
 
     const allReviews = useuserinfo((state: any) => state.allReviews);
     const pageIdx = useuserinfo((state: any) => state.pageIdx);
@@ -121,28 +123,21 @@ const MyReviews = () => {
     const flattened = Object.values(allReviews);
 
     useEffect(() => {
-        setFetching(true);
         setLoading(true);
 
         getData()
             .then((data) => {
                 //@ts-ignore
                 if (data?.data?.getAllReviewsByUserId?.data || data === -1) {
-                    setFetching(false);
                     setLoading(false);
                 }
-                // } else {
-                //     setFetching(false);
-                //     setLoading(false);
-                // }
             })
             .catch(() => {
-                setFetching(false);
                 setLoading(false);
             });
-    }, [pageIdx]);
+    }, [pageIdx, allReviews]);
 
-    if (loading || fetching) {
+    if (loading) {
         return <LoadingSpinner name="user reviews" />;
     }
 
@@ -199,15 +194,7 @@ const MyReviews = () => {
                             </TableBody>
                         </Table>
 
-                        <div className="flex flex-col justify-center items-center mt-6">
-                            <RefetchButton
-                                loading={loading}
-                                setLoading={setLoading}
-                                getData={getData}
-                                name="reviews"
-                                reset_order={reset_rev}
-                            />
-
+                        <div className="flex flex-col justify-center items-center mt-6 gap-6">
                             {hasMore && (
                                 <LoadingButton
                                     className="mt-6"
@@ -221,6 +208,11 @@ const MyReviews = () => {
                                     Load more Reviews
                                 </LoadingButton>
                             )}
+
+                            <RefetchButton
+                                name="reviews"
+                                reset_order={reset_rev}
+                            />
                         </div>
                     </div>
                 </>

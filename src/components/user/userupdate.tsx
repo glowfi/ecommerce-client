@@ -24,8 +24,15 @@ import RegionSelect from '../ui/region-select';
 import { User } from './mydetails';
 
 import { useToast } from '@/components/ui/use-toast';
+import { UpdateuserDocument } from '@/gql/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@urql/next';
+import lookup from 'country-code-lookup';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useuserStore } from '../auth/store';
+import { LoadingButton } from '../ui/loading-button';
 import {
     citySchema,
     countrySchema,
@@ -36,17 +43,9 @@ import {
     streetAddressSchema,
     zipCodeSchema
 } from './schema';
-import { useState } from 'react';
-import { UpdateuserDocument } from '@/gql/graphql';
-import { useMutation } from '@urql/next';
-import lookup from 'country-code-lookup';
-import { useuserStore } from '../auth/store';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { LoadingButton } from '../ui/loading-button';
 
 // @ts-ignore
-export function UserUpdate({ userdetails }: User) {
+const UserUpdate = ({ userdetails }: User) => {
     const FormSchema = z.object({
         name: nameSchema,
         // email: emailSchema,
@@ -83,23 +82,27 @@ export function UserUpdate({ userdetails }: User) {
     const user = useuserStore.getState().user;
     const router = useRouter();
 
+    console.log('render');
+
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         setLoading(true);
         data.state = state;
         data.country = countryCode;
         // @ts-ignore
         data.zipCode = parseInt(data.zipCode as number) as number;
+        let address = {
+            state: data.state,
+            countryCode: data.country,
+            country: lookup.byIso(data.country)?.country,
+            city: data.city,
+            zipCode: data.zipCode,
+            streetAddress: data.streetAddress
+        };
+
         const res = await execUpdate({
             data: {
                 phoneNumber: data.phoneNumber,
-                address: {
-                    state: data.state,
-                    countryCode: data.country,
-                    country: lookup.byIso(data.country)?.country,
-                    city: data.city,
-                    zipCode: data.zipCode,
-                    streetAddress: data.streetAddress
-                },
+                address,
                 name: data.name
                 // email: data.email
             },
@@ -107,6 +110,19 @@ export function UserUpdate({ userdetails }: User) {
         });
 
         if (res?.data?.updateUser?.data) {
+            let newObj = structuredClone(address);
+            //@ts-ignore
+            newObj['street_address'] = newObj['streetAddress'];
+            //@ts-ignore
+            delete newObj['streetAddress'];
+            useuserStore.setState({
+                user: {
+                    ...useuserStore.getState().user,
+                    address: newObj,
+                    name: data.name,
+                    phone_number: data.phoneNumber
+                }
+            });
             toast({
                 title: 'Success!',
                 description: 'Updated Values!'
@@ -331,4 +347,6 @@ export function UserUpdate({ userdetails }: User) {
             </DialogContent>
         </Dialog>
     );
-}
+};
+
+export default React.memo(UserUpdate);

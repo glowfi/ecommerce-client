@@ -61,12 +61,12 @@ const AddtoCart = ({ currProduct }: any) => {
                                     quantity: cart[idx]['quantity'] + 1
                                 }
                             );
-                            console.log(data?.data?.checkStockByProductId);
+                            
                             if (data?.data?.checkStockByProductId) {
                                 increaseCart(currProduct.id, currProduct);
                                 setQty((curr) => cart[idx]['quantity']);
                             } else {
-                                console.log('Exec');
+                                
                                 toast({
                                     variant: 'destructive',
                                     title: 'Very Limited Stock for this product!'
@@ -96,7 +96,7 @@ const AddtoCart = ({ currProduct }: any) => {
                         );
 
                         if (data?.data?.checkStockByProductId) {
-                            console.log(data);
+                            
                             increaseCart(currProduct?.id, currProduct);
                         } else {
                             toast({

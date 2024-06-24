@@ -18,27 +18,26 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table';
+import { useToast } from '@/components/ui/use-toast';
 import { Get_Order_By_UseridDocument } from '@/gql/graphql';
 import { getClient } from '@/lib/graphqlserver';
 import { getDateHumanReadable } from '@/lib/utils';
-import { useEffect, useState } from 'react';
-import { useuserStore } from '../auth/store';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
-import { LoadingButton } from '../ui/loading-button';
-import { TOTAL_ITEMS } from './contants';
-import { useuserinfo } from './store';
-import { TAX_AMOUNT, SHIPPING_AMOUNT } from '../cart/constants';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-TimeAgo.addDefaultLocale(en);
+import { useEffect, useState } from 'react';
 import ReactTimeAgo from 'react-time-ago';
+import { useuserStore } from '../auth/store';
+import { SHIPPING_AMOUNT, TAX_AMOUNT } from '../cart/constants';
+import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { Badge } from '../ui/badge';
+import { LoadingButton } from '../ui/loading-button';
+import { TOTAL_ITEMS } from './contants';
 import { OrderDetailsModal } from './orderinfo';
-import { useToast } from '@/components/ui/use-toast';
 import { Heading, RefetchButton } from './reuseComponents';
+import { useuserinfo } from './store';
+TimeAgo.addDefaultLocale(en);
 
-function OrderTable({ allOrders, cidx, setIdx, loading, setLoading }: any) {
-    const reset_order = useuserinfo((state: any) => state.reset_order);
-    // const [loading, setLoading] = useState(false);
+function OrderTable({ allOrders, cidx, setIdx }: any) {
     return (
         <div>
             <Heading name="orders" />
@@ -48,7 +47,7 @@ function OrderTable({ allOrders, cidx, setIdx, loading, setLoading }: any) {
                         <TableRow>
                             <TableHead>Order ID</TableHead>
                             <TableHead className="hidden sm:table-cell">
-                                Status
+                                Payment Status
                             </TableHead>
                             <TableHead className="hidden lg:table-cell">
                                 Orderd At
@@ -79,9 +78,22 @@ function OrderTable({ allOrders, cidx, setIdx, loading, setLoading }: any) {
                                         </div>
                                     </TableCell>
                                     <TableCell className="hidden sm:table-cell">
-                                        {p?.isPending
-                                            ? 'Pending'
-                                            : 'Order Placed'}
+                                        {p?.hasFailed ? (
+                                            <Badge variant={'destructive'}>
+                                                Failed
+                                            </Badge>
+                                        ) : (
+                                            <div className="flex gap-1">
+                                                <Badge variant={'outline'}>
+                                                    {' '}
+                                                    {p?.paymentBy === 'razorpay'
+                                                        ? 'paid'
+                                                        : 'pending'}
+                                                </Badge>
+                                                {'/'}
+                                                <Badge>{p?.paymentBy}</Badge>
+                                            </div>
+                                        )}
                                     </TableCell>
                                     <TableCell className="hidden lg:table-cell">
                                         <ReactTimeAgo
@@ -100,15 +112,6 @@ function OrderTable({ allOrders, cidx, setIdx, loading, setLoading }: any) {
                         })}
                     </TableBody>
                 </Table>
-            </div>
-            <div className="flex flex-col justify-center items-center mt-6">
-                <RefetchButton
-                    loading={loading}
-                    setLoading={setLoading}
-                    getData={getData}
-                    name="orders"
-                    reset_order={reset_order}
-                />
             </div>
         </div>
     );
@@ -143,16 +146,24 @@ export function Side({ allOrders, idx }: any) {
                             />
                             <span className="sr-only">Copy Order ID</span>
                         </Button>
+                        {allOrders[idx]?.hasFailed ? (
+                            <Badge variant={'destructive'}>Failed</Badge>
+                        ) : (
+                            <div className="flex gap-1">
+                                <Badge variant={'outline'}>
+                                    {' '}
+                                    {allOrders[idx]?.paymentBy === 'razorpay'
+                                        ? 'paid'
+                                        : 'pending'}
+                                </Badge>
+                                {'/'}
+                                <Badge>{allOrders[idx]?.paymentBy}</Badge>
+                            </div>
+                        )}
                     </CardTitle>
                     <CardDescription>
                         <div className="flex flex-col justify-start gap-1">
                             <span>Order ID : #{allOrders[idx]?.id}</span>
-                            {/* <span> */}
-                            {/*     Date:{' '} */}
-                            {/*     {getDateHumanReadable( */}
-                            {/*         allOrders[idx]?.orderedAt */}
-                            {/*     )} */}
-                            {/* </span> */}
                         </div>
                     </CardDescription>
                     <Button
@@ -184,7 +195,23 @@ export function Side({ allOrders, idx }: any) {
                                                 x{p?.quantity}
                                             </span>
                                         </span>
-                                        <span>${p?.price}</span>
+
+                                        <div className="flex gap-1">
+                                            {p?.discountPercent !== 0 && (
+                                                <span className="line-through">
+                                                    ${p?.price}
+                                                </span>
+                                            )}
+                                            <span>
+                                                $
+                                                {(
+                                                    ((100 -
+                                                        p?.discountPercent) /
+                                                        100) *
+                                                    p?.price
+                                                ).toFixed(0)}
+                                            </span>
+                                        </div>
                                     </li>
                                 );
                             }
@@ -324,18 +351,19 @@ const getData = async () => {
     if (lastIdx === -1 || lastIdx !== pageIdx_order) {
         useuserinfo.setState({ lastIdx_order: pageIdx_order });
     } else if (lastIdx !== -1 && lastIdx === pageIdx_order) {
-        // setLoading(false);
-        // useuserinfo.setState({ loading: false });
         return -1;
     }
 
     if (hasMore_order) {
-        // useuserinfo.setState({ loading: true });
-        const data = await getClient().query(Get_Order_By_UseridDocument, {
-            userId,
-            skipping: pageIdx_order * TOTAL_ITEMS,
-            limit: TOTAL_ITEMS
-        });
+        const data = await getClient().query(
+            Get_Order_By_UseridDocument,
+            {
+                userId,
+                skipping: pageIdx_order * TOTAL_ITEMS,
+                limit: TOTAL_ITEMS
+            },
+            { requestPolicy: 'network-only' }
+        );
         let currData = data?.data?.getOrdersByUserid?.data;
 
         if (currData && hasMore_order) {
@@ -359,102 +387,86 @@ const getData = async () => {
         }
     }
     return [];
-
-    //     if (currData) {
-    //         useuserinfo.setState({
-    //             allOrders: [...allOrders, ...currData]
-    //         });
-    //         if (currData.length < TOTAL_ITEMS) {
-    //             useuserinfo.setState({ hasMore_order: false });
-    //         }
-
-    //         return data;
-    //         // setLoading(false);
-
-    //         // useuserinfo.setState({ loading: false });
-    //     } else {
-    //         // setLoading(false);
-    //         // useuserinfo.setState({ loading: false });
-    //     }
-    // }
 };
 
 export function Myorders() {
-    const [loading, setLoading] = useState(true);
-    const [fetching, setFetching] = useState(true);
-
-    // const loading = useuserinfo((state: any) => state.loading);
+    const loading = useuserinfo((state: any) => state.loading);
+    const setLoading = useuserinfo((state: any) => state.setLoading);
     const allOrders = useuserinfo((state: any) => state.allOrders);
     const pageIdx_order = useuserinfo((state: any) => state.pageIdx_order);
     const hasMore_order = useuserinfo((state: any) => state.hasMore_order);
     const [idx, setIdx] = useState(0);
     const flattened = Object.values(allOrders);
+    const reset_order = useuserinfo((state: any) => state.reset_order);
+
+    console.log('Render');
+    console.log(loading);
 
     useEffect(() => {
         setLoading(true);
-        setFetching(true);
         getData()
             .then((data) => {
                 //@ts-ignore
                 if (data?.data?.getOrdersByUserid?.data || data === -1) {
-                    setFetching(false);
                     setLoading(false);
                 } else {
-                    setFetching(false);
                     setLoading(false);
                 }
             })
             .catch(() => {
-                setFetching(false);
                 setLoading(false);
             });
-    }, [pageIdx_order]);
+    }, [pageIdx_order, allOrders]);
 
     if (loading) {
         return <LoadingSpinner name="user orders" />;
-    }
+    } else {
+        return (
+            <div className="container flex gap-6 items-start justify-center">
+                {flattened.length === 0 && (
+                    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                        No orders yet!
+                    </h2>
+                )}
 
-    return (
-        <div className="container flex gap-6 items-start justify-center">
-            {flattened.length === 0 && (
-                <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-                    No orders yet!
-                </h2>
-            )}
-
-            {flattened.length > 0 && (
-                <>
-                    <div className="flex flex-col justify-center items-center">
-                        <OrderTable
-                            allOrders={flattened}
-                            cidx={idx}
-                            setIdx={setIdx}
-                            loading={loading}
-                            setLoading={setLoading}
-                        />
-                        {!loading && hasMore_order && (
-                            <LoadingButton
-                                className="mt-6 w-fit"
+                {flattened.length > 0 && (
+                    <>
+                        <div className="flex flex-col justify-center items-center">
+                            <OrderTable
+                                allOrders={flattened}
+                                cidx={idx}
+                                setIdx={setIdx}
                                 loading={loading}
-                                onClick={() => {
-                                    useuserinfo.setState({
-                                        pageIdx_order: pageIdx_order + 1
-                                    });
+                                setLoading={setLoading}
+                            />
 
-                                    // useuserinfo.setState({ loading: true });
-                                    // setLoading(true);
-                                }}
-                            >
-                                Load more Orders
-                            </LoadingButton>
-                        )}
-                    </div>
+                            <div className="flex flex-col justify-center items-center mt-6 gap-6">
+                                {!loading && hasMore_order && (
+                                    <LoadingButton
+                                        className="mt-6 w-fit"
+                                        loading={loading}
+                                        onClick={() => {
+                                            useuserinfo.setState({
+                                                pageIdx_order: pageIdx_order + 1
+                                            });
+                                        }}
+                                    >
+                                        Load more Orders
+                                    </LoadingButton>
+                                )}
+                                <RefetchButton
+                                    name="orders"
+                                    reset_order={reset_order}
+                                />
+                            </div>
+                        </div>
 
-                    <div className="hidden xl:block w-full">
-                        <Side allOrders={flattened} idx={idx} />
-                    </div>
-                </>
-            )}
-        </div>
-    );
+                        <div className="hidden xl:block w-full">
+                            <Side allOrders={flattened} idx={idx} />
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    }
 }
