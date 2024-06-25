@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import ProductCard from '../products/ProductCard';
 import { usePathname } from 'next/navigation';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { decrypt } from '@/lib/krypt';
 
 export default function Suggestions() {
     const [relatedProducts, setRelatedProducts] = useState([]);
@@ -15,9 +16,12 @@ export default function Suggestions() {
             let data = await axios.get(
                 `${process.env.RECOMMENDATION_APP_URL}/api/cbfiltering?product_id=${currPath[currPath.length - 1]}&num_recommendations=8`
             );
-            
+
             if (data.data.data) {
-                let newData = data.data.data;
+                let newData = decrypt(
+                    data.data.data,
+                    process.env.SECRET_REQ_RES
+                );
                 // let newData = data.data.data.sort(
                 //     (a: any, b: any) =>
                 //         parseInt(
