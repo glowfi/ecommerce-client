@@ -15,7 +15,7 @@ export default function Suggestions() {
             let data = await axios.get(
                 `${process.env.RECOMMENDATION_APP_URL}/api/cbfiltering?product_id=${currPath[currPath.length - 1]}&num_recommendations=8`
             );
-            console.log(data);
+            
             if (data.data.data) {
                 let newData = data.data.data;
                 // let newData = data.data.data.sort(

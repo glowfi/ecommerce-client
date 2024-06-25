@@ -143,7 +143,7 @@ export default function SearchedResults() {
     const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
-        console.log('Ran');
+        
         let newData = products.filter((product: any) => {
             if (
                 selectedFilters?.category?.length > 0 &&
@@ -192,7 +192,7 @@ export default function SearchedResults() {
     }, []);
 
     const sortbyPrice = (direction: any) => {
-        console.log('Entered');
+        
         if (direction === 'asc') {
             let newData = filteredProducts.sort(
                 (a: any, b: any) =>
