@@ -18,25 +18,9 @@ export default function Suggestions() {
             );
 
             if (data.data.data) {
-                let newData = decrypt(
-                    data.data.data,
-                    process.env.SECRET_REQ_RES
+                let newData = JSON.parse(
+                    decrypt(data.data.data, process.env.SECRET_REQ_RES)
                 );
-                // let newData = data.data.data.sort(
-                //     (a: any, b: any) =>
-                //         parseInt(
-                //             (
-                //                 ((100 - a?.discountPercent) / 100) *
-                //                 a?.price
-                //             ).toFixed(0)
-                //         ) -
-                //         parseInt(
-                //             (
-                //                 ((100 - b?.discountPercent) / 100) *
-                //                 b?.price
-                //             ).toFixed(0)
-                //         )
-                // );
 
                 const newList = newData.map((obj: any) => ({
                     ...obj,
