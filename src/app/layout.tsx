@@ -5,12 +5,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
-import { Greet } from '@/lib/greet';
 
 export const metadata: Metadata = {
     title: process.env.STORE_NAME,
     description:
-        'Ecommerce Webiste using FastAPI,MongoDB,GraphQL,NextJS,Redis,Apache Kafka'
+        'Ecommerce Website using FastAPI,MongoDB,GraphQL,NextJS,Redis,Apache Kafka'
 };
 
 export default function RootLayout({
@@ -33,8 +32,6 @@ export default function RootLayout({
                         >
                             <Toaster />
                             <Navbar />
-                            <Greet />
-
                             {children}
                         </GoogleOAuthProvider>
                     </ThemeProvider>
