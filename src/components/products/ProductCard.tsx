@@ -2,18 +2,16 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SkeletonCard } from '../product/SkeletonCard';
 import AddtoCart from '../product/addtocart';
-import { StarIcon } from '../ui/staricon';
 import { Badge } from '../ui/badge';
-import Link from 'next/link';
-import useOrigin from './hooks/useOrigin';
+import { StarIcon } from '../ui/staricon';
 
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
-    const origin = useOrigin();
 
     return (
         <div
@@ -31,20 +29,18 @@ const ProductCard = ({ product }: any) => {
                     style={{ objectFit: 'cover' }}
                     className="h-64 transition-all hover:opacity-70"
                     onClick={() => {
-                        router.push(`${origin}/product/${product?.id}`);
+                        router.push(`/product/${product?.id}`);
                     }}
                 />
             </div>
             <div className="p-4 bg-white dark:bg-muted">
                 <div className="flex flex-wrap gap-3">
-                    <h3
+                    <Link
                         className="font-bold text-lg hover:animate-in hover:cursor-pointer hover:underline"
-                        onClick={() => {
-                            router.push(`product/search?q=${product?.brand}`);
-                        }}
+                        href={`/product/search?q=${product?.brand}`}
                     >
                         {product?.brand}
-                    </h3>
+                    </Link>
 
                     {product?.stock === 0 && (
                         <div className="absolute top-4 left-4  px-3 py-1 rounded-full text-xs font-medium">
@@ -64,7 +60,7 @@ const ProductCard = ({ product }: any) => {
                             className="hover:animate-in hover:cursor-pointer"
                             onClick={() => {
                                 router.push(
-                                    `product/bycategories?q=${product?.categoryName}`
+                                    `/product/bycategories?q=${product?.categoryName}`
                                 );
                             }}
                         >

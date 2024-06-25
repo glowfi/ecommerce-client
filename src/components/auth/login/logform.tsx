@@ -153,7 +153,7 @@ export function Logform() {
                             )}
                         />
                     </div>
-                    <div className="mt-4 text-center text-sm flex flex-col gap-3 underline">
+                    <div className="mt-4 text-center text-sm flex flex-col gap-3">
                         {loading ? (
                             <Button disabled>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
