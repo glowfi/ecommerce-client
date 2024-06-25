@@ -17,15 +17,4 @@ pnpm run dev
 
 ### Create an .env file in the root directory
 
-Add the below fields with your values in the `.env` file
-
-```sh
-GOOGLE_CLIENT_ID=""
-GRAPHQL_API_ENDPOINT=""
-LOGO_URL=""
-RAZORPAY_KEY_ID=""
-SECRET_REQ_RES=""
-STAGE=""
-STORE_NAME=""
-STORE_NONCE=""
-```
+Add the environment variables required by creating a `.env` file by taking help from `.env.sample`
