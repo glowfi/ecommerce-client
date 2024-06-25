@@ -8,10 +8,12 @@ import AddtoCart from '../product/addtocart';
 import { StarIcon } from '../ui/staricon';
 import { Badge } from '../ui/badge';
 import Link from 'next/link';
+import useOrigin from './hooks/useOrigin';
 
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
     const [loaded, setLoaded] = useState<boolean>(false);
+    const origin = useOrigin();
 
     return (
         <div
@@ -29,7 +31,7 @@ const ProductCard = ({ product }: any) => {
                     style={{ objectFit: 'cover' }}
                     className="h-64 transition-all hover:opacity-70"
                     onClick={() => {
-                        router.push(`/product/${product?.id}`);
+                        router.push(`${origin}/product/${product?.id}`);
                     }}
                 />
             </div>
