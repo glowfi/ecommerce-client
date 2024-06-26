@@ -21,6 +21,7 @@ import CartIcon from './CartIcon';
 import Autocomplete from './autocomplete';
 import Navbarsmall from './navbarsmall';
 import LoadingSpinner from '../loadingspinners/loadingspinner';
+import { SkeletonCard } from '../product/SkeletonCard';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -47,7 +48,9 @@ const Navbar = () => {
                         className="flex items-center text-lg font-semibold md:text-base hover:opacity-75 transition-all"
                     >
                         <div className="flex gap-1 justify-between items-center">
-                            {!loaded && <LoadingSpinner name="pic" />}
+                            {!loaded && (
+                                <SkeletonCard props={{ w: '100', h: '100' }} />
+                            )}
 
                             <Image
                                 onLoad={() => setLoaded(true)}

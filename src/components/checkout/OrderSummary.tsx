@@ -254,14 +254,9 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                     let get_oder_id = data?.data?.createOrder;
 
                                     if (get_oder_id && payment == 'razorpay') {
-                                        setOrder_id_razor((curr) => {
-                                            curr = get_oder_id[0];
-                                            return curr;
-                                        });
-                                        setOrder_id((curr) => {
-                                            curr = get_oder_id[1];
-                                            return curr;
-                                        });
+                                        
+                                        setOrder_id_razor(get_oder_id[0]);
+                                        setOrder_id(get_oder_id[1]);
                                         setShouldbedisabled(true);
                                     } else {
                                         if (get_oder_id) {
