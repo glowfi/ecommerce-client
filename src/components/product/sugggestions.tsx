@@ -16,11 +16,16 @@ export default function Suggestions() {
             let data = await axios.get(
                 `${process.env.RECOMMENDATION_APP_URL}/api/cbfiltering?product_id=${currPath[currPath.length - 1]}&num_recommendations=8`
             );
+            let newData = null;
 
             if (data.data.data) {
-                let newData = JSON.parse(
-                    decrypt(data.data.data, process.env.SECRET_REQ_RES)
-                );
+                if (process.env.STAGE === 'production') {
+                    newData = JSON.parse(
+                        decrypt(data.data.data, process.env.SECRET_REQ_RES)
+                    );
+                } else {
+                    newData = data.data.data;
+                }
 
                 const newList = newData.map((obj: any) => ({
                     ...obj,

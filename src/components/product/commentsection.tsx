@@ -57,6 +57,8 @@ const loadData = async (ID: string) => {
             let new_data = data?.getReviewsPaginate?.data;
             let newComments = {};
 
+            
+
             for (let index = 0; index < new_data.length; index++) {
                 let currComment = new_data[index];
                 // @ts-ignore
