@@ -186,7 +186,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                             </div>
                         </div>
 
-                        <div className="flex justify-between gap-3 mt-3 mb-3">
+                        <div className="flex justify-between gap-3 mt-6 sm:mt-3 mb-3">
                             <Button variant="outline" onClick={handlePrevious}>
                                 Previous
                             </Button>
@@ -254,8 +254,6 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                     let get_oder_id = data?.data?.createOrder;
 
                                     if (get_oder_id && payment == 'razorpay') {
-                                        
-
                                         setOrder_id_razor((curr) => {
                                             curr = get_oder_id[0];
                                             return curr;
