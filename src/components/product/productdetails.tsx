@@ -16,27 +16,28 @@ const ProductDetails = ({ currProduct }: any) => {
     return (
         <Card className="overflow-hidden w-fit">
             <CardHeader className="flex flex-row items-start bg-muted/50">
-                <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        {currProduct?.brand}
-                    </CardTitle>
-                    <CardDescription>{currProduct?.title}</CardDescription>
-                </div>
-
-                {currProduct?.stock === 0 ? (
+                <div className="flex justify-between items-center w-full">
+                    <div className="flex flex-col items-start gap-0.5 justify-center">
+                        <CardTitle className="group flex items-center gap-2 text-lg">
+                            {currProduct?.brand}
+                        </CardTitle>
+                        <CardDescription className="text-wrap">
+                            {currProduct?.title}
+                        </CardDescription>
+                    </div>
                     <div className="ml-auto">
-                        <Badge
-                            className="w-fit text-center"
-                            variant={'destructive'}
-                        >
-                            Out of Stock
-                        </Badge>
+                        {currProduct?.stock === 0 ? (
+                            <Badge
+                                className="w-fit text-center"
+                                variant={'destructive'}
+                            >
+                                Out of Stock
+                            </Badge>
+                        ) : (
+                            <AddtoCart currProduct={currProduct} />
+                        )}
                     </div>
-                ) : (
-                    <div className="ml-auto flex items-center gap-1">
-                        <AddtoCart currProduct={currProduct} />
-                    </div>
-                )}
+                </div>
             </CardHeader>
             <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">

@@ -33,9 +33,9 @@ const AddtoCart = ({ currProduct }: any) => {
     }, [cart, qty, isPresent, currProduct.id]);
 
     return (
-        <>
+        <div>
             {isPresent() ? (
-                <div className="flex justify-evenly items-center gap-3">
+                <div className="flex justify-evenly items-center gap-3 w-full">
                     <Button
                         size={'sm'}
                         variant={'ghost'}
@@ -61,15 +61,14 @@ const AddtoCart = ({ currProduct }: any) => {
                                     quantity: cart[idx]['quantity'] + 1
                                 }
                             );
-                            
+
                             if (data?.data?.checkStockByProductId) {
                                 increaseCart(currProduct.id, currProduct);
                                 setQty((curr) => cart[idx]['quantity']);
                             } else {
-                                
                                 toast({
                                     variant: 'destructive',
-                                    title: 'Very Limited Stock for this product!'
+                                    title: 'Very limited stock for this product!'
                                 });
                             }
                             setIsbuttonloading(false);
@@ -96,24 +95,21 @@ const AddtoCart = ({ currProduct }: any) => {
                         );
 
                         if (data?.data?.checkStockByProductId) {
-                            
                             increaseCart(currProduct?.id, currProduct);
                         } else {
                             toast({
                                 variant: 'destructive',
-                                title: 'Very Limited Stock for this product!'
+                                title: 'Very limited stock for this product!'
                             });
                         }
 
                         setIsbuttonloading(false);
                     }}
                 >
-                    <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                        Add to Cart
-                    </span>
+                    Add to Cart
                 </LoadingButton>
             )}
-        </>
+        </div>
     );
 };
 

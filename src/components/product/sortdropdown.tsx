@@ -4,7 +4,6 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
@@ -69,7 +68,6 @@ export function SortDropdown({ sortbyRating, sortbyPrice }: any) {
                         </span>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
             </DropdownMenuContent>
         </DropdownMenu>
     );

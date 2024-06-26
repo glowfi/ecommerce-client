@@ -9,15 +9,15 @@ import {
 } from '@/components/ui/sheet';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useuserStore } from '../auth/store';
+import { SkeletonCard } from '../product/SkeletonCard';
 import { ModeToggle } from '../toggletheme/ThemeSwitcher';
 import { Input } from '../ui/input';
 import CartIcon from './CartIcon';
 import { Autocompletesmall } from './autocompletesmall';
 import { useautoStore } from './autocompletestore';
-import { usePathname } from 'next/navigation';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
 
 export default function Navbarsmall() {
     const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Navbarsmall() {
             className={`flex sm:hidden justify-between w-full items-center sticky z-50 top-0 h-16 border-b bg-background ${pathname.includes('auth') || pathname.includes('checkout') ? 'hidden' : ''}`}
         >
             <Link href="/" className="flex items-center gap-2">
-                {!loaded && <LoadingSpinner name="pic" />}
+                {!loaded && <SkeletonCard props={{ w: '100', h: '100' }} />}
 
                 <Image
                     onLoad={() => setLoaded(true)}
