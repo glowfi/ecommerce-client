@@ -21,7 +21,7 @@ export function ImagePreview() {
     }, [bref]);
 
     const currImage = userefStore((state: any) => state.currImage);
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [isloading, setIsloading] = useState(true);
 
     return (
         <Dialog>
@@ -30,23 +30,32 @@ export function ImagePreview() {
                     Edit Profile
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] h-fit">
                 <DialogHeader>
                     <DialogTitle>Preview</DialogTitle>
                 </DialogHeader>
                 <div className="gap-4 py-4 flex flex-col justify-center items-center">
-                    {!loaded && <SkeletonCard props={{ w: '300', h: '300' }} />}
+                    {isloading && (
+                        <SkeletonCard props={{ w: '300', h: '300' }} />
+                    )}
 
                     {currImage && (
                         <>
                             <Image
-                                onLoad={() => setLoaded(true)}
+                                onLoadingComplete={() => setIsloading(false)}
                                 src={currImage}
                                 width={300}
                                 height={300}
                                 alt="Not Found"
+                                className={`
+              duration-700 ease-in-out group-hover:opacity-75
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
                             />
-                            {loaded && (
+                            {!isloading && (
                                 <div className="flex justify-center items-center">
                                     <Link
                                         href={currImage}

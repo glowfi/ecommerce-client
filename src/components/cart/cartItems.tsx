@@ -14,8 +14,8 @@ const CartItems = ({ setSheetOpen }: any) => {
     const cart = usecartStore((state: any) => state.cart);
     const amount = usecartStore((state: any) => state.amount);
     const removeCart = usecartStore((state: any) => state.removeCart);
-    const [loaded, setLoaded] = useState<boolean>(false);
     const router = useRouter();
+    const [isloading, setIsloading] = useState(true);
 
     return (
         <ScrollArea className="h-[95vh] w-full">
@@ -26,7 +26,7 @@ const CartItems = ({ setSheetOpen }: any) => {
                             className="flex justify-start items-center gap-4 mr-3"
                             key={idx}
                         >
-                            {!loaded && (
+                            {isloading && (
                                 <SkeletonCard
                                     props={{
                                         w: '100',
@@ -36,12 +36,18 @@ const CartItems = ({ setSheetOpen }: any) => {
                             )}
 
                             <Image
-                                onLoad={() => setLoaded(true)}
                                 src={p?.coverImage[0]}
                                 alt="Not Found"
                                 width={100}
                                 height={100}
-                                className="rounded-md w-fit"
+                                className={`
+              duration-700 ease-in-out group-hover:opacity-75 rounded-md w-fit
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
+                                onLoadingComplete={() => setIsloading(false)}
                             />
                             <div className="flex  flex-col justify-start gap-1 w-full">
                                 <p className="text-sm font-medium leading-none">

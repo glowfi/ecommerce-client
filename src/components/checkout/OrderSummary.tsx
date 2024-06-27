@@ -27,7 +27,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
     const user = useuserStore((state: any) => state.user);
     const [, execCreateOrder] = useMutation(CreateorderDocument);
     const [loading, setLoading] = React.useState(false);
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [isloading, setIsloading] = useState(true);
     const router = useRouter();
 
     const [order_id_razor, setOrder_id_razor] = useState('');
@@ -61,7 +61,7 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className="hidden md:block rounded-md">
-                                            {!loaded && (
+                                            {isloading && (
                                                 <SkeletonCard
                                                     props={{
                                                         w: '200',
@@ -71,12 +71,20 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                             )}
                                         </div>
                                         <Image
-                                            onLoad={() => setLoaded(true)}
                                             src={p?.coverImage?.[1]}
                                             alt="Product Image"
                                             width={100}
                                             height={100}
-                                            className="hidden md:block rounded-md"
+                                            className={`
+              duration-700 ease-in-out group-hover:opacity-75 rounded-md hidden md:block
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
+                                            onLoadingComplete={() =>
+                                                setIsloading(false)
+                                            }
                                         />
                                         <div className="flex flex-col justify-center items-start">
                                             <Link
@@ -254,7 +262,6 @@ const OrderSummary = ({ handlePrevious }: any) => {
                                     let get_oder_id = data?.data?.createOrder;
 
                                     if (get_oder_id && payment == 'razorpay') {
-                                        
                                         setOrder_id_razor(get_oder_id[0]);
                                         setOrder_id(get_oder_id[1]);
                                         setShouldbedisabled(true);

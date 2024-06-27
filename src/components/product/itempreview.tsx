@@ -5,22 +5,29 @@ import React, { useState } from 'react';
 import { SkeletonCard } from './SkeletonCard';
 
 const ItemPrev = ({ currProduct }: any) => {
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [isloading, setIsloading] = useState(true);
+
     return (
         <div className="hidden md:flex justify-center items-center">
-            {!loaded && (
+            {isloading && (
                 <div className="flex justify-center items-center">
                     <SkeletonCard props={{ w: '500', h: '500' }} />
                 </div>
             )}
             {currProduct?.coverImage?.length > 0 && (
                 <Image
-                    onLoad={() => setLoaded(true)}
+                    onLoadingComplete={() => setIsloading(false)}
                     src={currProduct?.coverImage?.[1]}
                     alt="Not Found"
                     width={500}
                     height={500}
-                    className="gap-6"
+                    className={`
+              duration-700 ease-in-out group-hover:opacity-75 rounded-md gap-6
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
                 />
             )}
         </div>

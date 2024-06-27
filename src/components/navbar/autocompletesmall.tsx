@@ -23,8 +23,8 @@ export function Autocompletesmall({ open, setOpen }: any) {
     const [searchTerm, setSearchTerm] = useState('');
     const searchedProducts = useautoStore((state: any) => state.searchProducts);
     const fetchProducts = useautoStore((state: any) => state.fetchProducts);
-    const [loaded, setLoaded] = useState<boolean>(false);
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
+    const [isimageloading, setIsimageloading] = useState(true);
 
     // @ts-ignore
     useEffect(() => {
@@ -70,7 +70,7 @@ export function Autocompletesmall({ open, setOpen }: any) {
                                         }}
                                     >
                                         <CommandItem className="flex justify-between gap-6 m-6">
-                                            {!loaded && (
+                                            {isimageloading && (
                                                 <SkeletonCard
                                                     props={{
                                                         w: '100',
@@ -80,11 +80,20 @@ export function Autocompletesmall({ open, setOpen }: any) {
                                             )}
 
                                             <Image
-                                                onLoad={() => setLoaded(true)}
+                                                onLoadingComplete={() =>
+                                                    setIsimageloading(false)
+                                                }
                                                 src={p?.coverImage?.[1]}
                                                 width={100}
                                                 height={100}
                                                 alt="Not Found"
+                                                className={`
+              duration-700 ease-in-out group-hover:opacity-75 rounded-md 
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
                                             />
                                             <div className="flex flex-col">
                                                 <p className="text-lg font-semibold gap-6">

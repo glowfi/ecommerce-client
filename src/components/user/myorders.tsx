@@ -146,20 +146,23 @@ export function Side({ allOrders, idx }: any) {
                             />
                             <span className="sr-only">Copy Order ID</span>
                         </Button>
-                        {allOrders[idx]?.hasFailed ? (
-                            <Badge variant={'destructive'}>Failed</Badge>
-                        ) : (
-                            <div className="flex gap-1">
-                                <Badge variant={'outline'}>
-                                    {' '}
-                                    {allOrders[idx]?.paymentBy === 'razorpay'
-                                        ? 'paid'
-                                        : 'pending'}
-                                </Badge>
-                                {'/'}
-                                <Badge>{allOrders[idx]?.paymentBy}</Badge>
-                            </div>
-                        )}
+                        {/* <div className="flex"> */}
+                        {/*     {allOrders[idx]?.hasFailed ? ( */}
+                        {/*         <Badge variant={'destructive'}>Failed</Badge> */}
+                        {/*     ) : ( */}
+                        {/*         <div className="flex gap-1"> */}
+                        {/*             <Badge variant={'outline'}> */}
+                        {/*                 {' '} */}
+                        {/*                 {allOrders[idx]?.paymentBy === */}
+                        {/*                 'razorpay' */}
+                        {/*                     ? 'paid' */}
+                        {/*                     : 'pending'} */}
+                        {/*             </Badge> */}
+                        {/*             {'/'} */}
+                        {/*             <Badge>{allOrders[idx]?.paymentBy}</Badge> */}
+                        {/*         </div> */}
+                        {/*     )} */}
+                        {/* </div> */}
                     </CardTitle>
                     <CardDescription>
                         <div className="flex flex-col justify-start gap-1">
@@ -273,43 +276,23 @@ export function Side({ allOrders, idx }: any) {
                             <dt className="text-muted-foreground">
                                 Street Address
                             </dt>
-                            <dd>
-                                <a href="mailto:">
-                                    {allOrders[idx]?.address?.streetAddress}
-                                </a>
-                            </dd>
+                            <dd>{allOrders[idx]?.address?.streetAddress}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">State</dt>
-                            <dd>
-                                <a href="tel:">
-                                    {allOrders[idx]?.address?.state}
-                                </a>
-                            </dd>
+                            <dd>{allOrders[idx]?.address?.state}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">City</dt>
-                            <dd>
-                                <a href="tel:">
-                                    {allOrders[idx]?.address?.city}
-                                </a>
-                            </dd>
+                            <dd>{allOrders[idx]?.address?.city}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">Country</dt>
-                            <dd>
-                                <a href="tel:">
-                                    {allOrders[idx]?.address?.country}
-                                </a>
-                            </dd>
+                            <dd>{allOrders[idx]?.address?.country}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">ZipCode</dt>
-                            <dd>
-                                <a href="tel:">
-                                    {allOrders[idx]?.address?.zipCode}
-                                </a>
-                            </dd>
+                            <dd>{allOrders[idx]?.address?.zipCode}</dd>
                         </div>
                     </dl>
                 </div>
@@ -398,9 +381,6 @@ export function Myorders() {
     const [idx, setIdx] = useState(0);
     const flattened = Object.values(allOrders);
     const reset_order = useuserinfo((state: any) => state.reset_order);
-
-    
-    
 
     useEffect(() => {
         setLoading(true);

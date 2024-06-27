@@ -15,7 +15,7 @@ import { SkeletonCard } from './SkeletonCard';
 
 const Itemcarousel = ({ currProduct }: any) => {
     const currButtonRef = userefStore((state: any) => state.eventRef);
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [isloading, setIsloading] = useState(true);
 
     return (
         <Carousel className="w-min md:w-full">
@@ -28,7 +28,7 @@ const Itemcarousel = ({ currProduct }: any) => {
                         <div className="p-1">
                             <Card>
                                 <CardContent className="flex  items-center justify-center p-6">
-                                    {!loaded && (
+                                    {isloading && (
                                         <div className="flex justify-center items-center">
                                             <SkeletonCard
                                                 props={{ w: '200', h: '200' }}
@@ -38,7 +38,9 @@ const Itemcarousel = ({ currProduct }: any) => {
 
                                     {p?.length > 0 && (
                                         <Image
-                                            onLoad={() => setLoaded(true)}
+                                            onLoadingComplete={() =>
+                                                setIsloading(false)
+                                            }
                                             src={p?.[1]}
                                             alt="Not Found"
                                             width={200}
@@ -49,7 +51,13 @@ const Itemcarousel = ({ currProduct }: any) => {
                                                     currImage: p?.[1]
                                                 });
                                             }}
-                                            className="hover:opacity-75 transition-all"
+                                            className={`
+              duration-700 ease-in-out group-hover:opacity-70 rounded-mdtransition-all
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
                                         />
                                     )}
                                 </CardContent>

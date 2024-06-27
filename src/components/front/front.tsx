@@ -1,87 +1,27 @@
 'use client';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { SkeletonCard } from '../product/SkeletonCard';
-import { Button } from '../ui/button';
-import { hero_data } from './data';
-import { useuserStore } from '../auth/store';
-import Link from 'next/link';
-import LoadingSpinner from '../loadingspinners/loadingspinner';
+import React from 'react';
+import { Spotlight } from '../ui/Spotlight';
 
 const Front = () => {
-    const [heroimage, setHeroimage] = useState('');
-    const [loaded, setLoaded] = useState<boolean>(false);
-    const currUser = useuserStore((state: any) => state.user);
-
-    const scrollToHalfViewport = () => {
-        // Calculate the scroll position to half of the viewport height
-        const scrollPosition = window.innerHeight / 1.5;
-
-        // Scroll to the calculated position
-        window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth' // Optional: for smooth scrolling
-        });
-    };
-
-    useEffect(() => {
-        // const id = setInterval(() => {
-        // }, 3000);
-        let randomIdx: number = Math.floor(
-            Math.random() * Object.keys(hero_data).length
-        );
-
-        setHeroimage(hero_data?.[randomIdx]);
-
-        // return () => clearInterval(id);
-    }, []);
-
     return (
-        <section className="py-12 md:py-24 lg:py-32">
-            <div className="container px-4 md:px-6">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-4">
-                        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                            Welcome to {process.env.STORE_NAME}
-                        </h1>
-                        <p className="text-gray-500 dark:text-gray-400 md:text-xl">
-                            Explore our wide range of high-quality products that
-                            cater to all your needs.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                            <Button size="lg" onClick={scrollToHalfViewport}>
-                                Shop Now
-                            </Button>
-                            {!currUser.email && (
-                                <Button
-                                    className="block sm:hidden text-center"
-                                    asChild
-                                    variant={'default'}
-                                >
-                                    <Link href="/auth/login">Login</Link>
-                                </Button>
-                            )}
-                        </div>
-                    </div>
-                    {!loaded && <SkeletonCard props={{ w: '600', h: '400' }} />}
+        <div className="h-[20rem] sm:h-[30-rem] lg:h-[40rem] w-full rounded-md flex md:items-center md:justify-center dark:bg-background bg-black/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+            <Spotlight
+                className="-top-40 left-0 md:left-60 md:-top-20"
+                fill="white"
+            />
+            <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
+                <h1 className="text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 text-center text-wrap">
+                    Welcome <br /> to the <br />
+                    {process.env.STORE_NAME}
+                </h1>
 
-                    {heroimage ? (
-                        <Image
-                            onLoad={() => setLoaded(true)}
-                            src={heroimage}
-                            width={600}
-                            height={400}
-                            alt="Hero Image"
-                            className="mx-auto aspect-video overflow-hidden rounded-xl object-cover transition-all hover:opacity-75 cursor-pointer"
-                            priority
-                        />
-                    ) : (
-                        ''
-                    )}
-                </div>
+                <p className="mt-4 font-normal text-base text-neutral-300 max-w-lg text-center mx-auto">
+                    Enjoy a seamless shopping experience, where every click
+                    brings joy. Let us make your shopping adventure memorable!
+                </p>
             </div>
-        </section>
+        </div>
     );
 };
 
-export default Front;
+export default React.memo(Front);

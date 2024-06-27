@@ -9,7 +9,7 @@ export function OrderDetailsModal({ allOrders, idx }: any) {
             <DialogTrigger asChild>
                 <Button>Details</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-fit overflow-scroll">
+            <DialogContent className="sm:max-w-full overflow-scroll">
                 <Side allOrders={allOrders} idx={idx} />
             </DialogContent>
         </Dialog>

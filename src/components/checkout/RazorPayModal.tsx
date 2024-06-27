@@ -109,12 +109,10 @@ export default function RazorPayModal({
     // }, [isLoaded, handlePayment, order_id_razor, order_id]);
 
     return (
-        <div className="mt-3">
-            <Payup
-                handlePayment={handlePayment}
-                setOrder_id_razor={setOrder_id_razor}
-                setLoading={setLoading}
-            />
-        </div>
+        <Payup
+            handlePayment={handlePayment}
+            setOrder_id_razor={setOrder_id_razor}
+            setLoading={setLoading}
+        />
     );
 }

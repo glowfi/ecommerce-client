@@ -19,9 +19,9 @@ export default function Autocomplete() {
     const fetchProducts = useautoStore((state: any) => state.fetchProducts);
 
     const [debouncedText, isloading, setIsloading] = useDebounce(searchTerm);
-    const [loaded, setLoaded] = useState<boolean>(false);
     const [isopen, setIsopen] = useState(false);
     const menuRef = useRef<any>(null);
+    const [isimageloading, setIsimageloading] = useState(true);
 
     // Function to handle click outside the menu
     const handleClickOutside = (event: any) => {
@@ -103,7 +103,7 @@ export default function Autocomplete() {
                                 }}
                             >
                                 <div className="flex justify-between items-center gap-3">
-                                    {!loaded && (
+                                    {isimageloading && (
                                         <SkeletonCard
                                             props={{
                                                 w: '100',
@@ -113,12 +113,18 @@ export default function Autocomplete() {
                                     )}
 
                                     <Image
-                                        onLoad={() => setLoaded(true)}
+                                        onLoad={() => setIsimageloading(true)}
                                         src={product?.coverImage?.[1]}
                                         alt="Not Found"
                                         width={100}
                                         height={100}
-                                        className="rounded-md"
+                                        className={`
+              duration-700 ease-in-out group-hover:opacity-75 rounded-md
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
                                     />
                                     <div className="flex justify-center items-center gap-6">
                                         <div className="flex flex-col">

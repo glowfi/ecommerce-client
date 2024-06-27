@@ -11,7 +11,7 @@ import { StarIcon } from '../ui/staricon';
 
 const ProductCard = ({ product }: any) => {
     const router = useRouter();
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [isloading, setIsloading] = useState(true);
 
     return (
         <div
@@ -19,15 +19,21 @@ const ProductCard = ({ product }: any) => {
             className="relative flex flex-col justify-between group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out hover:-translate-y-2 dark:bg-muted"
         >
             <div className="flex justify-center items-center relative w-full h-[200px] bg-muted">
-                {!loaded && <SkeletonCard props={{ w: '200', h: '200' }} />}
+                {isloading && <SkeletonCard props={{ w: '200', h: '200' }} />}
                 <Image
-                    onLoad={() => setLoaded(true)}
                     src={product?.coverImage?.[0]}
                     alt={'Not Found!'}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     fill={true}
                     style={{ objectFit: 'cover' }}
-                    className="h-64 transition-all hover:opacity-70"
+                    className={`
+              duration-700 ease-in-out group-hover:opacity-70 rounded-md h-64 transition-all
+              ${
+                  isloading
+                      ? 'scale-100 blur-xl grayscale'
+                      : 'scale-100 blur-0 grayscale-0'
+              })`}
+                    onLoadingComplete={() => setIsloading(false)}
                     onClick={() => {
                         router.push(`/product/${product?.id}`);
                     }}

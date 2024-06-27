@@ -4,11 +4,14 @@ import Products from '@/components/products/products';
 
 const HomePage = () => {
     return (
-        <div className="container flex-col">
+        <>
             <Front />
-            <Categories />
-            <Products />
-        </div>
+
+            <div className="container flex-col">
+                <Categories />
+                <Products />
+            </div>
+        </>
     );
 };
 

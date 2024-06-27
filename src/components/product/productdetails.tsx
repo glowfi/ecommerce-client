@@ -111,20 +111,14 @@ const ProductDetails = ({ currProduct }: any) => {
                             <dt className="hidden md:block text-muted-foreground">
                                 City
                             </dt>
-                            <dd>
-                                <a href="mailto:">
-                                    {currProduct?.seller?.companyAddress?.city}
-                                </a>
-                            </dd>
+                            <dd>{currProduct?.seller?.companyAddress?.city}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="hidden md:block text-muted-foreground">
                                 State
                             </dt>
                             <dd>
-                                <a href="tel:">
-                                    {currProduct?.seller?.companyAddress?.state}
-                                </a>
+                                {currProduct?.seller?.companyAddress?.state}
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
@@ -132,12 +126,7 @@ const ProductDetails = ({ currProduct }: any) => {
                                 Country
                             </dt>
                             <dd>
-                                <a href="tel:">
-                                    {
-                                        currProduct?.seller?.companyAddress
-                                            ?.country
-                                    }
-                                </a>
+                                {currProduct?.seller?.companyAddress?.country}
                             </dd>
                         </div>
 
@@ -146,12 +135,7 @@ const ProductDetails = ({ currProduct }: any) => {
                                 ZipCode
                             </dt>
                             <dd>
-                                <a href="tel:">
-                                    {
-                                        currProduct?.seller?.companyAddress
-                                            ?.zipCode
-                                    }
-                                </a>
+                                {currProduct?.seller?.companyAddress?.zipCode}
                             </dd>
                         </div>
                     </dl>

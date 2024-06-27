@@ -1,4 +1,11 @@
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogHeader,
+    DialogDescription,
+    DialogTrigger
+} from '@/components/ui/dialog';
 import {
     Table,
     TableBody,
@@ -20,6 +27,7 @@ import { LoadingButton } from '../ui/loading-button';
 import { TOTAL_ITEMS } from './contants';
 import { Heading, RefetchButton } from './reuseComponents';
 import { useuserinfo } from './store';
+import { getDateHumanReadable } from '@/lib/utils';
 TimeAgo.addDefaultLocale(en);
 
 function convert(html: string) {
@@ -94,7 +102,7 @@ const getData = async () => {
     // }
 };
 
-const ShowComment = ({ content }: any) => {
+const ShowComment = ({ content, date }: any) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -106,6 +114,12 @@ const ShowComment = ({ content }: any) => {
                 </Link>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>Your Comment</DialogTitle>
+                    <DialogDescription>
+                        Comment by you on {getDateHumanReadable(date)}
+                    </DialogDescription>
+                </DialogHeader>
                 <div className="grid gap-4 m-6 py-4">{convert(content)}</div>
             </DialogContent>
         </Dialog>
@@ -165,13 +179,15 @@ const MyReviews = () => {
                                     return (
                                         <TableRow key={idx}>
                                             <TableCell>
-                                                {convert(`${p?.comment}`).slice(
-                                                    0,
-                                                    35
-                                                ) + '...'}
-                                                <ShowComment
-                                                    content={p?.comment}
-                                                />
+                                                <div className="flex gap-3 justify-start items-center">
+                                                    {convert(
+                                                        `${p?.comment}`
+                                                    ).slice(0, 35) + '...'}
+                                                    <ShowComment
+                                                        content={p?.comment}
+                                                        date={p?.reviewedAt}
+                                                    />
+                                                </div>
                                             </TableCell>
                                             <TableCell>
                                                 <ReactTimeAgo
