@@ -16,8 +16,8 @@ const ProductDetails = ({ currProduct }: any) => {
     return (
         <Card className="overflow-hidden w-fit">
             <CardHeader className="flex flex-row items-start bg-muted/50">
-                <div className="flex justify-between items-center w-full">
-                    <div className="flex flex-col items-start gap-0.5 justify-center">
+                <div className="flex-col md:flex justify-between items-center w-full">
+                    <div className="flex-col sm:flex items-start gap-0.5 justify-center w-full">
                         <CardTitle className="group flex items-center gap-2 text-lg">
                             {currProduct?.brand}
                         </CardTitle>
@@ -25,7 +25,7 @@ const ProductDetails = ({ currProduct }: any) => {
                             {currProduct?.title}
                         </CardDescription>
                     </div>
-                    <div className="ml-auto">
+                    <div className="ml-0 md:ml-auto flex justify-start items-start mt-3 md:mt-0">
                         {currProduct?.stock === 0 ? (
                             <Badge
                                 className="w-fit text-center"
