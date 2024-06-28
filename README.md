@@ -12,7 +12,7 @@
 
 ```sh
 git clone https://github.com/glowfi/ecommerce-client
-pnpm run dev
+npm run dev
 ```
 
 ### Create an .env file in the root directory
