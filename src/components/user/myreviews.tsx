@@ -158,9 +158,12 @@ const MyReviews = () => {
     return (
         <>
             {flattened?.length === 0 ? (
-                <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-                    No products reviewed yet!
-                </h2>
+                <div className="flex-col justify-center items-center">
+                    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                        No products reviewed yet!
+                    </h2>
+                    <RefetchButton name="reviews" reset_rev={reset_rev} />
+                </div>
             ) : (
                 <>
                     <div className="flex flex-col justify-center items-center">
@@ -227,7 +230,7 @@ const MyReviews = () => {
 
                             <RefetchButton
                                 name="reviews"
-                                reset_order={reset_rev}
+                                reset_rev={reset_rev}
                             />
                         </div>
                     </div>
