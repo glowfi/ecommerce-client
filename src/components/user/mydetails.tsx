@@ -133,28 +133,20 @@ const MyDetails = () => {
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">City</dt>
-                            <dd>
-                                <a href="mailto:">{userData?.address?.city}</a>
-                            </dd>
+                            <dd>{userData?.address?.city}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">State</dt>
-                            <dd>
-                                <a href="tel:">{userData?.address?.state}</a>
-                            </dd>
+                            <dd>{userData?.address?.state}</dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">Country</dt>
-                            <dd>
-                                <a href="tel:">{userData?.address?.country}</a>
-                            </dd>
+                            <dd>{userData?.address?.country}</dd>
                         </div>
 
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">ZipCode</dt>
-                            <dd>
-                                <a href="tel:">{userData?.address?.zipCode}</a>
-                            </dd>
+                            <dd>{userData?.address?.zipCode}</dd>
                         </div>
                     </dl>
                 </div>

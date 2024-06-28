@@ -5,6 +5,20 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
+import { Roboto } from 'next/font/google';
+
+const currFont = Roboto({
+    weight: '100',
+    subsets: [
+        'latin',
+        'greek',
+        'cyrillic',
+        // 'devanagari',
+        'cyrillic-ext',
+        'vietnamese',
+        'latin-ext'
+    ]
+});
 
 export const metadata: Metadata = {
     title: process.env.STORE_NAME,
@@ -20,7 +34,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <CustomProvider>
-                <body>
+                <body className={currFont.className}>
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"

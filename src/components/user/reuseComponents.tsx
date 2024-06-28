@@ -28,7 +28,8 @@ export const RefetchButton = (props: Refetch) => {
             </span>
 
             <Button
-                variant={'link'}
+                className="w-fit mx-auto"
+                variant={'ghost'}
                 onClick={() => {
                     if (props.reset_order) {
                         props.reset_order();
@@ -37,7 +38,7 @@ export const RefetchButton = (props: Refetch) => {
                     }
                 }}
             >
-                <div className="flex gap-3 justify-center items-center">
+                <div className="flex gap-3 justify-center items-center underline">
                     <RefreshCw />
                     Refetch {props.name} from server
                 </div>

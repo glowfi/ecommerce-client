@@ -405,13 +405,15 @@ export function Myorders() {
             <div className="container flex gap-6 items-start justify-center">
                 {flattened.length === 0 && (
                     <div className="flex-col justify-center items-center">
-                        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
                             No orders yet!
                         </h2>
-                        <RefetchButton
-                            name="orders"
-                            reset_order={reset_order}
-                        />
+                        <div className="mt-6">
+                            <RefetchButton
+                                name="orders"
+                                reset_order={reset_order}
+                            />
+                        </div>
                     </div>
                 )}
 
