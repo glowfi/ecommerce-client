@@ -6,6 +6,7 @@
 -   URQL (graphql client)
 -   Shadcn (ui library)
 -   Zustand (state management)
+-   Zod (form validation)
 -   Razorpay
 
 ### How to install
