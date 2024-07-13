@@ -558,6 +558,7 @@ export type Query = {
   getReviewsPercentage: ReviewsPercentageResponse;
   getUserById: ResponseUser;
   hello: Scalars['String']['output'];
+  helloList: Array<Scalars['Int']['output']>;
 };
 
 
