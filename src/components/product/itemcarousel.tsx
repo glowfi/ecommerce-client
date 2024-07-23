@@ -52,7 +52,7 @@ const Itemcarousel = ({ currProduct }: any) => {
                                                 });
                                             }}
                                             className={`
-              duration-700 ease-in-out group-hover:opacity-70 rounded-mdtransition-all
+              duration-700 ease-in-out group-hover:opacity-70 rounded-md transition-all
               ${
                   isloading
                       ? 'scale-100 blur-xl grayscale'
